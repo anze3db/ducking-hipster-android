@@ -7,7 +7,7 @@ import android.util.Log;
 public class Texture {
 
     int NUM_SPRITES = 16;
-    float enabled = 1.0f;
+    boolean enabled = true;
     int[] sprite = { 0, 0 };
     int[] size = { 1, 1 };
 

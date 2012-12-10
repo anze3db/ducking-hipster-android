@@ -67,7 +67,9 @@ public class GlProgram {
         GLES20.glPixelStorei(GLES20.GL_UNPACK_ALIGNMENT, 1);
         GLES20.glGenTextures(1, texture, 0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[0]);
-        Bitmap image = BitmapFactory.decodeResource(context.getResources(), R.drawable.text);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = false;
+        Bitmap image = BitmapFactory.decodeResource(context.getResources(), R.drawable.text, options);
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, image, 0);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR_MIPMAP_NEAREST);

@@ -13,7 +13,7 @@ public class Game {
     static void create(GlProgram program) {
         Game.program = program;
         s = new Square();
-        s.texture.enabled = 0.0f;
+        s.texture.enabled = true;
         s.texture.sprite = new int[]{0,28};
         s.texture.size   = new int[]{5,4};
         

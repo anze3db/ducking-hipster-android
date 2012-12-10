@@ -74,7 +74,7 @@ public class Square {
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, p.texture);
 
-        GLES20.glUniform1f(p.isTextLoc, texture.enabled);
+        GLES20.glUniform1f(p.isTextLoc, texture.enabled ? 1.0f : 0.0f);
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
 
