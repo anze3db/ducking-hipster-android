@@ -9,22 +9,30 @@ public class Game {
     static int WIDTH = 100;
     static int HEIGHT = 100;
     private static Square s;
+    private static Background bg;
 
     static void create(GlProgram program) {
         Game.program = program;
         s = new Square();
+        s.size = new float[]{0.1f, 0.1f, 0.1f};
+        s.color = new float[]{0f,0f,0f,1f};
         s.texture.enabled = true;
         s.texture.sprite = new int[]{0,28};
         s.texture.size   = new int[]{5,4};
+        SceneGraph.activeObjects.add(s);
         
+        
+        bg = new Background();
+        SceneGraph.activeObjects.add(bg);
     }
 
     static void tick(Float theta) {
+        SceneGraph.tick(theta);
     }
 
     static void draw() {
         resetFrame();
-        s.draw();
+        SceneGraph.draw();
     }
 
     private static void resetFrame() {
