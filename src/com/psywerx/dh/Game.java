@@ -10,6 +10,8 @@ public class Game {
     static int HEIGHT = 100;
     private static Square s;
     private static Background bg;
+    private static ScoreBoard top;
+    private static Text t;
 
     static void create(GlProgram program) {
         Game.program = program;
@@ -19,15 +21,24 @@ public class Game {
         s.texture.enabled = true;
         s.texture.sprite = new int[]{0,28};
         s.texture.size   = new int[]{5,4};
+        s.position[1] = 0.7f;
         SceneGraph.activeObjects.add(s);
         
         
         bg = new Background();
         SceneGraph.activeObjects.add(bg);
+        
+        top = new ScoreBoard();
+        SceneGraph.activeObjects.add(top);
+        
+        
+        
+        
     }
 
     static void tick(Float theta) {
         SceneGraph.tick(theta);
+        top.increaseScore(1);
     }
 
     static void draw() {
