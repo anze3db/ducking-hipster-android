@@ -11,6 +11,7 @@ public class Game {
     private static Square s;
     private static Background bg;
     private static ScoreBoard top;
+    
     private static Text t;
 
     static void create(GlProgram program) {
@@ -66,12 +67,14 @@ public class Game {
                 0.9999f, 40);
 
         float[] projection = new float[16];
+        
         Matrix.multiplyMM(projection, 0, model_view_projection, 0,
                 model_projection, 0);
         GLES20.glUniformMatrix4fv(program.projectionMatrixLoc, 1, false,
                 projection, 0);
 
         GLES20.glEnable(GLES20.GL_BLEND);
-        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+        GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+        //GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
     }
 }
