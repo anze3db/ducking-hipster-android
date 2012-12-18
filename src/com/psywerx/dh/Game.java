@@ -8,22 +8,16 @@ public class Game {
     static GlProgram program;
     static int WIDTH = 100;
     static int HEIGHT = 100;
-    private static Square s;
     private static Background bg;
     private static ScoreBoard top;
     
-    private static Text t;
+    protected static Player player1;
+    protected static float position;
+    protected static float smoothPosition;
 
     static void create(GlProgram program) {
         Game.program = program;
-        s = new Square();
-        s.size = new float[]{0.1f, 0.1f, 0.1f};
-        s.color = new float[]{0f,0f,0f,1f};
-        s.texture.enabled = true;
-        s.texture.sprite = new int[]{0,28};
-        s.texture.size   = new int[]{5,4};
-        s.position[1] = 0.7f;
-        SceneGraph.activeObjects.add(s);
+        
         
         
         bg = new Background();
@@ -32,7 +26,9 @@ public class Game {
         top = new ScoreBoard();
         SceneGraph.activeObjects.add(top);
         
-        
+        player1 = new Player();
+        player1.move(0.5f, 0, 0);
+        SceneGraph.activeObjects.add(player1);
         
         
     }
@@ -40,6 +36,8 @@ public class Game {
     static void tick(Float theta) {
         SceneGraph.tick(theta);
         top.increaseScore(1);
+        Game.smoothPosition = 0.9f*Game.smoothPosition + 0.1f*Game.position;
+
     }
 
     static void draw() {
@@ -65,7 +63,7 @@ public class Game {
         Matrix.setLookAtM(model_projection, 0, 0, 0, -1f, 0, 0, 0, 0, 1, 0);
         Matrix.frustumM(model_view_projection, 0, ratio, -ratio, -1, 1,
                 0.9999f, 40);
-
+        Matrix.rotateM(model_projection, 0, smoothPosition*-10, 0, 1, 0);
         float[] projection = new float[16];
         
         Matrix.multiplyMM(projection, 0, model_view_projection, 0,
@@ -75,6 +73,6 @@ public class Game {
 
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-        //GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+//        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
     }
 }

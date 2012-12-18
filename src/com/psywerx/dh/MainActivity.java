@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -34,6 +35,23 @@ class MyGLSurfaceView extends GLSurfaceView {
         // Set the Renderer for drawing on the GLSurfaceView
         setEGLContextClientVersion(2);
         setRenderer(new MyRenderer(context));
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent e){
+        
+        float x = e.getX();
+        float position = (x/Game.WIDTH-0.5f)*2;
+        switch(e.getAction()){
+        case MotionEvent.ACTION_DOWN:
+            Game.position = position;
+            break;
+        case MotionEvent.ACTION_MOVE:
+            Game.position = position;
+            break;
+        case MotionEvent.ACTION_UP:
+            Game.position = 0;
+        }
+        return true;
     }
     
 }

@@ -1,9 +1,5 @@
 package com.psywerx.dh;
 
-import java.util.Arrays;
-
-import android.util.Log;
-
 public class Texture {
 
     int NUM_SPRITES = 16;
@@ -15,7 +11,6 @@ public class Texture {
         int charIndex = (int)c - 32;
         sprite = new int[] { (charIndex % NUM_SPRITES),
                 (int) Math.floor(charIndex / NUM_SPRITES) };
-        Log.d("smotko", Arrays.toString(sprite));
     }
 
     public float[] getTextureUV() {
