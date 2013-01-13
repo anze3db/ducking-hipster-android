@@ -1,5 +1,7 @@
 package com.psywerx.dh;
 
+import android.util.Log;
+
 
 
 public class Player extends Drawable {
@@ -34,14 +36,20 @@ public class Player extends Drawable {
     
     @Override
     public void tick(float theta){
-        speed = Utils.add(speed, new float[]{theta*2, theta*2});
+        speed = new float[]{theta*direction[0], 0f};
         if(direction[0] == 0 && colide == 0) this.speed[0] = 0;
         if(direction[1] == 0 && colide == 0) this.speed[1] = 0;
         if(this.direction[0] != 0 && this.direction[1] != 0 && this.colide == 0){
             this.speed[0] = 0;
             this.speed[1] = 0;
         }
-        
+        if(this.position[0] < -1 && direction[0] < 0){
+            this.speed[0] = 0;
+        }
+        if(this.position[0] > 1 && direction[0] > 0){
+            this.speed[0] = 0;
+        }
+        this.move(speed[0]/500, 0, 0);
     }
     @Override
     public void draw(){
