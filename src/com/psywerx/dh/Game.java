@@ -20,8 +20,8 @@ public class Game {
         
         
         
-        bg = new Background();
-        SceneGraph.activeObjects.add(bg);
+        //bg = new Background();
+        //SceneGraph.activeObjects.add(bg);
         
         top = new ScoreBoard();
         SceneGraph.activeObjects.add(top);

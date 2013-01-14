@@ -15,6 +15,7 @@ public class Square extends Drawable {
     private FloatBuffer colorBuffer;
     private FloatBuffer texBuffer;
     private GlProgram p = Game.program;
+    public float[] rot = new float[]{0f, 0f, 1f, 0f};
 
     Square() {
         Matrix.setIdentityM(modelMatrix, 0);
@@ -42,6 +43,7 @@ public class Square extends Drawable {
         GLES20.glUniformMatrix4fv(p.modelMatrixLoc, 1, false, modelMatrix, 0);
         Matrix.setIdentityM(modelMatrix, 0);
         Matrix.translateM(modelMatrix, 0, modelMatrix, 0, position[0], position[1], position[2]);
+        Matrix.rotateM(modelMatrix, 0, rot[0], rot[1], rot[2], rot [3]);
 
         float[] vertices = new float[] { 1.0f, -1.0f, 0.0f, -1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 0.0f, -1.0f, 1.0f, 0.0f };
         for (int i = 0; i < vertices.length; i += 3) {
