@@ -1,5 +1,9 @@
 package com.psywerx.dh;
 
+import java.util.Arrays;
+
+import android.util.Log;
+
 public class PersonSprite extends Drawable {
     public  float[] direction = {0,0,0};
     protected Square s;
@@ -7,9 +11,6 @@ public class PersonSprite extends Drawable {
     protected float[] speed = {0,0};
     protected int colide = 1;
     protected float acum = 0;
-    protected float animSpeed = 2;
-    protected int animState = 0;
-    protected int[] anim = {0, 1, 2, 1};
     protected float rotation = 0;
     
 
@@ -18,12 +19,13 @@ public class PersonSprite extends Drawable {
     
     public PersonSprite(){
         s = new Square();
-        size = new float[]{0.3f*5/4f, 0.3f, 0.2f};
+        size = new float[]{0.2f, 0.2f, 0.2f};
         s.size = size;
         s.color = new float[]{0f,0f,0f,1f};
         s.texture.enabled = true;
-        s.texture.sprite = new int[]{0,28};
-        s.texture.size   = new int[]{5,4};
+        s.texture.sprite = new int[]{0,6};
+        s.texture.startSprite = s.texture.sprite;
+        s.texture.size   = new int[]{3,3};
         s.position = position;
         s.position[2] = 1f;
         
@@ -36,7 +38,7 @@ public class PersonSprite extends Drawable {
         t.size[1] = size[0] * 0.15f;
     }
     protected void resize(float newSize){
-        size = new float[]{newSize*5/4f, newSize, 0.2f};
+        size = new float[]{newSize, newSize, 0.2f};
         s.size = size;
         t.size[0] = size[0] * 0.5f;
         t.size[1] = size[1] * 0.15f;
@@ -51,22 +53,23 @@ public class PersonSprite extends Drawable {
     }
     
     protected void updateSprite(){
-        s.texture.sprite = new int[]{0+s.texture.size[0]*anim[animState%anim.length], 28+spriteOffset*4};
+        s.texture.sprite = new int[]{s.texture.startSprite[0]+s.texture.size[0]*s.texture.anim[s.texture.animState%s.texture.anim.length], 
+                                     s.texture.startSprite[1]+s.texture.spriteOffset*s.texture.size[1]};
     }
     
     @Override
     public void tick(float theta){
-        acum += theta*animSpeed;
+        acum += theta*s.texture.animSpeed;
         if (acum > 200){
             acum = 0;
-            animState+=1;
+            s.texture.animState+=1;
             updateSprite();
         }
     }
     
     @Override
     public void draw(){
-        //t.draw();
+//        t.draw();
         s.draw();
     }
 }

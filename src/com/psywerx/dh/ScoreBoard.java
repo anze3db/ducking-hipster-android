@@ -1,20 +1,25 @@
 package com.psywerx.dh;
 
-public class ScoreBoard extends Drawable {
+import android.util.Log;
+
+public class ScoreBoard extends PersonSprite {
     
-    private Square top;
     private Text scoreText;
     private int score;
     
     
     public ScoreBoard(){
-        top = new Square();
-        top.size = new float[]{2f, 2f/8.3f, 1};
-        top.color = new float[]{0,0,0,1};
-        top.position = new float[]{0, 2.76f, 2f};
-        top.texture.enabled = true;
-        top.texture.sprite = new int[]{0,14};
-        top.texture.size = new int[]{25,3};
+        s = new Square();
+        s.size = new float[]{0.1f, 0.1f, 1};
+        s.color = new float[]{0,0,0,1};
+        s.position = new float[]{0, 2.76f, 2f};
+        s.texture.enabled = true;
+        s.texture.sprite = new int[]{9,8};
+        s.texture.startSprite = new int[]{9,8};
+        s.texture.size = new int[]{1,1};
+        s.texture.anim = new int[]{0,1,2,};
+
+        s.texture.animSpeed = 1f;
         score = 1;
         scoreText = new Text(String.format("%07d", score));
         scoreText.setSize(new float[]{0.12f, 0.12f});
@@ -27,11 +32,17 @@ public class ScoreBoard extends Drawable {
     }
     
     public void draw() {
-        top.draw();
+        s.draw();
         scoreText.draw();
     };
 
     public void tick(float theta) {
+        acum += theta*s.texture.animSpeed;
+        if (acum > 200){
+            acum = 0;
+            s.texture.animState+=1;
+            updateSprite();
+        }
     };
 
 }

@@ -7,6 +7,8 @@ public class Player extends PersonSprite {
 
 
 
+
+
     public Player(){
         
         position[1] += 1; 
