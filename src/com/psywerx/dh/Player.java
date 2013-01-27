@@ -1,28 +1,27 @@
 package com.psywerx.dh;
 
-import android.util.Log;
 
 
 
 public class Player extends Drawable {
 
-    
-    
-    
     private Square s;
-    private float[] velocity = {0,0,0};
+//    private float[] velocity = {0,0,0};
     public  float[] direction = {0,0,0};
     private float[] speed = {0,0};
     private int colide = 1;
     private float acum = 0;
-    private float animSpeed = 1;
+    private float animSpeed = 2;
     private int animState = 0;
     private int[] anim = {0, 1, 2, 1};
     private float rotation = 0;
 
     public Player(){
+        
+        position[1] += 1; 
+        
         s = new Square();
-        s.size = new float[]{0.4f*5/4f, 0.4f, 0.2f};
+        s.size = new float[]{0.3f*5/4f, 0.3f, 0.2f};
         s.color = new float[]{0f,0f,0f,1f};
         s.texture.enabled = true;
         s.texture.sprite = new int[]{0,28};
@@ -33,8 +32,6 @@ public class Player extends Drawable {
     
     public void move(float x, float y, float z){
         
-        
-        
         position = Utils.add(position, x,y,z);
         s.position = Utils.add(s.position, x,y,z);
     }
@@ -42,7 +39,7 @@ public class Player extends Drawable {
     @Override
     public void tick(float theta){
         
-        acum += theta;
+        acum += theta*animSpeed;
         if (acum > 200){
             acum = 0;
             animState+=1;
