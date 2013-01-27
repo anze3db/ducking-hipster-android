@@ -10,8 +10,19 @@ public class Utils {
         }
         return c;
     }
+
     public static float[] add(float[] a, float x, float y, float z) {
-        float[] b = new float[]{x,y,z};
+        float[] b = new float[] { x, y, z };
         return Utils.add(a, b);
+    }
+
+    public static boolean areColliding(PersonSprite d1, PersonSprite d2) {
+        for (int i = 0; i < 2; ++i) {
+            if (d1.t.position[i] + (d1.t.size[i]) < d2.t.position[i] - (d2.t.size[i]) ||
+                d1.t.position[i] - (d1.t.size[i]) > d2.t.position[i] + (d2.t.size[i])) {
+                return false;
+            }
+        }
+        return true;
     }
 }

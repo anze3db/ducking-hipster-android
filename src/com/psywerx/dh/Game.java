@@ -1,5 +1,7 @@
 package com.psywerx.dh;
 
+import java.util.Random;
+
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
@@ -16,6 +18,8 @@ public class Game {
     protected static Player player1;
     protected static float position;
     protected static float smoothPosition;
+    
+    protected static Random rand = new Random();
 
     static void create(GlProgram program) {
         if(gameCreated) return;
@@ -32,6 +36,9 @@ public class Game {
         player1 = new Player();
         player1.move(0.5f, 0, 0);
         SceneGraph.activeObjects.add(player1);
+        
+        Enemy e = new Enemy();
+        SceneGraph.activeObjects.add(e);
         gameCreated = true;
         
     }
