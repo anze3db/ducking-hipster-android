@@ -11,11 +11,14 @@ public class Game {
     private static Background bg;
     private static ScoreBoard top;
     
+    private static boolean gameCreated = false;
+    
     protected static Player player1;
     protected static float position;
     protected static float smoothPosition;
 
     static void create(GlProgram program) {
+        if(gameCreated) return;
         Game.program = program;
         
         
@@ -29,7 +32,7 @@ public class Game {
         player1 = new Player();
         player1.move(0.5f, 0, 0);
         SceneGraph.activeObjects.add(player1);
-        
+        gameCreated = true;
         
     }
 
