@@ -20,6 +20,7 @@ public class Game {
     protected static float smoothPosition;
     
     protected static Random rand = new Random();
+    protected static float[] projection;
 
     static void create(GlProgram program) {
         if(gameCreated) return;
@@ -31,7 +32,7 @@ public class Game {
         //SceneGraph.activeObjects.add(bg);
         
         top = new ScoreBoard();
-        SceneGraph.activeObjects.add(top);
+        //SceneGraph.activeObjects.add(top);
         
         player1 = new Player();
         player1.move(0.5f, 0, 0);
@@ -46,6 +47,7 @@ public class Game {
     static void tick(Float theta) {
         SceneGraph.tick(theta);
         top.increaseScore(1);
+        top.tick(theta);
         Game.smoothPosition = 0.9f*Game.smoothPosition + 0.1f*Game.position;
 
     }
@@ -53,6 +55,7 @@ public class Game {
     static void draw() {
         resetFrame();
         SceneGraph.draw();
+        top.draw();
     }
 
     private static void resetFrame() {
@@ -74,7 +77,7 @@ public class Game {
         Matrix.frustumM(model_view_projection, 0, ratio, -ratio, -1, 1,
                 0.9999f, 40);
         Matrix.rotateM(model_projection, 0, smoothPosition*-10, 0, 1, 0);
-        float[] projection = new float[16];
+        projection = new float[16];
         
         Matrix.multiplyMM(projection, 0, model_view_projection, 0,
                 model_projection, 0);

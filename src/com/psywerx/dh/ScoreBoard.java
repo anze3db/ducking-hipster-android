@@ -1,5 +1,7 @@
 package com.psywerx.dh;
 
+import android.opengl.GLES20;
+import android.opengl.Matrix;
 import android.util.Log;
 
 public class ScoreBoard extends PersonSprite {
@@ -10,9 +12,9 @@ public class ScoreBoard extends PersonSprite {
     
     public ScoreBoard(){
         s = new Square();
-        s.size = new float[]{0.1f, 0.1f, 1};
+        s.size = new float[]{0.05f, 0.05f, 1};
         s.color = new float[]{0,0,0,1};
-        s.position = new float[]{0, 2.76f, 2f};
+        s.position = new float[]{-0.75f, 0.9f, -0.5f};
         s.texture.enabled = true;
         s.texture.sprite = new int[]{9,8};
         s.texture.startSprite = new int[]{9,8};
@@ -22,8 +24,8 @@ public class ScoreBoard extends PersonSprite {
         s.texture.animSpeed = 1f;
         score = 1;
         scoreText = new Text(String.format("%07d", score));
-        scoreText.setSize(new float[]{0.12f, 0.12f});
-        scoreText.move(new float[]{1.3f, 2.740f, 1.99f});
+        scoreText.setSize(new float[]{0.05f, 0.05f});
+        scoreText.move(new float[]{0.5f, 0.9f, -0.5f});
     }
     
     public void increaseScore(int amount){
@@ -32,8 +34,14 @@ public class ScoreBoard extends PersonSprite {
     }
     
     public void draw() {
+        float[] id = new float[16];
+        Matrix.setIdentityM(id, 0);
+        GLES20.glUniformMatrix4fv(Game.program.projectionMatrixLoc, 1, false,
+                id, 0);
         s.draw();
         scoreText.draw();
+        GLES20.glUniformMatrix4fv(Game.program.projectionMatrixLoc, 1, false,
+                Game.projection, 0);
     };
 
     public void tick(float theta) {

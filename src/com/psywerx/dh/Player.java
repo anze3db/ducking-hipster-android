@@ -11,7 +11,7 @@ public class Player extends PersonSprite {
 
     public Player(){
         
-        position[1] += 1; 
+        position[1] += 1.4; 
         bound = new float[]{0.6f, 0.1f};
         
     }
@@ -24,7 +24,7 @@ public class Player extends PersonSprite {
         
         rotation = (direction[0] > 0f ? -1 : direction[0] < 0 ? 1f : 0f) * 0.4f + 0.6f*rotation;
         
-        s.rot = new float[]{rotation, 0f, 1f, 0f};
+        s.rot = new float[]{0f, 0f, 1f, 0f};
         
         speed = new float[]{theta*direction[0], 0f};
         if(direction[0] == 0 && colide == 0) this.speed[0] = 0;
