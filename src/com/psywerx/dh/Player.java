@@ -5,15 +5,13 @@ package com.psywerx.dh;
 
 public class Player extends PersonSprite {
 
-
-
-
+    boolean dead;
+    float startPosition = 1.185f;
 
     public Player(){
         
         position[1] += 1.4; 
         bound = new float[]{0.6f, 0.1f};
-        
     }
     
     
@@ -39,6 +37,9 @@ public class Player extends PersonSprite {
         if(this.position[0] > 1 && direction[0] > 0){
             this.speed[0] = 0;
         }
-        this.move(speed[0]/500, 0, 0);
+        if(!dead){
+            // You can't move if you're dead...
+            this.move(speed[0]/500, 0, 0);
+        }
     }
 }

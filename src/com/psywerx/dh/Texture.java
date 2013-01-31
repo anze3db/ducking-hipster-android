@@ -1,8 +1,7 @@
 package com.psywerx.dh;
 
-import android.util.Log;
 
-public class Texture {
+class Texture {
 
     int NUM_SPRITES = 16;
     boolean enabled = true;
@@ -10,7 +9,7 @@ public class Texture {
     int[] startSprite = { 0, 0 };
     int[] size = { 1, 1 };
     
-    float animSpeed = 2;
+    float animSpeed = 1;
     int animState = 0;
     int[] anim = {0, 1, 2, 1};
     int spriteOffset = 0;
@@ -27,7 +26,6 @@ public class Texture {
         float v = (sprite[1] / (float) size[1]);
         charWidth[0] += 0.00006f;
         charWidth[1] += 0.00006f;
-        Log.d("smotko", java.util.Arrays.toString(charWidth) + " " + u);
         return new float[] { (u + 1) * charWidth[0], (v + 1) * charWidth[1], u * charWidth[0], (v + 1) * charWidth[1],
                 (u + 1f) * charWidth[0], v * charWidth[1], u * charWidth[0], v * charWidth[1] };
     }
