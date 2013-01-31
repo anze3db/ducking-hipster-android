@@ -2,7 +2,6 @@ package com.psywerx.dh;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
-import android.util.Log;
 
 public class ScoreBoard extends PersonSprite {
     
@@ -45,12 +44,8 @@ public class ScoreBoard extends PersonSprite {
     };
 
     public void tick(float theta) {
-        acum += theta*s.texture.animSpeed;
-        if (acum > 200){
-            acum = 0;
-            s.texture.animState+=1;
-            updateSprite();
-        }
+        s.texture.update(theta);
+        
     };
 
 }

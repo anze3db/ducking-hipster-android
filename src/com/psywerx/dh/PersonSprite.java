@@ -1,8 +1,5 @@
 package com.psywerx.dh;
 
-import java.util.Arrays;
-
-import android.util.Log;
 
 public class PersonSprite extends Drawable {
     public  float[] direction = {0,0,0};
@@ -52,19 +49,9 @@ public class PersonSprite extends Drawable {
         t.position[2] = position[2];
     }
     
-    protected void updateSprite(){
-        s.texture.sprite = new int[]{s.texture.startSprite[0]+s.texture.size[0]*s.texture.anim[s.texture.animState%s.texture.anim.length], 
-                                     s.texture.startSprite[1]+s.texture.spriteOffset*s.texture.size[1]};
-    }
-    
     @Override
     public void tick(float theta){
-        acum += theta*s.texture.animSpeed;
-        if (acum > 200){
-            acum = 0;
-            s.texture.animState+=1;
-            updateSprite();
-        }
+        s.texture.update(theta);
     }
     
     @Override

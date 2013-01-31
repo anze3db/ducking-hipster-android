@@ -9,7 +9,7 @@ public class Enemy extends PersonSprite {
 
     public Enemy() {
         s.texture.spriteOffset = 1;
-        updateSprite();
+        s.texture.updateSprite();
         speed[1] = 0.01f;
         this.resize(0.2f);
         this.position[2] = 1f - r;
