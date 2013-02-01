@@ -1,6 +1,7 @@
 package com.psywerx.dh;
 
 
+
 public class PersonSprite extends Drawable {
     public  float[] direction = {0,0,0};
     protected Square s;

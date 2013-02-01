@@ -4,7 +4,6 @@ public class Drawable {
     float[] size = new float[] { 1, 1, 1 };
     float[] color = new float[] { 0, 0, 0, 1 };
     float[] position = new float[] { 0, 0, 0 };
-    float[] bound = {1, 1};
     Texture texture = new Texture();
 
     public void draw() {

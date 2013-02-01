@@ -69,11 +69,11 @@ class MyGLSurfaceView extends GLSurfaceView {
 
 class MyRenderer implements GLSurfaceView.Renderer{
 
-    private Context context;
+    static protected Context context;
     private long prev;
 
     public MyRenderer(Context context) {
-        this.context = context;
+        MyRenderer.context = context;
     }
 
     @Override
@@ -81,8 +81,8 @@ class MyRenderer implements GLSurfaceView.Renderer{
         
         long now = System.currentTimeMillis();
         
-        Game.tick((float)(now - prev));
         Game.draw();
+        Game.tick((float)(now - prev));
         prev = now;
     }
 

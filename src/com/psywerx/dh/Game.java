@@ -1,6 +1,7 @@
 package com.psywerx.dh;
 
 import java.util.Random;
+import java.util.Stack;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
@@ -10,7 +11,7 @@ public class Game {
     static GlProgram program;
     static int WIDTH = 100;
     static int HEIGHT = 100;
-    private static Background bg;
+    //private static Background bg;
     private static ScoreBoard top;
     
     private static boolean gameCreated = false;
@@ -21,34 +22,45 @@ public class Game {
     
     protected static Random rand = new Random();
     protected static float[] projection;
+    
+    protected static int currentLevel = 0;
+    
+    private static Levels lvls = new Levels();
+    private static final int PRELOAD_SIZE = 100;
+    static Stack<Enemy> preloadedEnemies = new Stack<Enemy>();
 
     static void create(GlProgram program) {
         if(gameCreated) return;
         Game.program = program;
         
         
+        for(int i = 0; i < PRELOAD_SIZE; i++){
+            preloadedEnemies.push(new Enemy());
+        }
+        
         
         //bg = new Background();
         //SceneGraph.activeObjects.add(bg);
         
         top = new ScoreBoard();
-        //SceneGraph.activeObjects.add(top);
+        SceneGraph.activeObjects.add(top);
         
         player1 = new Player();
         player1.move(0.5f, 0, 0);
         SceneGraph.activeObjects.add(player1);
         
-        Enemy e = new Enemy();
-        SceneGraph.activeObjects.add(e);
         gameCreated = true;
         
     }
 
     static void tick(Float theta) {
+        
+        lvls.levels[currentLevel].tick(theta);
         SceneGraph.tick(theta);
-        top.increaseScore(1);
-        top.tick(theta);
+        
+        
         Game.smoothPosition = 0.9f*Game.smoothPosition + 0.1f*Game.position;
+        top.tick(theta);
 
     }
 

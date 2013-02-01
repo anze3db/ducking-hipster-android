@@ -15,7 +15,6 @@ public class Player extends PersonSprite {
         
         position[1] += 1.4; 
         startPosition = position;
-        bound = new float[]{0.6f, 0.1f};
         
     }
     
