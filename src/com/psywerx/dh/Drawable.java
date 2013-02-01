@@ -5,6 +5,7 @@ public class Drawable {
     float[] color = new float[] { 0, 0, 0, 1 };
     float[] position = new float[] { 0, 0, 0 };
     Texture texture = new Texture();
+    boolean removeMe = false;
 
     public void draw() {
     };
