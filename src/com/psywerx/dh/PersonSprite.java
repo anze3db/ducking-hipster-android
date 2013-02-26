@@ -21,7 +21,7 @@ public class PersonSprite extends Drawable {
         s.size = size;
         s.color = new float[]{0f,0f,0f,1f};
         s.texture.enabled = true;
-        s.texture.sprite = new int[]{0,6};
+        s.texture.sprite = new int[]{0,3};
         s.texture.startSprite = s.texture.sprite;
         s.texture.size   = new int[]{3,3};
         s.position = position;

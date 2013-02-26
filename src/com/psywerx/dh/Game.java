@@ -11,7 +11,7 @@ public class Game {
     static GlProgram program;
     static int WIDTH = 100;
     static int HEIGHT = 100;
-    //private static Background bg;
+    private static Background bg;
     private static ScoreBoard top;
     
     private static boolean gameCreated = false;
@@ -26,8 +26,9 @@ public class Game {
     protected static int currentLevel = 0;
     
     private static Levels lvls = new Levels();
-    private static final int PRELOAD_SIZE = 100;
+    private static final int PRELOAD_SIZE = 1000;
     static Stack<Enemy> preloadedEnemies = new Stack<Enemy>();
+    public static boolean moving = false;
 
     static void create(GlProgram program) {
         if(gameCreated) return;
@@ -39,7 +40,7 @@ public class Game {
         }
         
         
-        //bg = new Background();
+        bg = new Background();
         //SceneGraph.activeObjects.add(bg);
         
         top = new ScoreBoard();
@@ -66,13 +67,14 @@ public class Game {
 
     static void draw() {
         resetFrame();
+        bg.draw();
         SceneGraph.draw();
         top.draw();
     }
 
     private static void resetFrame() {
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        GLES20.glClearColor(1f, 1f, 1f, 1f);
+        GLES20.glClearColor(174f/255f, 122f/255f, 60f/255f, 1f);
 
         GLES20.glClear(GLES20.GL_STENCIL_BUFFER_BIT
                 | GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
@@ -88,7 +90,7 @@ public class Game {
         Matrix.setLookAtM(model_projection, 0, 0, 0, -1f, 0, 0, 0, 0, 1, 0);
         Matrix.frustumM(model_view_projection, 0, ratio, -ratio, -1, 1,
                 0.9999f, 40);
-        Matrix.rotateM(model_projection, 0, smoothPosition*-10, 0, 1, 0);
+        Matrix.rotateM(model_projection, 0, smoothPosition*-5, 0, 1, 0);
         projection = new float[16];
         
         Matrix.multiplyMM(projection, 0, model_view_projection, 0,
