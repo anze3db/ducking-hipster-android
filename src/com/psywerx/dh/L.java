@@ -13,6 +13,8 @@ public class L {
 
 	private static final String TAG = "smotko";
 	private static final boolean DEBUG = true;
+	
+	static long time = System.currentTimeMillis();
 
 	/**
 	 * INFORMATIVE: This level of logging should used be to note that something
@@ -89,6 +91,15 @@ public class L {
 
     public static void wtf(String msg) {
         if(DEBUG) Log.wtf(TAG, msg);
+    }
+    
+    public static void t(String msg){
+        if(!DEBUG) return;
+        if((System.currentTimeMillis() - time) > 2000){
+            time = System.currentTimeMillis();
+            L.e(msg);
+            
+        }
     }
 
 }

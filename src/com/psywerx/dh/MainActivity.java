@@ -44,7 +44,7 @@ class MyGLSurfaceView extends GLSurfaceView {
     public boolean onTouchEvent(MotionEvent e){
         
         float x = e.getX();
-        float position = (x/Game.WIDTH-0.5f)*2;
+        float position = (x * 2.0f / Game.WIDTH - 1.0f);
         switch(e.getAction()){
 
         case MotionEvent.ACTION_DOWN:

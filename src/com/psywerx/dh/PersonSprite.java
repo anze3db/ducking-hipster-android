@@ -3,7 +3,7 @@ package com.psywerx.dh;
 
 
 public class PersonSprite extends Drawable {
-    public  float[] direction = {0,0,0};
+    public  float[] direction = {0,0,0,1};
     protected Square s;
     protected float[] velocity = {0,0,0};
     protected float[] speed = {0,0};

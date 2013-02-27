@@ -22,6 +22,7 @@ public class Game {
     
     protected static Random rand = new Random();
     protected static float[] projection;
+    protected static float[] model_projection;
     
     protected static int currentLevel = 0;
     
@@ -60,7 +61,7 @@ public class Game {
         SceneGraph.tick(theta);
         
         
-        Game.smoothPosition = 0.9f*Game.smoothPosition + 0.1f*Game.position;
+        Game.smoothPosition = 0.9f*Game.smoothPosition + 0.1f*Game.player1.position[0];
         top.tick(theta);
 
     }
@@ -85,7 +86,7 @@ public class Game {
 
         float ratio = WIDTH / (float) HEIGHT;
         float[] model_view_projection = new float[16]; // Gets sent to the
-        float[] model_projection = new float[16];
+        model_projection = new float[16];
 
         Matrix.setLookAtM(model_projection, 0, 0, 0, -1f, 0, 0, 0, 0, 1, 0);
         Matrix.frustumM(model_view_projection, 0, ratio, -ratio, -1, 1,
