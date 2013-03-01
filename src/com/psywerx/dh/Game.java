@@ -72,6 +72,9 @@ public class Game {
 
     static void tick(Float theta) {
         switch (Game.state) {
+        case 'P':
+            
+            break;
         case 'E':
             bg.tick(theta);
             break;

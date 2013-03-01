@@ -34,6 +34,9 @@ public class MainActivity extends Activity {
 }
 
 class MyGLSurfaceView extends GLSurfaceView {
+    
+    private boolean pausePossibility = false;
+    
     public MyGLSurfaceView(Context context){
         super(context);
         // Set the Renderer for drawing on the GLSurfaceView
@@ -44,27 +47,43 @@ class MyGLSurfaceView extends GLSurfaceView {
     public boolean onTouchEvent(MotionEvent e){
         
         float x = e.getX();
+        float y = e.getY();
         float position = (x * 2.0f / Game.WIDTH - 1.0f);
+        
+        
         
         switch(e.getAction()){
 
         case MotionEvent.ACTION_DOWN:
+            if(Game.state == 'E'){
+                Game.reset();    
+            }
+            else if(Game.state == 'P'){
+                Game.state = 'G';
+            }
+
+            else if(x < 120 && y < 120){
+                pausePossibility = true;
+                break;
+            }
+            pausePossibility = false;
             Game.moving = true;
             Game.position = position;
             Game.player1.direction[0] = position;
             
-            if(Game.state == 'E'){
-                Game.reset();    
-            }
             
             break;
             
         case MotionEvent.ACTION_MOVE:
+            if(pausePossibility) break;
             Game.position = position;
            
             Game.player1.direction[0] = position;
             break;
         case MotionEvent.ACTION_UP:
+            if(pausePossibility && x < 120 && y < 120){
+                Game.state = 'P';
+            }
             Game.moving = false;
             Game.position = 0;
             Game.player1.direction[0] = 0f;

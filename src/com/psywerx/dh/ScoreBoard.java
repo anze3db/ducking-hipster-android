@@ -11,14 +11,14 @@ public class ScoreBoard extends PersonSprite {
     
     public ScoreBoard(){
         s = new Square();
-        s.size = new float[]{0.05f, 0.05f, 1};
+        s.size = new float[]{0.07f, 0.05f, 1};
         s.color = new float[]{0,0,0,1};
-        s.position = new float[]{-0.75f, 0.9f, -0.5f};
+        s.position = new float[]{-0.8f, 0.9f, -0.5f};
         s.texture.enabled = true;
-        s.texture.sprite = new int[]{9,8};
-        s.texture.startSprite = new int[]{9,8};
-        s.texture.size = new int[]{1,1};
-        s.texture.anim = new int[]{0,1,2,};
+        s.texture.sprite = new int[]{9,3};
+        s.texture.startSprite = new int[]{9,3};
+        s.texture.size = new int[]{2,2};
+        s.texture.anim = new int[]{0,};
 
         s.texture.animSpeed = 1f;
         score = 0;
