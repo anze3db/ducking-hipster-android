@@ -63,15 +63,23 @@ public class Enemy extends PersonSprite {
             else{
                 timeDead+=theta;
             }
-            L.e(timeDead+"");
             if(timeDead > 2000){
                 Game.state = 'E';
             }
+            
+            // Bug where player is in front of the collision:
+            if(Game.player1.position[2]<position[2]){
+                
+                Game.player1.position[2] -= (0.01f + Game.player1.position[2] - position[2]);
+                Game.player1.position[1] = position[1] + 0.01f;
+            }
+            
             Game.player1.dead = true;
             Game.player1.move(0,  speed[1]*theta*0.05f, 0);
             Game.player1.position[2] += speed[1] * theta * 0.112f;
             Game.player1.position[1] += speed[1] * 0.1f;
             col.position = position.clone();
+            col.position[0] += (Game.player1.position[0] - position[0])/2;
             col.position[2] -= 0.01f;
             col.texture.update(theta);
             

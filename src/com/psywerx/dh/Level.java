@@ -76,6 +76,9 @@ class Level {
                 e.move(0, 0, -1.0f*currentWave/10000.0f+(float)Game.rand.nextDouble()/100000.0f);
                 SceneGraph.activeObjects.add(e);
                 break;
+            case 'h':
+                Game.player1.nextSkin();
+                break;
             }
         }
         

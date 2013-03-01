@@ -5,6 +5,7 @@ public class Player extends PersonSprite {
     boolean dead;
     float[] startPosition;
     float sPosition = 0.535f;
+    
 
     public Player(){
         
@@ -18,7 +19,9 @@ public class Player extends PersonSprite {
         move(0,0,0); // hack that resets all the other boxes;
         dead = false;
     }
-    
+    void nextSkin(){
+        s.texture.startSprite[1] += 3;
+    }
     
     @Override
     public void tick(float theta){
