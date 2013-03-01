@@ -12,7 +12,7 @@ public class Background extends Drawable {
         bg = new Square();
         bg.color = new float[] { 0, 0, 0, 1 };
         bg.size = new float[] { 23f, 23f*(45f/25f), 0f };
-        bg.position = new float[] { 0f, -4f, 30f };
+        bg.position = new float[] { 0f, -7f, 30f };
         
         bg.texture.enabled = true;
         bg.texture.sprite = new int[]{15,0};

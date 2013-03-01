@@ -4,12 +4,12 @@ public class Player extends PersonSprite {
 
     boolean dead;
     float[] startPosition;
-    float sPosition = 0.535f;
+    float sPosition = 0.335f;
     
 
     public Player(){
         
-        position[1] += 0.75; 
+        position[1] += 0.55; 
         position[0] = 0f;
         startPosition = position;        
     }
