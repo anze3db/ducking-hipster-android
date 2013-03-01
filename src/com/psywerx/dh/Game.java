@@ -1,5 +1,8 @@
 package com.psywerx.dh;
 
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.Stack;
 
@@ -12,7 +15,7 @@ public class Game {
     static int WIDTH = 100;
     static int HEIGHT = 100;
     private static Background bg;
-    private static ScoreBoard top;
+    static ScoreBoard top;
     
     private static boolean gameCreated = false;
     
@@ -30,39 +33,57 @@ public class Game {
     private static final int PRELOAD_SIZE = 1000;
     static Stack<Enemy> preloadedEnemies = new Stack<Enemy>();
     public static boolean moving = false;
+    public static char state = 'M';
 
     static void create(GlProgram program) {
         if(gameCreated) return;
         Game.program = program;
         
-        
+        preloadedEnemies = new Stack<Enemy>();
         for(int i = 0; i < PRELOAD_SIZE; i++){
             preloadedEnemies.push(new Enemy());
         }
         
-        
         bg = new Background();
         //SceneGraph.activeObjects.add(bg);
         
+        Game.reset();
+        gameCreated = true;
+        
+    }
+    public static void reset(){
+        Iterator<Drawable> dws = SceneGraph.activeObjects.iterator();
+        while (dws.hasNext()) {
+            Drawable d = dws.next();
+            if(d instanceof Enemy){
+                Game.preloadedEnemies.push((Enemy)d);
+            }
+        }
+        SceneGraph.activeObjects = Collections.synchronizedList(new LinkedList<Drawable>());
         top = new ScoreBoard();
         SceneGraph.activeObjects.add(top);
         
         player1 = new Player();
         player1.move(0.5f, 0, 0);
         SceneGraph.activeObjects.add(player1);
-        
-        gameCreated = true;
-        
+        Game.state = 'G';
+        lvls.levels[currentLevel].reset();
     }
 
     static void tick(Float theta) {
-        
-        lvls.levels[currentLevel].tick(theta);
-        SceneGraph.tick(theta);
-        
-        
-        Game.smoothPosition = 0.9f*Game.smoothPosition + 0.1f*Game.player1.position[0];
-        top.tick(theta);
+        switch (Game.state) {
+        case 'E':
+            bg.tick(theta);
+            break;
+
+        default:
+            bg.tick(theta);
+            lvls.levels[currentLevel].tick(theta);
+            SceneGraph.tick(theta);
+            Game.smoothPosition = 0.9f*Game.smoothPosition + 0.1f*Game.player1.position[0];
+            top.tick(theta);
+            break;
+        }
 
     }
 
@@ -91,7 +112,7 @@ public class Game {
         Matrix.setLookAtM(model_projection, 0, 0, 0, -1f, 0, 0, 0, 0, 1, 0);
         Matrix.frustumM(model_view_projection, 0, ratio, -ratio, -1, 1,
                 0.9999f, 40);
-        Matrix.rotateM(model_projection, 0, smoothPosition*-5, 0, 1, 0);
+        Matrix.rotateM(model_projection, 0, smoothPosition*-2, 0, 1, 0);
         projection = new float[16];
         
         Matrix.multiplyMM(projection, 0, model_view_projection, 0,

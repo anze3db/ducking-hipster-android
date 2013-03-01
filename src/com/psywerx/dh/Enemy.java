@@ -6,7 +6,9 @@ public class Enemy extends PersonSprite {
 
     private float r = 0.01f+Game.rand.nextFloat()/100;
     private Texture colTexture = new Texture();
-    private Texture original = s.texture;
+    private Square col = new Square();
+    private float timeDead;
+    private boolean score = false;
 
     public Enemy() {
         reset();
@@ -16,10 +18,10 @@ public class Enemy extends PersonSprite {
         s.texture.updateSprite();
         
         speed[1] = 0.01f;
-        this.resize(0.2f);
-        this.position[2] = 1f - r;
+        resize(0.2f);
+        position[2] = 1f - r;
         position[1] = -2f;
-        this.removeMe = false;
+        removeMe = false;
         
         colTexture.enabled = true;
         colTexture.sprite = new int[]{9,6};
@@ -27,6 +29,11 @@ public class Enemy extends PersonSprite {
         colTexture.size = new int[]{2,2};
         colTexture.anim = new int[]{1,0,1,2,1};
         colTexture.animSpeed = 0.5f;
+        
+        col.texture = colTexture;
+        col.size = new float[]{0.2f, 0.2f, 0.25f};
+        timeDead = 0f;
+        score = false;
     }
 
     @Override
@@ -36,29 +43,45 @@ public class Enemy extends PersonSprite {
         if (position[1] > 10) {
             
             // This needs to get moved:
-            if(Game.player1.dead){
-                Game.player1.resetPlayer();
-            }
-            // Remove yourself:
             removeMe = true;
             Game.preloadedEnemies.push(this);
         }
-        if(position[1] > -1){
-            //resize(Math.max(0, size[1] - size[1]*speed[1]*0.3f));
-        }
         if(bb.position[1]+bb.size[1]/2 > Game.player1.sPosition){
-            position[2] += speed[1] * theta * 0.074f;
-//            position[2] = 1f + r;
+            position[2] += speed[1] * theta * 0.112f;
+            position[1] += speed[1] * 0.1f;
+            if(!score){
+                Game.top.increaseScore(1);
+                score = true;
+            }
         }
-//        
+        col.position = new float[]{-100f,-100f,0f};
+        
         if (Utils.areColliding(this, Game.player1)) {
+            if(!Game.player1.dead){
+                timeDead = 0;
+            }
+            else{
+                timeDead+=theta;
+            }
+            L.e(timeDead+"");
+            if(timeDead > 2000){
+                Game.state = 'E';
+            }
             Game.player1.dead = true;
             Game.player1.move(0,  speed[1]*theta*0.05f, 0);
-            Game.player1.position[2] += speed[1] * theta * 0.074f;
-            //this.position[2] = 1f + r;
+            Game.player1.position[2] += speed[1] * theta * 0.112f;
+            Game.player1.position[1] += speed[1] * 0.1f;
+            col.position = position.clone();
+            col.position[2] -= 0.01f;
+            col.texture.update(theta);
             
         }
 
         this.move(0, speed[1]*theta*0.05f, 0);
+    }
+    @Override
+    public void draw(){
+        super.draw();
+        col.draw();
     }
 }

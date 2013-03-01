@@ -41,10 +41,15 @@ class Levels {
 
 class Level {
     
+    void reset(){
+        currentWave = 0;
+        acum = 0;
+    }
+    
     final float WAVE_PERIOD = 1000;
     
-    int currentWave = 0;
     LinkedList<Wave> waves = new LinkedList<Wave>();
+    int currentWave = 0;
     float acum = 0;
     
     
@@ -66,8 +71,8 @@ class Level {
             case 'e':
                 Enemy e = Game.preloadedEnemies.pop();
                 e.reset();
-                e.speed[1] = w.positions[i].speed/100f;
-                e.position[0] = (i-3)/3.0f;
+                e.speed[1] = w.positions[i].speed/500f;
+                e.position[0] = (i-3)/2.9f;
                 e.move(0, 0, -1.0f*currentWave/10000.0f+(float)Game.rand.nextDouble()/100000.0f);
                 SceneGraph.activeObjects.add(e);
                 break;

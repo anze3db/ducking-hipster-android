@@ -4,11 +4,11 @@ public class Player extends PersonSprite {
 
     boolean dead;
     float[] startPosition;
-    float sPosition = 0.885f;
+    float sPosition = 0.535f;
 
     public Player(){
         
-        position[1] += 1.1; 
+        position[1] += 0.75; 
         position[0] = 0f;
         startPosition = position;        
     }
@@ -41,16 +41,16 @@ public class Player extends PersonSprite {
             this.speed[0] = 0;
             this.speed[1] = 0;
         }
-        if(this.position[0] < -1.3 && speed[0] < 0){
+        if(this.position[0] < -1.0 && speed[0] < 0){
             this.speed[0] = 0;
         }
-        if(this.position[0] > 1.3 && speed[0] > 0){
+        if(this.position[0] > 1.0 && speed[0] > 0){
             this.speed[0] = 0;
         }
 
         if(!dead){
             // You can't move if you're dead...
-            this.move(speed[0]/600, 0, 0);
+            this.move(speed[0]/900, 0, 0);
         }
     }
 }

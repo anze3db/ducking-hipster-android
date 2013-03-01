@@ -7,17 +7,17 @@ public class Background extends Drawable {
     public Background() {
         
         
-        this.position = new float[] { 0, -6, 3f };
+        position = new float[] { 0, -8, 3f };
         
         bg = new Square();
         bg.color = new float[] { 0, 0, 0, 1 };
-        bg.size = new float[] { 30f, 30f*(35f/25f), 0f };
-        bg.position = new float[] { -1f, -2f, 30f };
+        bg.size = new float[] { 23f, 23f*(45f/25f), 0f };
+        bg.position = new float[] { 0f, -4f, 30f };
         
         bg.texture.enabled = true;
         bg.texture.sprite = new int[]{15,0};
         
-        bg.texture.size = new int[] { 25, 35 };
+        bg.texture.size = new int[] { 25, 45 };
 //        bg2 = new Square();
 //        bg2.size = new float[] { 2.5f, 2.5f * 4.2f, 0f };
 //        bg2.color = new float[] { 0, 0, 0, 1 };

@@ -45,12 +45,17 @@ class MyGLSurfaceView extends GLSurfaceView {
         
         float x = e.getX();
         float position = (x * 2.0f / Game.WIDTH - 1.0f);
+        
         switch(e.getAction()){
 
         case MotionEvent.ACTION_DOWN:
             Game.moving = true;
             Game.position = position;
             Game.player1.direction[0] = position;
+            
+            if(Game.state == 'E'){
+                Game.reset();    
+            }
             
             break;
             
