@@ -10,7 +10,7 @@ public class Player extends PersonSprite {
     public Player(){
         
         position[1] += 0.55; 
-        position[0] = 0f;
+        position[0] = -0.5f;
         startPosition = position;        
     }
     

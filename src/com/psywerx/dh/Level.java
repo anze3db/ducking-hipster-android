@@ -77,6 +77,7 @@ class Level {
                 SceneGraph.activeObjects.add(e);
                 break;
             case 'h':
+                Game.levelHints.nextHint();
                 Game.player1.nextSkin();
                 break;
             }

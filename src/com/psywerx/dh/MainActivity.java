@@ -55,6 +55,9 @@ class MyGLSurfaceView extends GLSurfaceView {
         switch(e.getAction()){
 
         case MotionEvent.ACTION_DOWN:
+            if(Game.state == 'M'){
+                Game.reset();    
+            }
             if(Game.state == 'E'){
                 Game.reset();    
             }

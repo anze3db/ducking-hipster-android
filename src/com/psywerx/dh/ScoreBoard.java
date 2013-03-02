@@ -23,7 +23,7 @@ public class ScoreBoard extends PersonSprite {
         s.texture.animSpeed = 1f;
         score = 0;
         scoreText = new Text(String.format("%07d", score));
-        scoreText.setSize(new float[]{0.07f, 0.05f});
+        scoreText.setSize(new float[]{0.06f, 0.05f});
         scoreText.move(new float[]{0.5f, 0.9f, -0.5f});
     }
     

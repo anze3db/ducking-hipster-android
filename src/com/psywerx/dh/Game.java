@@ -16,7 +16,7 @@ public class Game {
     static int HEIGHT = 100;
     private static Background bg;
     static ScoreBoard top;
-    
+    static Menu menu;
     private static boolean gameCreated = false;
     
     protected static Player player1;
@@ -27,6 +27,7 @@ public class Game {
     protected static float[] projection;
     protected static float[] model_projection;
     
+    
     protected static int currentLevel = 0;
     
     private static Levels lvls = new Levels();
@@ -34,6 +35,8 @@ public class Game {
     static Stack<Enemy> preloadedEnemies = new Stack<Enemy>();
     public static boolean moving = false;
     public static char state = 'M';
+    public static Hint hint;
+    public static LevelHints levelHints;
 
     static void create(GlProgram program) {
         if(gameCreated) return;
@@ -45,9 +48,13 @@ public class Game {
         }
         
         bg = new Background();
+        menu = new Menu();
+        hint = new Hint();
+        levelHints = new LevelHints();
         //SceneGraph.activeObjects.add(bg);
         
         Game.reset();
+        Game.state = 'M';
         gameCreated = true;
         
     }
@@ -61,7 +68,7 @@ public class Game {
         }
         SceneGraph.activeObjects = Collections.synchronizedList(new LinkedList<Drawable>());
         top = new ScoreBoard();
-        SceneGraph.activeObjects.add(top);
+        //SceneGraph.activeObjects.add(top);
         
         player1 = new Player();
         player1.move(0.5f, 0, 0);
@@ -72,8 +79,9 @@ public class Game {
 
     static void tick(Float theta) {
         switch (Game.state) {
+        case 'M':
+            break;
         case 'P':
-            
             break;
         case 'E':
             bg.tick(theta);
@@ -85,16 +93,41 @@ public class Game {
             SceneGraph.tick(theta);
             Game.smoothPosition = 0.9f*Game.smoothPosition + 0.1f*Game.player1.position[0];
             top.tick(theta);
+            hint.tick(theta);
+            levelHints.tick(theta);
+            break;
+        }
+        menu.tick(theta);
+
+    }
+    
+    static void draw() {
+        resetFrame();
+
+        switch (Game.state) {
+        case 'M':
+            bg.draw();
+            SceneGraph.draw();
+            menu.draw();
+            break;
+        case 'P':
+        case 'E':
+            bg.draw();
+            menu.draw();
+            SceneGraph.draw();
+            top.draw();
+            menu.draw();
+            break;
+        default:
+            bg.draw();
+            SceneGraph.draw();
+            top.draw();
+            menu.draw();
+            hint.draw();
+            levelHints.draw();
             break;
         }
 
-    }
-
-    static void draw() {
-        resetFrame();
-        bg.draw();
-        SceneGraph.draw();
-        top.draw();
     }
 
     private static void resetFrame() {
@@ -125,6 +158,5 @@ public class Game {
 
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-//        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
     }
 }
