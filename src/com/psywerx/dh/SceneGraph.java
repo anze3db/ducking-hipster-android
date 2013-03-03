@@ -7,22 +7,23 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class SceneGraph {
-    static List<Drawable> activeObjects = Collections.synchronizedList(new LinkedList<Drawable>());
+    static List<Drawable> activeObjects = new LinkedList<Drawable>();
+    private static Iterator<Drawable> dws;
+    private static Drawable d;
 
     static void draw() {
-
-        for (Drawable d : activeObjects) {
-            d.draw();
+        int len = activeObjects.size();
+        for (int i = 0; i < len; ++i) {
+            activeObjects.get(i).draw();
         }
     }
 
     static void tick(float theta) {
-        Iterator<Drawable> dws = activeObjects.iterator();
+        dws = activeObjects.iterator();
         while (dws.hasNext()) {
-            Drawable d = dws.next();
+            d = dws.next();
             d.tick(theta);
             if(d.removeMe){
-                L.i("REMOVING");
                 dws.remove();
             }
         }

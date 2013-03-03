@@ -6,6 +6,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -31,14 +32,23 @@ public class MainActivity extends Activity {
         
         setContentView(mGLView);
     }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(Game.state == 'G')
+            Game.state = 'P';
+    }
 }
 
 class MyGLSurfaceView extends GLSurfaceView {
     
     private boolean pausePossibility = false;
-    
+    private Context c;
+
     public MyGLSurfaceView(Context context){
         super(context);
+        c = context;
         // Set the Renderer for drawing on the GLSurfaceView
         setEGLContextClientVersion(2);
         setRenderer(new MyRenderer(context));
@@ -48,7 +58,8 @@ class MyGLSurfaceView extends GLSurfaceView {
         
         float x = e.getX();
         float y = e.getY();
-        float position = (x * 2.0f / Game.WIDTH - 1.0f);
+        float position = (x * 2f / Game.WIDTH - 1.0f);
+        float positionY =1f-(y*2/(float)Game.HEIGHT);
         
         
         
@@ -56,13 +67,14 @@ class MyGLSurfaceView extends GLSurfaceView {
 
         case MotionEvent.ACTION_DOWN:
             if(Game.state == 'M'){
-                Game.reset();    
+                Game.playButton.onDown(position, positionY);
             }
             if(Game.state == 'E'){
-                Game.reset();    
+                Game.restartButton.onDown(position, positionY);
+                Game.shareButton.onDown(position, positionY);
             }
             else if(Game.state == 'P'){
-                Game.state = 'G';
+                Game.continueButton.onDown(position, positionY);
             }
 
             else if(x < 120 && y < 120){
@@ -84,14 +96,32 @@ class MyGLSurfaceView extends GLSurfaceView {
             Game.player1.direction[0] = position;
             break;
         case MotionEvent.ACTION_UP:
+            if(Game.state == 'M'){
+                if(Game.playButton.onUp(position, positionY)) Game.reset();
+            }
+            else if(Game.state == 'P'){
+                if(Game.continueButton.onUp(position, positionY))  Game.state = 'G';
+            }
+            else if(Game.state == 'E'){
+                if(Game.restartButton.onUp(position, positionY))  Game.reset();
+                if(Game.shareButton.onUp(position, positionY)) share();
+            }
             if(pausePossibility && x < 120 && y < 120){
                 Game.state = 'P';
+                
             }
             Game.moving = false;
             Game.position = 0;
             Game.player1.direction[0] = 0f;
         }
         return true;
+    }
+    private void share() {
+        String message = String.format("I've reached level %d with a score of %d in #duckinghipster for Android!", Game.levelHints.progress+1, Game.top.score);
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_TEXT, message);
+        c.startActivity(Intent.createChooser(share, "Share your score"));
     }
     
 }

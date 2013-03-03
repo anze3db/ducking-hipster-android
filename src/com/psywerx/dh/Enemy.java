@@ -54,7 +54,9 @@ public class Enemy extends PersonSprite {
                 score = true;
             }
         }
-        col.position = new float[]{-100f,-100f,0f};
+        col.position[0] = -100f;
+        col.position[1] = -100f;
+        col.position[2] = 0f;
         
         if (Utils.areColliding(this, Game.player1)) {
             if(!Game.player1.dead){

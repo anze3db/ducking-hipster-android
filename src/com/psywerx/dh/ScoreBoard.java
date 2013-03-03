@@ -6,7 +6,8 @@ import android.opengl.Matrix;
 public class ScoreBoard extends PersonSprite {
     
     private Text scoreText;
-    private int score;
+    int score;
+    float[] id = new float[16];
     
     
     public ScoreBoard(){
@@ -33,7 +34,7 @@ public class ScoreBoard extends PersonSprite {
     }
     
     public void draw() {
-        float[] id = new float[16];
+        
         Matrix.setIdentityM(id, 0);
         GLES20.glUniformMatrix4fv(Game.program.projectionMatrixLoc, 1, false,
                 id, 0);

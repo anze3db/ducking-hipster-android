@@ -40,7 +40,7 @@ class Levels {
 }
 
 class Level {
-    
+
     void reset(){
         currentWave = 0;
         acum = 0;
@@ -55,7 +55,7 @@ class Level {
     
     void tick(float theta) {
         acum += theta;
-        if(acum > WAVE_PERIOD){
+        if(acum > WAVE_PERIOD - 100 * Game.levelHints.progress){
             acum = 0;
             nextWave();
         }
@@ -66,12 +66,24 @@ class Level {
         if(waves.size() == currentWave)
             return;
         Wave w = waves.get(currentWave++);
+        int x = (int) (Math.random()*w.positions.length);
         for(int i = 0; i < w.positions.length; i++){
             switch(w.positions[i].type){
+            case 'x':
+                if(i == x) break;
+                Enemy ex = Game.preloadedEnemies.pop();
+                ex.reset();
+                ex.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
+                ex.position[0] = (i-3)/2.9f;
+                ex.move(0, 0, -1.0f*currentWave/10000.0f+(float)Game.rand.nextDouble()/100000.0f);
+                SceneGraph.activeObjects.add(ex);
+                break;
+            case '?':
+                if(Math.random() < 0.5) break;
             case 'e':
                 Enemy e = Game.preloadedEnemies.pop();
                 e.reset();
-                e.speed[1] = w.positions[i].speed/500f;
+                e.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
                 e.position[0] = (i-3)/2.9f;
                 e.move(0, 0, -1.0f*currentWave/10000.0f+(float)Game.rand.nextDouble()/100000.0f);
                 SceneGraph.activeObjects.add(e);

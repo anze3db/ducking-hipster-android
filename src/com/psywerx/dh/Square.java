@@ -16,6 +16,10 @@ public class Square extends Drawable {
     private FloatBuffer texBuffer;
     private GlProgram p = Game.program;
     public float[] rot = new float[]{0f, 0f, 1f, 0f};
+    private float[] colB;
+    float[] verticesStart = new float[] { 1.0f, -1.0f, 0.0f, -1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 0.0f, -1.0f, 1.0f, 0.0f };
+    float[] vertices = new float[12];
+    
 
     Square() {
         Matrix.setIdentityM(modelMatrix, 0);
@@ -31,6 +35,8 @@ public class Square extends Drawable {
         vbb = ByteBuffer.allocateDirect(2 * 4 * 4);
         vbb.order(ByteOrder.nativeOrder());
         texBuffer = vbb.asFloatBuffer();
+        colB = new float[] { color[0], color[1], color[2], color[3], color[0], color[1], color[2], color[3],
+                color[0], color[1], color[2], color[3], color[0], color[1], color[2], color[3] };
     }
 
     @Override
@@ -45,10 +51,9 @@ public class Square extends Drawable {
         Matrix.rotateM(modelMatrix, 0, rot[0], rot[1], rot[2], rot [3]);
         GLES20.glUniformMatrix4fv(p.modelMatrixLoc, 1, false, modelMatrix, 0);
 
-        float[] vertices = new float[] { 1.0f, -1.0f, 0.0f, -1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 0.0f, -1.0f, 1.0f, 0.0f };
         for (int i = 0; i < vertices.length; i += 3) {
-            vertices[i] *= size[0];
-            vertices[i + 1] *= size[1];
+            vertices[i] = verticesStart[i] * size[0];
+            vertices[i + 1] = verticesStart[i + 1] * size[1];
         }
         vertBuffer.put(vertices);
         vertBuffer.flip();
@@ -56,8 +61,7 @@ public class Square extends Drawable {
         GLES20.glVertexAttribPointer(p.positionLoc, 3, GLES20.GL_FLOAT, false, 0, vertBuffer);
         GLES20.glEnableVertexAttribArray(p.positionLoc);
 
-        colorBuffer.put(new float[] { color[0], color[1], color[2], color[3], color[0], color[1], color[2], color[3],
-                color[0], color[1], color[2], color[3], color[0], color[1], color[2], color[3] });
+        colorBuffer.put(colB);
         colorBuffer.flip();
 
         GLES20.glVertexAttribPointer(p.colorLoc, 4, GLES20.GL_FLOAT, false, 0, colorBuffer);

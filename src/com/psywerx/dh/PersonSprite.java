@@ -43,7 +43,10 @@ public class PersonSprite extends Drawable {
     }
     protected void move(float x, float y, float z){
         
-        position = Utils.add(position, x,y,z);
+        position[0] += x;
+        position[1] += y;
+        position[2] += z;
+        //Utils.add(position, x,y,z);
         s.position = position;
         bb.position[0] = position[0];
         bb.position[1] = position[1]-0.2f;

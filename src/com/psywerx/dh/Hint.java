@@ -8,6 +8,7 @@ public class Hint extends Drawable {
     protected Square s;
     protected boolean active = true;
     protected float timeout = 0;
+    float[] id = new float[16];
     Hint(){
         s = new Square();
         s.size = new float[]{0.8f, 0.8f*(3f/19f), 1};
@@ -32,9 +33,14 @@ public class Hint extends Drawable {
         }
         if(timeout > 3000)
             s.position[1] = -1.5f;
+        
+        if(Game.player1.dead){
+            s.position[1] = -1.5f;
+            active = false;
+        }
     }
     public void draw(){
-        float[] id = new float[16];
+        
         Matrix.setIdentityM(id, 0);
         GLES20.glUniformMatrix4fv(Game.program.projectionMatrixLoc, 1, false,
                 id, 0);

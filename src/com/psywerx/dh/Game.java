@@ -17,6 +17,10 @@ public class Game {
     private static Background bg;
     static ScoreBoard top;
     static Menu menu;
+    static PlayButton playButton;
+    static ContinueButton continueButton;
+    static RestartButton restartButton;
+    static ShareButton shareButton;
     private static boolean gameCreated = false;
     
     protected static Player player1;
@@ -24,8 +28,8 @@ public class Game {
     protected static float smoothPosition;
     
     protected static Random rand = new Random();
-    protected static float[] projection;
-    protected static float[] model_projection;
+    protected static float[] projection = new float[16];
+    protected static float[] model_projection = new float[16];
     
     
     protected static int currentLevel = 0;
@@ -37,6 +41,7 @@ public class Game {
     public static char state = 'M';
     public static Hint hint;
     public static LevelHints levelHints;
+    private static float[] model_view_projection = new float[16];
 
     static void create(GlProgram program) {
         if(gameCreated) return;
@@ -51,6 +56,10 @@ public class Game {
         menu = new Menu();
         hint = new Hint();
         levelHints = new LevelHints();
+        playButton = new PlayButton();
+        continueButton = new ContinueButton();
+        restartButton = new RestartButton();
+        shareButton = new ShareButton();
         //SceneGraph.activeObjects.add(bg);
         
         Game.reset();
@@ -66,7 +75,7 @@ public class Game {
                 Game.preloadedEnemies.push((Enemy)d);
             }
         }
-        SceneGraph.activeObjects = Collections.synchronizedList(new LinkedList<Drawable>());
+        SceneGraph.activeObjects = new LinkedList<Drawable>();
         top = new ScoreBoard();
         //SceneGraph.activeObjects.add(top);
         
@@ -74,6 +83,7 @@ public class Game {
         player1.move(0.5f, 0, 0);
         SceneGraph.activeObjects.add(player1);
         Game.state = 'G';
+        levelHints.reset();
         lvls.levels[currentLevel].reset();
     }
 
@@ -109,14 +119,24 @@ public class Game {
             bg.draw();
             SceneGraph.draw();
             menu.draw();
+            playButton.draw();
             break;
         case 'P':
+            bg.draw();
+            menu.draw();
+            SceneGraph.draw();
+            top.draw();
+            menu.draw();
+            continueButton.draw();
+            break;
         case 'E':
             bg.draw();
             menu.draw();
             SceneGraph.draw();
             top.draw();
             menu.draw();
+            restartButton.draw();
+            shareButton.draw();
             break;
         default:
             bg.draw();
@@ -132,8 +152,7 @@ public class Game {
 
     private static void resetFrame() {
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        GLES20.glClearColor(174f/255f, 122f/255f, 60f/255f, 1f);
-
+        GLES20.glClearColor(0f, 0f, 0f, 1f);
         GLES20.glClear(GLES20.GL_STENCIL_BUFFER_BIT
                 | GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         GLES20.glUseProgram(program.program);
@@ -142,14 +161,11 @@ public class Game {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, program.texture);
 
         float ratio = WIDTH / (float) HEIGHT;
-        float[] model_view_projection = new float[16]; // Gets sent to the
-        model_projection = new float[16];
 
         Matrix.setLookAtM(model_projection, 0, 0, 0, -1f, 0, 0, 0, 0, 1, 0);
         Matrix.frustumM(model_view_projection, 0, ratio, -ratio, -1, 1,
                 0.9999f, 40);
         Matrix.rotateM(model_projection, 0, smoothPosition*-2, 0, 1, 0);
-        projection = new float[16];
         
         Matrix.multiplyMM(projection, 0, model_view_projection, 0,
                 model_projection, 0);
