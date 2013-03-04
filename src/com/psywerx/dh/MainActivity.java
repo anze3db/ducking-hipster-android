@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -68,6 +69,7 @@ class MyGLSurfaceView extends GLSurfaceView {
         case MotionEvent.ACTION_DOWN:
             if(Game.state == 'M'){
                 Game.playButton.onDown(position, positionY);
+                Game.soundButton.onDown(position, positionY);
             }
             if(Game.state == 'E'){
                 Game.restartButton.onDown(position, positionY);
@@ -99,6 +101,7 @@ class MyGLSurfaceView extends GLSurfaceView {
         case MotionEvent.ACTION_UP:
             if(Game.state == 'M'){
                 if(Game.playButton.onUp(position, positionY)) Game.reset();
+                if(Game.soundButton.onUp(position, positionY))  toggleSound();
             }
             else if(Game.state == 'P'){
                 if(Game.continueButton.onUp(position, positionY))  Game.state = 'G';

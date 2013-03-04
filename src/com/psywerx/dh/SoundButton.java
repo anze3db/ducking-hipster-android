@@ -10,7 +10,7 @@ public class SoundButton extends Button {
     }
     @Override
     public void draw() {
-        if(Game.sound){
+        if(!Game.sound){
             s.texture.sprite[0] = 43;
             s.texture.startSprite[0] = 43;
         } 

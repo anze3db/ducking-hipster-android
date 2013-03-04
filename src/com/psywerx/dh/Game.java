@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Stack;
 
+import android.media.MediaPlayer;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
@@ -43,7 +44,8 @@ public class Game {
     public static LevelHints levelHints;
     private static float[] model_view_projection = new float[16];
     static SoundButton soundButton;
-    public static boolean sound;
+    public static boolean sound = true;
+    static MediaPlayer mp;
 
     static void create(GlProgram program) {
         if(gameCreated) return;
@@ -53,7 +55,8 @@ public class Game {
         for(int i = 0; i < PRELOAD_SIZE; i++){
             preloadedEnemies.push(new Enemy());
         }
-        
+        mp = MediaPlayer.create(MyRenderer.context, R.raw.dh);
+        mp.setLooping(true);
         bg = new Background();
         menu = new Menu();
         hint = new Hint();
@@ -88,19 +91,30 @@ public class Game {
         Game.state = 'G';
         levelHints.reset();
         lvls.levels[currentLevel].reset();
+        
+        if(Game.sound){
+            //mp.seekTo(0);
+            mp.start();
+        }
     }
 
     static void tick(Float theta) {
         switch (Game.state) {
         case 'M':
+            if(!Game.sound && mp.isPlaying()) mp.pause();
+            if(Game.sound && !mp.isPlaying()) mp.start();
             break;
         case 'P':
+            if(mp.isPlaying()) mp.pause();
             break;
         case 'E':
+            if(mp.isPlaying()) mp.pause();
             bg.tick(theta);
             break;
 
         default:
+            if(!Game.sound && mp.isPlaying()) mp.pause();
+            if(Game.sound && !mp.isPlaying()) mp.start();
             bg.tick(theta);
             lvls.levels[currentLevel].tick(theta);
             SceneGraph.tick(theta);
@@ -123,6 +137,7 @@ public class Game {
             SceneGraph.draw();
             menu.draw();
             playButton.draw();
+            soundButton.draw();
             break;
         case 'P':
             bg.draw();
