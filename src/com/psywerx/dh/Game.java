@@ -42,6 +42,8 @@ public class Game {
     public static Hint hint;
     public static LevelHints levelHints;
     private static float[] model_view_projection = new float[16];
+    static SoundButton soundButton;
+    public static boolean sound;
 
     static void create(GlProgram program) {
         if(gameCreated) return;
@@ -60,6 +62,7 @@ public class Game {
         continueButton = new ContinueButton();
         restartButton = new RestartButton();
         shareButton = new ShareButton();
+        soundButton = new SoundButton();
         //SceneGraph.activeObjects.add(bg);
         
         Game.reset();
@@ -128,6 +131,7 @@ public class Game {
             top.draw();
             menu.draw();
             continueButton.draw();
+            soundButton.draw();
             break;
         case 'E':
             bg.draw();

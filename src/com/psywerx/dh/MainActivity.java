@@ -75,6 +75,7 @@ class MyGLSurfaceView extends GLSurfaceView {
             }
             else if(Game.state == 'P'){
                 Game.continueButton.onDown(position, positionY);
+                Game.soundButton.onDown(position, positionY);
             }
 
             else if(x < 120 && y < 120){
@@ -101,6 +102,7 @@ class MyGLSurfaceView extends GLSurfaceView {
             }
             else if(Game.state == 'P'){
                 if(Game.continueButton.onUp(position, positionY))  Game.state = 'G';
+                if(Game.soundButton.onUp(position, positionY))  toggleSound();
             }
             else if(Game.state == 'E'){
                 if(Game.restartButton.onUp(position, positionY))  Game.reset();
@@ -115,6 +117,10 @@ class MyGLSurfaceView extends GLSurfaceView {
             Game.player1.direction[0] = 0f;
         }
         return true;
+    }
+    private void toggleSound() {
+        Game.sound = !Game.sound;
+        
     }
     private void share() {
         String message = String.format("I've reached level %d with a score of %d in #duckinghipster for Android!", Game.levelHints.progress+1, Game.top.score);
