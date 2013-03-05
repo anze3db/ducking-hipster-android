@@ -85,9 +85,11 @@ public class Enemy extends PersonSprite {
             col.position[2] -= 0.01f;
             col.texture.update(theta);
             
+            
         }
 
         this.move(0, speed[1]*theta*0.05f, 0);
+        
     }
     @Override
     public void draw(){

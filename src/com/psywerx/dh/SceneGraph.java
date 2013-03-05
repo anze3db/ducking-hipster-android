@@ -12,8 +12,7 @@ public class SceneGraph {
     private static Drawable d;
 
     static void draw() {
-        int len = activeObjects.size();
-        for (int i = 0; i < len; ++i) {
+        for (int i = 0; i < activeObjects.size(); ++i) {
             activeObjects.get(i).draw();
         }
     }
