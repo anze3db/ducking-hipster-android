@@ -4,6 +4,8 @@ package com.psywerx.dh;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,18 +27,23 @@ public class MainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        
+                             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mGLView = new MyGLSurfaceView(this);
         
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
         setContentView(mGLView);
+        
+        EasyTracker.getInstance().setContext(this);
+        EasyTracker.getTracker().sendEvent("Kategorija", "Akcija", "Labela", 3000l);
     }
     
     @Override
     protected void onStop() {
         super.onStop();
+        
+        EasyTracker.getInstance().activityStop(this);
+        
         Game.prevState = Game.state;
         Game.state = 'A';
         if(Game.mp != null)
@@ -46,6 +53,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+        
+        EasyTracker.getInstance().activityStart(this);
+        
         Game.state = Game.prevState;
         if(Game.mp != null && Game.sound){
             Game.mp.start();
