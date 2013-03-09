@@ -1,5 +1,7 @@
 package com.psywerx.dh;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 
 
 public class Enemy extends PersonSprite {
@@ -65,6 +67,7 @@ public class Enemy extends PersonSprite {
                 timeDead+=theta;
             }
             if(timeDead > 2000){
+                EasyTracker.getTracker().sendEvent("Game", "End", "Score", (long)Game.top.score);
                 Game.state = 'E';
             }
             
