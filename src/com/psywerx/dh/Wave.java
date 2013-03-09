@@ -5,8 +5,14 @@ public class Wave {
     //   pos1           pos2      ... pos7
     // { {speed, type}, {speed,type}, ... }
     WavePosition[] positions = new WavePosition[7];
+    static String[] end = new String[]{"8", "x"};
     
     public Wave() {
+    }
+    public Wave(char t){
+        for (int j = 0; j < positions.length; j++) {
+            positions[j] = new WavePosition(end);
+        }
     }
 }
 

@@ -12,7 +12,7 @@ import android.util.Log;
 public class L {
 
 	private static final String TAG = "smotko";
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	
 	static long time = System.currentTimeMillis();
 

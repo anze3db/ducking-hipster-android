@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -24,6 +23,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
@@ -35,10 +35,21 @@ public class MainActivity extends Activity {
     }
     
     @Override
-    protected void onPause() {
-        super.onPause();
-        if(Game.state == 'G')
-            Game.state = 'P';
+    protected void onStop() {
+        super.onStop();
+        Game.prevState = Game.state;
+        Game.state = 'A';
+        if(Game.mp != null)
+            Game.mp.pause();
+    }
+    
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Game.state = Game.prevState;
+        if(Game.mp != null && Game.sound){
+            Game.mp.start();
+        }
     }
 }
 
@@ -133,6 +144,9 @@ class MyGLSurfaceView extends GLSurfaceView {
         c.startActivity(Intent.createChooser(share, "Share your score"));
     }
     
+    
+    
+    
 }
 
 class MyRenderer implements GLSurfaceView.Renderer{
@@ -166,5 +180,7 @@ class MyRenderer implements GLSurfaceView.Renderer{
         Game.create(program);
         prev = System.currentTimeMillis();
     }
+    
+    
     
 }

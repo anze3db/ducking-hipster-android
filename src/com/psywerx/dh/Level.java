@@ -46,7 +46,7 @@ class Level {
         acum = 0;
     }
     
-    final float WAVE_PERIOD = 1000;
+    final float WAVE_PERIOD = 1100;
     
     LinkedList<Wave> waves = new LinkedList<Wave>();
     int currentWave = 0;
@@ -63,9 +63,12 @@ class Level {
 
 
     void nextWave() {
+        Wave w = null;
         if(waves.size() == currentWave)
-            return;
-        Wave w = waves.get(currentWave++);
+            w = new Wave('x');
+        else {
+            w = waves.get(currentWave++);
+        }
         int x = (int) (Math.random()*w.positions.length);
         for(int i = 0; i < w.positions.length; i++){
             switch(w.positions[i].type){

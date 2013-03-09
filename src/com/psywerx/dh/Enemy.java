@@ -40,8 +40,7 @@ public class Enemy extends PersonSprite {
     public void tick(float theta) {
         super.tick(theta);
 
-        if (position[1] > 10) {
-            
+        if (position[1] > 10 || (SceneGraph.activeObjects.size() > 20 && position[1] > 5)) {
             // This needs to get moved:
             removeMe = true;
             Game.preloadedEnemies.push(this);

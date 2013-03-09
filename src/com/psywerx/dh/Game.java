@@ -1,6 +1,5 @@
 package com.psywerx.dh;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -23,6 +22,7 @@ public class Game {
     static RestartButton restartButton;
     static ShareButton shareButton;
     private static boolean gameCreated = false;
+    static char prevState = 'M';
     
     protected static Player player1;
     protected static float position;
@@ -105,13 +105,15 @@ public class Game {
             if(Game.sound && !mp.isPlaying()) mp.start();
             break;
         case 'P':
-            if(mp.isPlaying()) mp.pause();
+            //if(mp.isPlaying()) mp.pause();
             break;
         case 'E':
-            if(mp.isPlaying()) mp.pause();
+            // if(mp.isPlaying()) mp.pause();
             bg.tick(theta);
             break;
-
+        case 'A':
+            if(mp.isPlaying()) mp.pause();
+            break;
         default:
             if(!Game.sound && mp.isPlaying()) mp.pause();
             if(Game.sound && !mp.isPlaying()) mp.start();
