@@ -2,8 +2,6 @@ package com.psywerx.dh;
 
 import com.google.analytics.tracking.android.EasyTracker;
 
-
-
 public class Enemy extends PersonSprite {
 
     private float r = 0.01f+Game.rand.nextFloat()/100;
@@ -58,7 +56,6 @@ public class Enemy extends PersonSprite {
         col.position[0] = -100f;
         col.position[1] = -100f;
         col.position[2] = 0f;
-        
         if (Utils.areColliding(this, Game.player1)) {
             if(!Game.player1.dead){
                 timeDead = 0;
@@ -86,8 +83,6 @@ public class Enemy extends PersonSprite {
             col.position[0] += (Game.player1.position[0] - position[0])/2;
             col.position[2] -= 0.01f;
             col.texture.update(theta);
-            
-            
         }
 
         this.move(0, speed[1]*theta*0.05f, 0);

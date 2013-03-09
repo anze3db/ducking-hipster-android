@@ -99,24 +99,21 @@ public class Game {
     }
 
     static void tick(Float theta) {
+        
+        if(!Game.sound && mp.isPlaying()) mp.pause();
+        if(Game.sound && !mp.isPlaying()) mp.start();
+        
         switch (Game.state) {
         case 'M':
-            if(!Game.sound && mp.isPlaying()) mp.pause();
-            if(Game.sound && !mp.isPlaying()) mp.start();
             break;
         case 'P':
-            //if(mp.isPlaying()) mp.pause();
             break;
         case 'E':
-            // if(mp.isPlaying()) mp.pause();
             bg.tick(theta);
             break;
         case 'A':
-            if(mp.isPlaying()) mp.pause();
             break;
         default:
-            if(!Game.sound && mp.isPlaying()) mp.pause();
-            if(Game.sound && !mp.isPlaying()) mp.start();
             bg.tick(theta);
             lvls.levels[currentLevel].tick(theta);
             SceneGraph.tick(theta);
