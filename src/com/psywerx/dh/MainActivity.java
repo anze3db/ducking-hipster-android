@@ -35,7 +35,6 @@ public class MainActivity extends Activity {
         setContentView(mGLView);
         
         EasyTracker.getInstance().setContext(this);
-        EasyTracker.getTracker().sendEvent("Kategorija", "Akcija", "Labela", 3000l);
     }
     
     @Override
