@@ -27,9 +27,13 @@ public class Item extends Enemy {
     s.texture.anim = new int[]{0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2};
     s.texture.animSpeed = 0f;
     s.texture.spriteOffset = 0;
-    s.size = new float[]{0.15f, 0.15f, 0.25f};
+    s.size = new float[]{0.1f, 0.1f, 0.25f};
   
     pickedUp = false;
+    
+    bb.size[0] = size[0];
+    bb.size[1] = size[1];
+    
   }
 
   @Override
@@ -45,9 +49,11 @@ public class Item extends Enemy {
       Game.top.increaseScore(10);
     }
     if (pickedUp){
-      position[2] -= speed[1] * theta * 0.212f;
-      position[1] += speed[1] * 0.5f;
+      position[2] -= theta * 0.00212f;
+      position[1] += theta * 0.0005f;
       position[0] = 0.9f * position[0];
+      s.texture.sprite = new int[]{11,10};
+      s.texture.startSprite = new int[]{11,10};
     }
     else if (bb.position[1] + bb.size[1] / 2 > Game.player1.sPosition) {
       position[2] += speed[1] * theta * 0.112f;

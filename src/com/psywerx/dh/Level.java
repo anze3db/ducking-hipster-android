@@ -86,7 +86,7 @@ class Level {
                 item.reset();
                 item.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
                 item.position[0] = (i-3)/2.9f;               
-                item.move(0, 0, 0);
+                item.move(0, 0, (float)Game.rand.nextDouble()/100000.0f);
                 SceneGraph.activeObjects.add(item);
                 break;
             case '?':
@@ -96,7 +96,7 @@ class Level {
                 e.reset();
                 e.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
                 e.position[0] = (i-3)/2.9f;
-                e.move(0, 0, 0);
+                e.move(0, 0, (float)Game.rand.nextDouble()/100000.0f);
                 SceneGraph.activeObjects.add(e);
                 break;
             case 'h':
