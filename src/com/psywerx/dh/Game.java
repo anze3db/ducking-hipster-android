@@ -38,6 +38,7 @@ public class Game {
     private static Levels lvls = new Levels();
     private static final int PRELOAD_SIZE = 1000;
     static Stack<Enemy> preloadedEnemies = new Stack<Enemy>();
+    static Stack<Item> preloadedItems = new Stack<Item>();
     public static boolean moving = false;
     public static char state = 'M';
     public static Hint hint;
@@ -55,6 +56,12 @@ public class Game {
         for(int i = 0; i < PRELOAD_SIZE; i++){
             preloadedEnemies.push(new Enemy());
         }
+        
+        preloadedItems = new Stack<Item>();
+        for(int i = 0; i < PRELOAD_SIZE; i++){
+          preloadedItems.push(new Item());
+        }
+        
         mp = MediaPlayer.create(MyRenderer.context, R.raw.dh);
         mp.setLooping(true);
         bg = new Background();
@@ -77,7 +84,9 @@ public class Game {
         Iterator<Drawable> dws = SceneGraph.activeObjects.iterator();
         while (dws.hasNext()) {
             Drawable d = dws.next();
-            if(d instanceof Enemy){
+            if(d instanceof Item){
+              Game.preloadedItems.push((Item)d);
+            } else if(d instanceof Enemy){
                 Game.preloadedEnemies.push((Enemy)d);
             }
         }
@@ -140,8 +149,8 @@ public class Game {
             break;
         case 'P':
             bg.draw();
-            menu.draw();
             SceneGraph.draw();
+            menu.draw();
             top.draw();
             menu.draw();
             continueButton.draw();
@@ -149,8 +158,8 @@ public class Game {
             break;
         case 'E':
             bg.draw();
-            menu.draw();
             SceneGraph.draw();
+            menu.draw();
             top.draw();
             menu.draw();
             restartButton.draw();
@@ -158,9 +167,9 @@ public class Game {
             break;
         default:
             bg.draw();
-            SceneGraph.draw();
             top.draw();
             menu.draw();
+            SceneGraph.draw();
             hint.draw();
             levelHints.draw();
             break;

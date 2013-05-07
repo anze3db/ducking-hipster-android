@@ -4,11 +4,11 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 public class Enemy extends PersonSprite {
 
-    private float r = 0.01f+Game.rand.nextFloat()/100;
-    private Texture colTexture = new Texture();
-    private Square col = new Square();
-    private float timeDead;
-    private boolean score = false;
+    protected float r = 0.01f+Game.rand.nextFloat()/100;
+    protected Texture colTexture = new Texture();
+    protected Square col = new Square();
+    protected float timeDead;
+    protected boolean score = false;
 
     public Enemy() {
         reset();
@@ -19,7 +19,7 @@ public class Enemy extends PersonSprite {
         
         speed[1] = 0.01f;
         resize(0.2f);
-        position[2] = 1f - r;
+        position[2] = 1;
         position[1] = -2f;
         removeMe = false;
         
@@ -39,7 +39,6 @@ public class Enemy extends PersonSprite {
     @Override
     public void tick(float theta) {
         super.tick(theta);
-
         if (position[1] > 10 || (SceneGraph.activeObjects.size() > 20 && position[1] > 5)) {
             // This needs to get moved:
             removeMe = true;
@@ -74,7 +73,6 @@ public class Enemy extends PersonSprite {
                 Game.player1.position[2] -= (0.01f + Game.player1.position[2] - position[2]);
                 Game.player1.position[1] = position[1] + 0.01f;
             }
-            
             Game.player1.dead = true;
             Game.player1.move(0,  speed[1]*theta*0.05f, 0);
             Game.player1.position[2] += speed[1] * theta * 0.112f;
@@ -84,9 +82,7 @@ public class Enemy extends PersonSprite {
             col.position[2] -= 0.01f;
             col.texture.update(theta);
         }
-
-        this.move(0, speed[1]*theta*0.05f, 0);
-        
+        this.move(0, speed[1]*theta*0.05f, speed[1] * theta * 0.001f);
     }
     @Override
     public void draw(){

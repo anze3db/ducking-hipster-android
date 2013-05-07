@@ -29,7 +29,12 @@ public class SceneGraph {
         Collections.sort(activeObjects, new Comparator<Drawable>() {
             @Override
             public int compare(Drawable d1, Drawable d2) {
-                return (d1.position[2] - d2.position[2]) < 0 ? 1 : -1;
+                if((d1 instanceof Enemy || d1 instanceof Item) && 
+                   (d2 instanceof Enemy || d2 instanceof Item) && 
+                    d1.position[1] == d2.position[1] && d1.position[0] == d2.position[0]){
+                  L.e("OMG THEY ARE THE SAME" + d1.toString());
+                }
+                return (d1.position[1] <= d2.position[1]) ? 1 : -1;
             }
         });
     }

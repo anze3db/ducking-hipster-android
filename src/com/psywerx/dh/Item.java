@@ -1,0 +1,64 @@
+package com.psywerx.dh;
+
+public class Item extends Enemy {
+  
+  private boolean pickedUp = false;
+  
+  @Override
+  public void reset() {
+    
+    
+    speed[1] = 0.01f;
+    resize(0.15f);
+    position[2] = 1;
+    position[1] = -2f;
+    removeMe = false;
+    
+    timeDead = 0f;
+    score = false;
+    
+    
+    
+    
+    s.texture.enabled = true;
+    s.texture.sprite = new int[]{9,10};
+    s.texture.startSprite = new int[]{9,10};
+    s.texture.size = new int[]{2,2};
+    s.texture.anim = new int[]{0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2};
+    s.texture.animSpeed = 0f;
+    s.texture.spriteOffset = 0;
+    s.size = new float[]{0.15f, 0.15f, 0.25f};
+  
+    pickedUp = false;
+  }
+
+  @Override
+  public void tick(float theta) {
+    if (position[1] > 20) {
+      // This needs to get moved:
+      removeMe = true;
+      Game.preloadedItems.push(this);
+    }
+
+    if (Utils.areColliding(this, Game.player1) && !pickedUp) {
+      pickedUp = true;
+      Game.top.increaseScore(10);
+    }
+    if (pickedUp){
+      position[2] -= speed[1] * theta * 0.212f;
+      position[1] += speed[1] * 0.5f;
+      position[0] = 0.9f * position[0];
+    }
+    else if (bb.position[1] + bb.size[1] / 2 > Game.player1.sPosition) {
+      position[2] += speed[1] * theta * 0.112f;
+      position[1] -= speed[1] * 0.1f;
+    }
+    col.position[0] = -100f;
+    col.position[1] = -100f;
+    col.position[2] = 0f;
+    s.texture.update(theta);
+
+    this.move(0, speed[1] * theta * 0.05f, speed[1] * theta * 0.001f);
+
+  }
+}

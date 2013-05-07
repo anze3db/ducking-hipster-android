@@ -81,6 +81,14 @@ class Level {
                 ex.move(0, 0, -1.0f*currentWave/10000.0f+(float)Game.rand.nextDouble()/100000.0f);
                 SceneGraph.activeObjects.add(ex);
                 break;
+            case 'c':
+                Item item = Game.preloadedItems.pop();
+                item.reset();
+                item.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
+                item.position[0] = (i-3)/2.9f;               
+                item.move(0, 0, 0);
+                SceneGraph.activeObjects.add(item);
+                break;
             case '?':
                 if(Math.random() < 0.5) break;
             case 'e':
@@ -88,7 +96,7 @@ class Level {
                 e.reset();
                 e.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
                 e.position[0] = (i-3)/2.9f;
-                e.move(0, 0, -1.0f*currentWave/10000.0f+(float)Game.rand.nextDouble()/100000.0f);
+                e.move(0, 0, 0);
                 SceneGraph.activeObjects.add(e);
                 break;
             case 'h':
