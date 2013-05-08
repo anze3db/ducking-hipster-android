@@ -20,7 +20,8 @@ public class GlProgram {
     protected int modelMatrixLoc;
     protected int samplerLoc;
     protected int isTextLoc;
-    protected int texture;
+    private final int[] textSets = new int[]{R.drawable.text, R.drawable.text1, R.drawable.text2};
+    protected int[] textures = new int[textSets.length];
     
     private Context context;
 
@@ -46,8 +47,9 @@ public class GlProgram {
         modelMatrixLoc      = GLES20.glGetUniformLocation(program, "uniform_Model");
         samplerLoc          = GLES20.glGetUniformLocation(program, "s_texture");
         isTextLoc           = GLES20.glGetUniformLocation(program, "u_isText");
-        
-        texture = loadTexture();
+        for (int i = 0; i < textSets.length; i++ ) {
+          textures[i] = loadTexture(textSets[i]); 
+        }
     }
     private String readRaw(int id){
         try {
@@ -62,14 +64,14 @@ public class GlProgram {
             return "";
         }
     }
-    private int loadTexture() {
+    private int loadTexture(int textureResource) {
         int[] texture = {0};
         GLES20.glPixelStorei(GLES20.GL_UNPACK_ALIGNMENT, 1);
         GLES20.glGenTextures(1, texture, 0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[0]);
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
-        Bitmap image = BitmapFactory.decodeResource(context.getResources(), R.drawable.text, options);
+        Bitmap image = BitmapFactory.decodeResource(context.getResources(), textureResource, options);
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, image, 0);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR_MIPMAP_NEAREST);

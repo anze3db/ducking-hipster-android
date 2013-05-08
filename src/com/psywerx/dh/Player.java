@@ -31,13 +31,13 @@ public class Player extends PersonSprite {
         
         if(Game.moving)
             if(Math.abs(direction[0]-position[0]) < 0.0001){
-                speed = new float[]{0f+0.5f*speed[0], 0f};
+                speed = new float[]{0.5f*speed[0], 0f};
             }
             else{
                 speed = new float[]{theta*(direction[0]*1.8f-position[0]), 0f};
             }
         else{
-            speed = new float[]{0f+0.5f*speed[0], 0f};
+            speed = new float[]{0.5f*speed[0], 0f};
         }
         if(direction[0] == 0 && colide == 0) this.speed[0] = 0;
         if(direction[1] == 0 && colide == 0) this.speed[1] = 0;

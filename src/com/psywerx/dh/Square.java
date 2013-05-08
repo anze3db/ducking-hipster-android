@@ -74,7 +74,7 @@ public class Square extends Drawable {
         GLES20.glEnableVertexAttribArray(p.texLoc);
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, p.texture);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, p.textures[Game.level]);
 
         GLES20.glUniform1f(p.isTextLoc, texture.enabled ? 1.0f : 0.0f);
 

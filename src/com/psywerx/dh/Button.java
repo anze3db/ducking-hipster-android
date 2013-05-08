@@ -5,7 +5,7 @@ import android.opengl.Matrix;
 
 public class Button extends Drawable {
     protected Square s;
-    private boolean canTrigger;
+    public boolean canTrigger;
     float[] id = new float[16];
 
     Button() {
@@ -37,6 +37,9 @@ public class Button extends Drawable {
         if (x > s.position[0] - s.size[0] && x < s.position[0] + s.size[0] && y > s.position[1] - s.size[1]
                 && y < s.position[1] + s.size[1]) {
             return canTrigger;
+        }
+        else{
+          canTrigger = false;
         }
         return false;
 

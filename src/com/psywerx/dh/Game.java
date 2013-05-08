@@ -19,6 +19,7 @@ public class Game {
     static Menu menu;
     static PlayButton playButton;
     static ContinueButton continueButton;
+    static PauseButton pauseButton;
     static RestartButton restartButton;
     static ShareButton shareButton;
     private static boolean gameCreated = false;
@@ -47,6 +48,7 @@ public class Game {
     static SoundButton soundButton;
     public static boolean sound = true;
     static MediaPlayer mp;
+    protected static int level = 0;
 
     static void create(GlProgram program) {
         if(gameCreated) return;
@@ -69,6 +71,7 @@ public class Game {
         hint = new Hint();
         levelHints = new LevelHints();
         playButton = new PlayButton();
+        pauseButton = new PauseButton();
         continueButton = new ContinueButton();
         restartButton = new RestartButton();
         shareButton = new ShareButton();
@@ -93,7 +96,7 @@ public class Game {
         SceneGraph.activeObjects = new LinkedList<Drawable>();
         top = new ScoreBoard();
         //SceneGraph.activeObjects.add(top);
-        
+        level = 0;
         player1 = new Player();
         player1.move(0.5f, 0, 0);
         SceneGraph.activeObjects.add(player1);
@@ -138,7 +141,7 @@ public class Game {
     
     static void draw() {
         resetFrame();
-
+        
         switch (Game.state) {
         case 'M':
             bg.draw();
@@ -172,6 +175,7 @@ public class Game {
             SceneGraph.draw();
             hint.draw();
             levelHints.draw();
+            pauseButton.draw();
             break;
         }
 
@@ -185,7 +189,7 @@ public class Game {
         GLES20.glUseProgram(program.program);
         GLES20.glUniform1i(program.samplerLoc, 0);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, program.texture);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, program.textures[Game.level ]);
 
         float ratio = WIDTH / (float) HEIGHT;
 

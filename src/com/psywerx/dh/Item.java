@@ -24,15 +24,15 @@ public class Item extends Enemy {
     s.texture.sprite = new int[]{9,10};
     s.texture.startSprite = new int[]{9,10};
     s.texture.size = new int[]{2,2};
-    s.texture.anim = new int[]{0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2};
+    s.texture.anim = new int[]{1,1};
     s.texture.animSpeed = 0f;
     s.texture.spriteOffset = 0;
     s.size = new float[]{0.1f, 0.1f, 0.25f};
   
     pickedUp = false;
     
-    bb.size[0] = size[0];
-    bb.size[1] = size[1];
+    bb.size[0] = size[0]*1.2f;
+    bb.size[1] = size[1]*1.2f;
     
   }
 

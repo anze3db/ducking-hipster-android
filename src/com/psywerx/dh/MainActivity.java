@@ -64,7 +64,6 @@ public class MainActivity extends Activity {
 
 class MyGLSurfaceView extends GLSurfaceView {
     
-    private boolean pausePossibility = false;
     private Context c;
 
     public MyGLSurfaceView(Context context){
@@ -99,12 +98,10 @@ class MyGLSurfaceView extends GLSurfaceView {
                 Game.continueButton.onDown(position, positionY);
                 Game.soundButton.onDown(position, positionY);
             }
-
-            else if(x < 120 && y < 120){
-                pausePossibility = true;
-                break;
+            else if(Game.state == 'G'){
+              Game.pauseButton.onDown(position, positionY);
             }
-            pausePossibility = false;
+            if(Game.pauseButton.canTrigger) break;
             Game.moving = true;
             Game.position = position;
             Game.player1.direction[0] = position;
@@ -113,12 +110,13 @@ class MyGLSurfaceView extends GLSurfaceView {
             break;
             
         case MotionEvent.ACTION_MOVE:
-            if(pausePossibility) break;
+            if(Game.pauseButton.canTrigger) break;
             Game.position = position;
            
             Game.player1.direction[0] = position;
             break;
         case MotionEvent.ACTION_UP:
+            if(Game.state == 'G' && Game.pauseButton.onUp(position, positionY))  Game.state = 'P';
             if(Game.state == 'M'){
                 if(Game.playButton.onUp(position, positionY)) Game.reset();
                 if(Game.soundButton.onUp(position, positionY))  toggleSound();
@@ -130,10 +128,6 @@ class MyGLSurfaceView extends GLSurfaceView {
             else if(Game.state == 'E'){
                 if(Game.restartButton.onUp(position, positionY))  Game.reset();
                 if(Game.shareButton.onUp(position, positionY)) share();
-            }
-            if(pausePossibility && x < 120 && y < 120){
-                Game.state = 'P';
-                
             }
             Game.moving = false;
             Game.position = 0;
