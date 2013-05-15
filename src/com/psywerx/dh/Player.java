@@ -29,16 +29,8 @@ public class Player extends PersonSprite {
         
         super.tick(theta);
         
-        if(Game.moving)
-            if(Math.abs(direction[0]-position[0]) < 0.0001){
-                speed = new float[]{0.5f*speed[0], 0f};
-            }
-            else{
-                speed = new float[]{theta*(direction[0]*1.8f-position[0]), 0f};
-            }
-        else{
-            speed = new float[]{0.5f*speed[0], 0f};
-        }
+        speed = new float[]{theta*(direction[0]) * 0.4f + 0.6f*speed[0], 0f};
+        
         if(direction[0] == 0 && colide == 0) this.speed[0] = 0;
         if(direction[1] == 0 && colide == 0) this.speed[1] = 0;
         if(this.direction[0] != 0 && this.direction[1] != 0 && this.colide == 0){
@@ -54,7 +46,7 @@ public class Player extends PersonSprite {
 
         if(!dead){
             // You can't move if you're dead...
-            this.move(speed[0]/900, 0, 0);
+            this.move(speed[0]/400, 0, 0);
         }
     }
 }

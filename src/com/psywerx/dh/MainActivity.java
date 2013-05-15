@@ -3,9 +3,6 @@ package com.psywerx.dh;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-
-import com.google.analytics.tracking.android.EasyTracker;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +12,8 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
+
+//import com.google.analytics.tracking.android.EasyTracker;
 
 public class MainActivity extends Activity {
 
@@ -34,14 +33,14 @@ public class MainActivity extends Activity {
         
         setContentView(mGLView);
         
-        EasyTracker.getInstance().setContext(this);
+//        EasyTracker.getInstance().setContext(this);
     }
     
     @Override
     protected void onStop() {
         super.onStop();
         
-        EasyTracker.getInstance().activityStop(this);
+//        EasyTracker.getInstance().activityStop(this);
         
         Game.prevState = Game.state;
         Game.state = 'A';
@@ -53,7 +52,7 @@ public class MainActivity extends Activity {
     protected void onStart() {
         super.onStart();
         
-        EasyTracker.getInstance().activityStart(this);
+//        EasyTracker.getInstance().activityStart(this);
         
         Game.state = Game.prevState;
         if(Game.mp != null && Game.sound){
@@ -81,6 +80,16 @@ class MyGLSurfaceView extends GLSurfaceView {
         float position = (x * 2f / Game.WIDTH - 1.0f);
         float positionY =1f-(y*2/(float)Game.HEIGHT);
         
+
+        if(e.getPointerCount() > 1){
+          Game.player1.direction[0] = 0;
+        }
+        else{
+          float pointerPos = e.getX();
+          pointerPos = (pointerPos * 2f / Game.WIDTH - 1.0f);
+          Game.player1.direction[0] = pointerPos > 0 ? 1 : -1;
+        }
+        Game.position = Game.player1.position[0];
         
         
         switch(e.getAction()){
@@ -104,6 +113,7 @@ class MyGLSurfaceView extends GLSurfaceView {
             if(Game.pauseButton.canTrigger) break;
             Game.moving = true;
             Game.position = position;
+            
             Game.player1.direction[0] = position;
             
             
@@ -111,9 +121,6 @@ class MyGLSurfaceView extends GLSurfaceView {
             
         case MotionEvent.ACTION_MOVE:
             if(Game.pauseButton.canTrigger) break;
-            Game.position = position;
-           
-            Game.player1.direction[0] = position;
             break;
         case MotionEvent.ACTION_UP:
             if(Game.state == 'G' && Game.pauseButton.onUp(position, positionY))  Game.state = 'P';

@@ -27,7 +27,7 @@ public class Background extends Drawable {
           clouds[i] = new Square();
           clouds[i].color = new float[] { 0, 0, 0, 1 };
           clouds[i].size = new float[] { 1f, 1, 0f };
-          clouds[i].position = new float[] { (float)(Math.random()-0.5)*30, 25, 29f - i + (float)(Math.random()*3)/100 };
+          clouds[i].position = new float[] { (float)(Math.random()-0.5)*30, 29-i, 29f-i };
           
           clouds[i].texture.enabled = true;
           int off = (int)(Math.random()*2);
