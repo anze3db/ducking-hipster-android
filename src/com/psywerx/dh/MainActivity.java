@@ -35,29 +35,51 @@ public class MainActivity extends Activity {
         
         EasyTracker.getInstance().setContext(this);
     }
-    
+
+    private void pauseGame() {
+	if(Game.state == 'A') return;
+	
+	Game.prevState = Game.state;
+	Game.state = 'A';
+	if (Game.mp != null)
+	    Game.mp.pause();
+    }
+    private void resumeGame(){
+	if(Game.state != 'A') return;
+	MyRenderer.prev = System.currentTimeMillis();
+	Game.state = Game.prevState;
+        if(Game.mp != null && Game.sound){
+            Game.mp.start();
+        }
+    }
     @Override
     protected void onStop() {
         super.onStop();
         
+        pauseGame();
         EasyTracker.getInstance().activityStop(this);
         
-        Game.prevState = Game.state;
-        Game.state = 'A';
-        if(Game.mp != null)
-            Game.mp.pause();
     }
     
     @Override
+    protected void onPause() {
+        super.onPause();
+        
+        pauseGame();
+        EasyTracker.getInstance().activityStop(this);
+        
+    }
+    @Override
+    protected void onResume(){
+	super.onResume();
+	resumeGame();
+	EasyTracker.getInstance().activityStart(this);
+    }
+    @Override
     protected void onStart() {
         super.onStart();
-        
+        resumeGame();
         EasyTracker.getInstance().activityStart(this);
-        
-        Game.state = Game.prevState;
-        if(Game.mp != null && Game.sound){
-            Game.mp.start();
-        }
     }
 }
 
@@ -162,7 +184,7 @@ class MyGLSurfaceView extends GLSurfaceView {
 class MyRenderer implements GLSurfaceView.Renderer{
 
     static protected Context context;
-    private long prev;
+    static public long prev;
 
     public MyRenderer(Context context) {
         MyRenderer.context = context;
