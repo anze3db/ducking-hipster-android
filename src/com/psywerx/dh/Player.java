@@ -21,6 +21,7 @@ public class Player extends PersonSprite {
         dead = false;
     }
     void nextSkin(){
+	if(s.texture.startSprite[1] > 10) return;
         s.texture.startSprite[1] += 3;
     }
     

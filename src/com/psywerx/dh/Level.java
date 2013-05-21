@@ -82,6 +82,7 @@ class Level {
                 SceneGraph.activeObjects.add(ex);
                 break;
             case 'c':
+        	if(Math.random() < 0.2) break;
                 Item item = Game.preloadedItems.pop();
                 item.reset();
                 item.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;

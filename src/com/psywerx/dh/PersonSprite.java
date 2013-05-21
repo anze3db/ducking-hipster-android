@@ -14,7 +14,7 @@ public class PersonSprite extends Drawable {
 
     protected int spriteOffset = 0; //0 - player, 0 > - monsters 
     Square bb; // Bounding box
-    
+
     public PersonSprite(){
         s = new Square();
         size = new float[]{0.2f, 0.2f, 0.2f};
