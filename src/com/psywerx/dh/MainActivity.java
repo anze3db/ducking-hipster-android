@@ -3,6 +3,7 @@ package com.psywerx.dh;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +14,7 @@ import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
-//import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class MainActivity extends Activity {
 
@@ -22,7 +23,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
@@ -33,14 +33,14 @@ public class MainActivity extends Activity {
         
         setContentView(mGLView);
         
-//        EasyTracker.getInstance().setContext(this);
+        EasyTracker.getInstance().setContext(this);
     }
     
     @Override
     protected void onStop() {
         super.onStop();
         
-//        EasyTracker.getInstance().activityStop(this);
+        EasyTracker.getInstance().activityStop(this);
         
         Game.prevState = Game.state;
         Game.state = 'A';
@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
     protected void onStart() {
         super.onStart();
         
-//        EasyTracker.getInstance().activityStart(this);
+        EasyTracker.getInstance().activityStart(this);
         
         Game.state = Game.prevState;
         if(Game.mp != null && Game.sound){
