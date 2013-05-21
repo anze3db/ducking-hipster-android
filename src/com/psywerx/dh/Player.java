@@ -29,7 +29,7 @@ public class Player extends PersonSprite {
         
         super.tick(theta);
         
-        speed = new float[]{theta*(direction[0]) * 0.4f + 0.6f*speed[0], 0f};
+        speed = new float[]{theta*(direction[0]) * 0.3f + 0.7f*speed[0], 0f};
         
         if(direction[0] == 0 && colide == 0) this.speed[0] = 0;
         if(direction[1] == 0 && colide == 0) this.speed[1] = 0;

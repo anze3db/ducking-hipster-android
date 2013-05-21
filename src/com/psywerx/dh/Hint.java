@@ -11,23 +11,22 @@ public class Hint extends Drawable {
     float[] id = new float[16];
     Hint(){
         s = new Square();
-        s.size = new float[]{0.8f, 0.8f*(3f/19f), 1};
+        s.size = new float[]{0.9f, 0.9f*(3f/30f), 1};
         s.color = new float[]{0,0,0,1};
         s.position = new float[]{0.0f, -1.5f, -0.5f};
         s.texture.enabled = true;
-        s.texture.sprite = new int[]{41,36};
-        s.texture.startSprite = new int[]{41,36};
-        s.texture.size = new int[]{19,3};
+        s.texture.sprite = new int[]{40,36};
+        s.texture.startSprite = new int[]{40,36};
+        s.texture.size = new int[]{21,3};
         s.texture.anim = new int[]{0,};
     }
-    
     public void tick(float theta){
         
         if(active){
             s.position[1] += theta*0.001f;
             timeout = 0f;
         }
-        if(s.position[1] > 0){
+        if(s.position[1] > -0.5f){
             active = false;
             timeout += theta;
         }
