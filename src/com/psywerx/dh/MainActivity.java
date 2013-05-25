@@ -3,7 +3,6 @@ package com.psywerx.dh;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -14,25 +13,33 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.example.games.basegameutils.BaseGameActivity;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseGameActivity {
 
     private MyGLSurfaceView mGLView;
 
+    
+    public void login(){
+		beginUserInitiatedSignIn();
+    }
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
 	requestWindowFeature(Window.FEATURE_NO_TITLE);
+	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	
+	super.onCreate(savedInstanceState);
 
 	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 		WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	mGLView = new MyGLSurfaceView(this);
 
-	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 	setContentView(mGLView);
 
 	EasyTracker.getInstance().setContext(this);
+	
     }
 
     private void pauseGame() {
@@ -86,6 +93,17 @@ public class MainActivity extends Activity {
 	super.onStart();
 	resumeGame();
 	EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    public void onSignInFailed() {
+	L.d("Failed");		
+    }
+
+    @Override
+    public void onSignInSucceeded() {
+	// TODO Auto-generated method stub
+	
     }
 }
 
@@ -149,6 +167,10 @@ class MyGLSurfaceView extends GLSurfaceView {
 	    if (Game.state == 'G' && Game.pauseButton.onUp(position, positionY))
 		Game.state = 'P';
 	    if (Game.state == 'M') {
+		if(positionY < 0){
+		    L.d("Sign in");
+		    ((MainActivity)c).login();
+		}
 		if (Game.playButton.onUp(position, positionY))
 		    Game.reset();
 		if (Game.soundButton.onUp(position, positionY))
