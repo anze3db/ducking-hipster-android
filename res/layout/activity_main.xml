@@ -4,4 +4,23 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
+    <Button
+        android:id="@+id/sign_out_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="52dp"
+        android:layout_marginTop="159dp"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/sign_out_button"
+        android:layout_marginTop="56dp"
+        android:text="Sign in" />
+
 </RelativeLayout>

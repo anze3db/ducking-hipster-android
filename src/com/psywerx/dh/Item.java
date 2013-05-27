@@ -47,6 +47,8 @@ public class Item extends Enemy {
     if (Utils.areColliding(this, Game.player1) && !pickedUp) {
       pickedUp = true;
       Game.top.increaseScore(10);
+      ((MainActivity)MyRenderer.context).unlockAchievement(R.string.ach_bitcoin);
+      ((MainActivity)MyRenderer.context).incrementAchievement(R.string.ach_bitcoin10, 1);
     }
     if (pickedUp){
       position[2] -= theta * 0.00212f;

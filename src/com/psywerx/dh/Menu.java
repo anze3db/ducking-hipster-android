@@ -11,14 +11,14 @@ public class Menu extends Drawable {
     
     public Menu(){
         
-        s = new Square();
-        s.size = new float[]{0.6f, 0.6f*(11f/19f), 1};
+	s = new Square();
+        s.size = new float[]{0, 1.0f*(22f/29f), 1};
         s.color = new float[]{0,0,0,1};
-        s.position = new float[]{0.0f, -0.2f, -0.5f};
+        s.position = new float[]{0.0f, 0.0f, -0.5f};
         s.texture.enabled = true;
         s.texture.sprite = new int[]{41,0};
         s.texture.startSprite = new int[]{41,0};
-        s.texture.size = new int[]{19,11};
+        s.texture.size = new int[]{22,29};
         s.texture.anim = new int[]{0,};
         
         
@@ -31,8 +31,8 @@ public class Menu extends Drawable {
             s.size[0] = 0f; s.size[1] = 0f;
             break;
         default:
-            s.size[0] = s.size[0]*0.9f + 0.1f*0.6f;
-            s.size[1] = s.size[1]*0.9f + 0.1f*0.6f*(11f/19f);
+            s.size[0] = s.size[0]*0.9f + 0.1f*1.0f;
+            s.size[1] = 1.3f*(22f/29f);
         }
     }
     
@@ -47,12 +47,12 @@ public class Menu extends Drawable {
             s.texture.startSprite[1] = 0;
             break;
         case 'P':
-            s.texture.sprite[1] = 12;
-            s.texture.startSprite[1] = 12;
+            s.texture.sprite[1] = 0;
+            s.texture.startSprite[1] = 0;
             break;
         case 'E':
-            s.texture.sprite[1] = 24;
-            s.texture.startSprite[1] = 24;
+            s.texture.sprite[1] = 0;
+            s.texture.startSprite[1] = 0;
             break;
         }
         s.draw();

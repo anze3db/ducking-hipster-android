@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_id">53048342038.apps.googleusercontent.com</string>
-
-    <string name="leaderboard">CgkIluy1z8UBEAIQAg</string>
+    <string name="app_id">965903423568</string>
+    <string name="leaderboard">CgkI0LDSoo4cEAIQAQ</string>
+    
+    
+    <string name="ach_bitcoin">CgkI0LDSoo4cEAIQAw</string>
+    <string name="ach_bitcoin10">CgkI0LDSoo4cEAIQBA</string>
 </resources>
