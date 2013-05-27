@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.example.games.basegameutils.BaseGameActivity;
@@ -18,12 +19,54 @@ import com.google.example.games.basegameutils.BaseGameActivity;
 public class MainActivity extends BaseGameActivity {
 
     private MyGLSurfaceView mGLView;
-
+    // request codes we use when invoking an external activity
+    final int RC_RESOLVE = 5000, RC_UNUSED = 5001;
     
     public void login(){
-		beginUserInitiatedSignIn();
+	runOnUiThread(new Runnable() {
+	    
+	    @Override
+	    public void run() {
+		if(mHelper.isSignedIn()){
+		    signOut();
+		    Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
+		    
+		}
+		else{
+		    beginUserInitiatedSignIn();
+		}
+		
+	    }
+	});
     }
     
+    public void showScores() {
+	runOnUiThread(new Runnable() {
+
+	    @Override
+	    public void run() {
+		startActivityForResult(getGamesClient()
+			.getAllLeaderboardsIntent(), RC_UNUSED);
+	    }
+
+	});
+    }
+
+    public void newScore(final int score) {
+	runOnUiThread(new Runnable() {
+
+	    @Override
+	    public void run() {
+		if (isSignedIn()) {
+
+		    getGamesClient().submitScore(
+			    getString(R.string.leaderboard), score);
+
+		}
+	    }
+	});
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -34,7 +77,6 @@ public class MainActivity extends BaseGameActivity {
 	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 		WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	mGLView = new MyGLSurfaceView(this);
-
 
 	setContentView(mGLView);
 
@@ -102,8 +144,7 @@ public class MainActivity extends BaseGameActivity {
 
     @Override
     public void onSignInSucceeded() {
-	// TODO Auto-generated method stub
-	
+	L.d("Why not zidberg?");		
     }
 }
 
@@ -183,8 +224,9 @@ class MyGLSurfaceView extends GLSurfaceView {
 	    } else if (Game.state == 'E') {
 		if (Game.restartButton.onUp(position, positionY))
 		    Game.reset();
-		if (Game.shareButton.onUp(position, positionY))
-		    share();
+		if (Game.shareButton.onUp(position, positionY)){
+		    ((MainActivity)c).showScores();
+		}
 	    }
 	    Game.moving = false;
 	    Game.position = 0;
