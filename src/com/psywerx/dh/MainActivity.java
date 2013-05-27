@@ -21,7 +21,10 @@ public class MainActivity extends BaseGameActivity {
     private MyGLSurfaceView mGLView;
     // request codes we use when invoking an external activity
     final int RC_RESOLVE = 5000, RC_UNUSED = 5001;
-    
+    public boolean isSignedIn(){
+	
+	return mHelper.isSignedIn();
+    }
     public void login(){
 	runOnUiThread(new Runnable() {
 	    
@@ -39,14 +42,48 @@ public class MainActivity extends BaseGameActivity {
 	    }
 	});
     }
+    public void showAchievements(){
+	runOnUiThread(new Runnable() {
+
+	    @Override
+	    public void run() {
+		startActivityForResult(getGamesClient().getAchievementsIntent(), RC_UNUSED);
+	    }
+
+	});
+    }
+    public void unlockAchievement(final int id){
+	runOnUiThread(new Runnable() {
+
+	    @Override
+	    public void run() {
+		if (isSignedIn()) {
+		    getGamesClient().unlockAchievement(getString(id));
+		}
+	    }
+
+	});
+    }
+    public void incrementAchievement(final int id, final int amount){
+	runOnUiThread(new Runnable() {
+
+	    @Override
+	    public void run() {
+		if (isSignedIn()) {
+		    getGamesClient().incrementAchievement(getString(id), amount);
+		}
+	    }
+
+	});
+    }
+    
     
     public void showScores() {
 	runOnUiThread(new Runnable() {
 
 	    @Override
 	    public void run() {
-		startActivityForResult(getGamesClient()
-			.getAllLeaderboardsIntent(), RC_UNUSED);
+		startActivityForResult(getGamesClient().getLeaderboardIntent(getString(R.string.leaderboard)), RC_UNUSED);
 	    }
 
 	});
@@ -223,7 +260,8 @@ class MyGLSurfaceView extends GLSurfaceView {
 		    toggleSound();
 	    } else if (Game.state == 'E') {
 		if (Game.restartButton.onUp(position, positionY))
-		    Game.reset();
+		    //Game.reset();
+		    ((MainActivity)c).showAchievements();
 		if (Game.shareButton.onUp(position, positionY)){
 		    ((MainActivity)c).showScores();
 		}
@@ -255,14 +293,18 @@ class MyGLSurfaceView extends GLSurfaceView {
 class MyRenderer implements GLSurfaceView.Renderer {
 
     static protected Context context;
+    static protected MainActivity ma;
     static public long prev;
 
     public MyRenderer(Context context) {
 	MyRenderer.context = context;
+	MyRenderer.ma = (MainActivity)context;
     }
 
     @Override
     public void onDrawFrame(GL10 unused) {
+	
+	Game.isSignedIn = MyRenderer.ma.isSignedIn();
 
 	long now = System.currentTimeMillis();
 

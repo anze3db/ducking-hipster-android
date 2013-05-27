@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Stack;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
@@ -24,6 +23,7 @@ public class Game {
     static RestartButton restartButton;
     static ShareButton shareButton;
     private static boolean gameCreated = false;
+    public static boolean isSignedIn = false;
     static char prevState = 'M';
     
     protected static Player player1;
@@ -50,6 +50,7 @@ public class Game {
     public static boolean sound = true;
     static MediaPlayer mp;
     protected static int level = 0;
+    private static SignInButton signInButton;
 
     static void create(GlProgram program) {
         if(gameCreated) return;
@@ -77,6 +78,7 @@ public class Game {
         restartButton = new RestartButton();
         shareButton = new ShareButton();
         soundButton = new SoundButton();
+        signInButton = new SignInButton();
         //SceneGraph.activeObjects.add(bg);
         
         Game.reset();
@@ -145,27 +147,29 @@ public class Game {
         
         switch (Game.state) {
         case 'M':
-            bg.draw();
-            SceneGraph.draw();
+//            bg.draw();
+//            SceneGraph.draw();
             menu.draw();
+            if(!Game.isSignedIn)
+            signInButton.draw();
             playButton.draw();
             soundButton.draw();
             break;
         case 'P':
-            bg.draw();
-            SceneGraph.draw();
+//            bg.draw();
+//            SceneGraph.draw();
+//            top.draw();
             menu.draw();
-            top.draw();
-            menu.draw();
+            signInButton.draw();
             continueButton.draw();
             soundButton.draw();
             break;
         case 'E':
-            bg.draw();
-            SceneGraph.draw();
+//            bg.draw();
+//            SceneGraph.draw();
+//            top.draw();
             menu.draw();
-            top.draw();
-            menu.draw();
+            signInButton.draw();
             restartButton.draw();
             shareButton.draw();
             break;
