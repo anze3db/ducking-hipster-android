@@ -22,7 +22,7 @@ public class Game {
     static PauseButton pauseButton;
     static RestartButton restartButton;
     static ShareButton shareButton;
-    private static boolean gameCreated = false;
+    static boolean gameCreated = false;
     static char prevState = 'M';
     
     protected static Player player1;

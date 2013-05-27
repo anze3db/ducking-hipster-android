@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
 	if (Game.mp != null)
 	    Game.mp.pause();
 
-	if (Game.state == 'A')
+	if (Game.state != 'G')
 	    return;
 
 	Game.prevState = Game.state;
@@ -103,7 +103,7 @@ class MyGLSurfaceView extends GLSurfaceView {
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-
+	if(!Game.gameCreated) return true;
 	float x = e.getX();
 	float y = e.getY();
 	float position = (x * 2f / Game.WIDTH - 1.0f);
