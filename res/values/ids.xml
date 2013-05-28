@@ -1,8 +1,15 @@
 <resources>
     <string name="app_id">965903423568</string>
     <string name="leaderboard">CgkI0LDSoo4cEAIQAQ</string>
-    
-    
+
+    <string name="ach_scarf">CgkI0LDSoo4cEAIQBw</string>
+    <string name="ach_hat">CgkI0LDSoo4cEAIQCA</string>
+    <string name="ach_glasses">CgkI0LDSoo4cEAIQCQ</string>
     <string name="ach_bitcoin">CgkI0LDSoo4cEAIQAw</string>
     <string name="ach_bitcoin10">CgkI0LDSoo4cEAIQBA</string>
+    <string name="ach_maniac">CgkI0LDSoo4cEAIQCw</string>
+    <string name="ach_master">CgkI0LDSoo4cEAIQDA</string>
+    <string name="ach_night">CgkI0LDSoo4cEAIQAg</string>
+    <string name="ach_toocool">CgkI0LDSoo4cEAIQCg</string>
+    <string name="ach_ultimate">CgkI0LDSoo4cEAIQDQ</string>
 </resources>

@@ -31,7 +31,6 @@ public class Background extends Drawable {
           
           clouds[i].texture.enabled = true;
           int off = (int)(Math.random()*2);
-          L.e(off+"");
           clouds[i].texture.sprite = new int[]{9+off*2,12};
           clouds[i].texture.startSprite = new int[]{9+off*2,12};
           clouds[i].texture.size = new int[] { 2, 2 };

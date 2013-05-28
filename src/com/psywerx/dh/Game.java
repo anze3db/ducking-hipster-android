@@ -26,6 +26,8 @@ public class Game {
     static boolean gameCreated = false;
     public static boolean isSignedIn = false;
     static char prevState = 'M';
+    public static int num_picked_up = 0;
+    public static int num_changed = 0;
     
     protected static Player player1;
     protected static float position;
@@ -104,6 +106,8 @@ public class Game {
                 Game.preloadedEnemies.push((Enemy)d);
             }
         }
+        num_changed = 0;
+        num_picked_up = 0;
         SceneGraph.activeObjects = new LinkedList<Drawable>();
         top = new ScoreBoard();
         //SceneGraph.activeObjects.add(top);

@@ -4,6 +4,7 @@ public class Item extends Enemy {
   
   private boolean pickedUp = false;
   
+  
   @Override
   public void reset() {
     
@@ -16,9 +17,6 @@ public class Item extends Enemy {
     
     timeDead = 0f;
     score = false;
-    
-    
-    
     
     s.texture.enabled = true;
     s.texture.sprite = new int[]{9,10};
@@ -53,6 +51,9 @@ public class Item extends Enemy {
       Game.top.increaseScore(10);
       ((MainActivity)MyRenderer.context).unlockAchievement(R.string.ach_bitcoin);
       ((MainActivity)MyRenderer.context).incrementAchievement(R.string.ach_bitcoin10, 1);
+      ((MainActivity)MyRenderer.context).incrementAchievement(R.string.ach_maniac, 1);
+      ((MainActivity)MyRenderer.context).incrementAchievement(R.string.ach_master, 1);
+      Game.num_picked_up++;
     }
     if (pickedUp){
       position[2] -= theta * 0.00212f;

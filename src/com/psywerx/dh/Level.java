@@ -103,6 +103,30 @@ class Level {
             case 'h':
                 Game.levelHints.nextHint();
                 Game.player1.nextSkin();
+                Game.num_changed++;
+                
+                if(Game.num_changed == 1){
+          	  ((MainActivity)MyRenderer.context).unlockAchievement(R.string.ach_scarf);
+          	  if(Game.num_picked_up == 0){
+          	      ((MainActivity)MyRenderer.context).unlockAchievement(R.string.ach_toocool);
+          	  }
+                }
+                if(Game.num_changed == 2){
+          	  ((MainActivity)MyRenderer.context).unlockAchievement(R.string.ach_hat);
+          	  
+                }
+                if(Game.num_changed == 3){
+          	  ((MainActivity)MyRenderer.context).unlockAchievement(R.string.ach_glasses);
+          	  
+                }
+                if(Game.num_changed == 4){
+          	  ((MainActivity)MyRenderer.context).unlockAchievement(R.string.ach_night);
+          	  
+                }
+                if(Game.num_changed == 5){
+          	  ((MainActivity)MyRenderer.context).unlockAchievement(R.string.ach_ultimate);
+          	  
+                }
                 break;
             case 'l':
               Game.level += 1;

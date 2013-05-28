@@ -4,7 +4,6 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -120,7 +119,6 @@ public class MainActivity extends BaseGameActivity {
 	EasyTracker.getInstance().setContext(this);
 	
     }
-
     private void pauseGame() {
 	if (Game.mp != null)
 	    Game.mp.pause();
@@ -129,14 +127,10 @@ public class MainActivity extends BaseGameActivity {
 	    return;
 
 	Game.prevState = Game.state;
-	Game.state = 'A';
     }
 
     private void resumeGame() {
-	if (Game.state != 'A')
-	    return;
 	MyRenderer.prev = System.currentTimeMillis();
-	Game.state = Game.prevState;
 	if (Game.mp != null && Game.sound) {
 	    Game.mp.start();
 	}
@@ -176,12 +170,10 @@ public class MainActivity extends BaseGameActivity {
 
     @Override
     public void onSignInFailed() {
-	L.d("Failed");		
     }
 
     @Override
     public void onSignInSucceeded() {
-	L.d("Why not zidberg?");		
     }
 }
 
@@ -283,17 +275,6 @@ class MyGLSurfaceView extends GLSurfaceView {
 	Game.sound = !Game.sound;
 
     }
-
-    private void share() {
-	String message = String
-		.format("I've reached level %d with a score of %d in #duckinghipster for Android!",
-			Game.levelHints.progress + 1, Game.top.score);
-	Intent share = new Intent(Intent.ACTION_SEND);
-	share.setType("text/plain");
-	share.putExtra(Intent.EXTRA_TEXT, message);
-	c.startActivity(Intent.createChooser(share, "Share your score"));
-    }
-
 }
 
 class MyRenderer implements GLSurfaceView.Renderer {
