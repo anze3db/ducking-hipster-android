@@ -220,15 +220,20 @@ class MyGLSurfaceView extends GLSurfaceView {
 	case MotionEvent.ACTION_DOWN:
 	    if (Game.state == 'M') {
 		Game.playButton.onDown(position, positionY);
-		Game.soundButton.onDown(position, positionY);
 	    }
-	    if (Game.state == 'E') {
-		Game.restartButton.onDown(position, positionY);
-		Game.shareButton.onDown(position, positionY);
-	    } else if (Game.state == 'P') {
+	    if(Game.state == 'P'){
 		Game.continueButton.onDown(position, positionY);
+	    }
+	    if(Game.state == 'E'){
+		Game.restartButton.onDown(position, positionY);
+	    }
+	    if (Game.state != 'G') {
 		Game.soundButton.onDown(position, positionY);
-	    } else if (Game.state == 'G') {
+		Game.shareButton.onDown(position, positionY);
+		Game.achievementsButton.onDown(position, positionY);
+		Game.signInButton.onDown(position, positionY);
+	    }
+	    if (Game.state == 'G') {
 		Game.pauseButton.onDown(position, positionY);
 	    }
 	    if (Game.pauseButton.canTrigger)
@@ -242,30 +247,31 @@ class MyGLSurfaceView extends GLSurfaceView {
 		break;
 	    break;
 	case MotionEvent.ACTION_UP:
-	    if (Game.state == 'G' && Game.pauseButton.onUp(position, positionY))
+	    if (Game.state == 'G' && Game.pauseButton.onUp(position, positionY)){
 		Game.state = 'P';
-	    if (Game.state == 'M') {
-		if(positionY < 0){
-		    L.d("Sign in");
-		    ((MainActivity)c).login();
-		}
-		if (Game.playButton.onUp(position, positionY))
-		    Game.reset();
-		if (Game.soundButton.onUp(position, positionY))
-		    toggleSound();
-	    } else if (Game.state == 'P') {
-		if (Game.continueButton.onUp(position, positionY))
-		    Game.state = 'G';
-		if (Game.soundButton.onUp(position, positionY))
-		    toggleSound();
-	    } else if (Game.state == 'E') {
-		if (Game.restartButton.onUp(position, positionY))
-		    //Game.reset();
-		    ((MainActivity)c).showAchievements();
-		if (Game.shareButton.onUp(position, positionY)){
-		    ((MainActivity)c).showScores();
-		}
 	    }
+	    else if(Game.shareButton.onUp(position, positionY)){
+		((MainActivity)c).showScores();
+	    }
+	    else if(Game.achievementsButton.onUp(position, positionY)){
+		((MainActivity)c).showAchievements();
+	    }
+	    else if(Game.soundButton.onUp(position, positionY)){
+		toggleSound();
+	    }
+	    else if(Game.playButton.onUp(position, positionY)){
+		Game.reset();
+	    }
+	    else if(Game.restartButton.onUp(position, positionY)){
+		Game.reset();
+	    }
+	    else if(Game.continueButton.onUp(position, positionY)){
+		Game.state = 'G';
+	    }
+	    else if(Game.signInButton.onUp(position, positionY)){
+		((MainActivity)c).login();
+	    }
+
 	    Game.moving = false;
 	    Game.position = 0;
 	    Game.player1.direction[0] = 0f;

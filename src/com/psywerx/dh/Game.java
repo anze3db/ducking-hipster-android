@@ -22,6 +22,7 @@ public class Game {
     static PauseButton pauseButton;
     static RestartButton restartButton;
     static ShareButton shareButton;
+    static AchievementsButton achievementsButton;
     static boolean gameCreated = false;
     public static boolean isSignedIn = false;
     static char prevState = 'M';
@@ -53,7 +54,7 @@ public class Game {
     static MediaPlayer hit;
     static MediaPlayer select;
     protected static int level = 0;
-    private static SignInButton signInButton;
+    static SignInButton signInButton;
 
     static void create(GlProgram program) {
         if(gameCreated) return;
@@ -83,6 +84,7 @@ public class Game {
         continueButton = new ContinueButton();
         restartButton = new RestartButton();
         shareButton = new ShareButton();
+        achievementsButton = new AchievementsButton();
         soundButton = new SoundButton();
         signInButton = new SignInButton();
         //SceneGraph.activeObjects.add(bg);
@@ -156,9 +158,10 @@ public class Game {
 //            bg.draw();
 //            SceneGraph.draw();
             menu.draw();
-            if(!Game.isSignedIn)
             signInButton.draw();
             playButton.draw();
+            achievementsButton.draw();
+            shareButton.draw();
             soundButton.draw();
             break;
         case 'P':
@@ -168,6 +171,8 @@ public class Game {
             menu.draw();
             signInButton.draw();
             continueButton.draw();
+            achievementsButton.draw();
+            shareButton.draw();
             soundButton.draw();
             break;
         case 'E':
@@ -177,7 +182,9 @@ public class Game {
             menu.draw();
             signInButton.draw();
             restartButton.draw();
+            achievementsButton.draw();
             shareButton.draw();
+            soundButton.draw();
             break;
         default:
             bg.draw();

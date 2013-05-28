@@ -42,7 +42,9 @@ public class Button extends Drawable {
 		    Game.select.start();
 		}
             }
-            return canTrigger;
+            boolean ret = canTrigger;
+            canTrigger = false;
+            return ret;
         }
         else{
           canTrigger = false;
