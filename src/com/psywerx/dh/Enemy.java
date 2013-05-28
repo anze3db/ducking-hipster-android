@@ -56,8 +56,12 @@ public class Enemy extends PersonSprite {
         col.position[1] = -100f;
         col.position[2] = 0f;
         if (Utils.areColliding(this, Game.player1)) {
-            if(!Game.player1.dead){
-                timeDead = 0;
+	    if (!Game.player1.dead) {
+		if (Game.sound) {
+		    Game.hit.seekTo(0);
+		    Game.hit.start();
+		}
+		timeDead = 0;
             }
             else{
                 timeDead+=theta;
@@ -74,6 +78,7 @@ public class Enemy extends PersonSprite {
                 Game.player1.position[2] -= (0.01f + Game.player1.position[2] - position[2]);
                 Game.player1.position[1] = position[1] + 0.01f;
             }
+	    
             Game.player1.dead = true;
             Game.player1.move(0,  speed[1]*theta*0.05f, 0);
             Game.player1.position[2] += speed[1] * theta * 0.112f;

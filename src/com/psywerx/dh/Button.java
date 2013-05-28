@@ -36,11 +36,20 @@ public class Button extends Drawable {
         s.texture.updateSprite();
         if (x > s.position[0] - s.size[0] && x < s.position[0] + s.size[0] && y > s.position[1] - s.size[1]
                 && y < s.position[1] + s.size[1]) {
+            if(canTrigger){
+		if (Game.sound) {
+		    Game.select.seekTo(0);
+		    Game.select.start();
+		}
+            }
             return canTrigger;
         }
         else{
           canTrigger = false;
         }
+        
+        
+        
         return false;
 
     }

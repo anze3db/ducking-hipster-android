@@ -45,6 +45,10 @@ public class Item extends Enemy {
     }
 
     if (Utils.areColliding(this, Game.player1) && !pickedUp) {
+      if(Game.sound){
+	Game.coin.seekTo(0);
+	Game.coin.start();
+      }
       pickedUp = true;
       Game.top.increaseScore(10);
       ((MainActivity)MyRenderer.context).unlockAchievement(R.string.ach_bitcoin);

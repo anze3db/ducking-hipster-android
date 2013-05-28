@@ -22,8 +22,12 @@ public class Game {
     static PauseButton pauseButton;
     static RestartButton restartButton;
     static ShareButton shareButton;
+<<<<<<< HEAD
     static boolean gameCreated = false;
+=======
+    private static boolean gameCreated = false;
     public static boolean isSignedIn = false;
+>>>>>>> google-game-services
     static char prevState = 'M';
     
     protected static Player player1;
@@ -49,9 +53,6 @@ public class Game {
     static SoundButton soundButton;
     public static boolean sound = true;
     static MediaPlayer mp;
-    static MediaPlayer coin;
-    static MediaPlayer hit;
-    static MediaPlayer select;
     protected static int level = 0;
     private static SignInButton signInButton;
 
@@ -70,9 +71,6 @@ public class Game {
         }
         
         mp = MediaPlayer.create(MyRenderer.context, R.raw.dh);
-        coin = MediaPlayer.create(MyRenderer.context, R.raw.coin);
-        select = MediaPlayer.create(MyRenderer.context, R.raw.select);
-        hit = MediaPlayer.create(MyRenderer.context, R.raw.hit);
         mp.setLooping(true);
         bg = new Background();
         menu = new Menu();
