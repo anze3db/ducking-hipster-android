@@ -10,6 +10,8 @@ public class Enemy extends PersonSprite {
     protected float timeDead;
     protected boolean score = false;
     protected boolean nearMiss = false;
+    protected Square bubble = new Square();
+    protected Texture bubbleTex = new Texture();
 
     public Enemy() {
         reset();
@@ -30,6 +32,16 @@ public class Enemy extends PersonSprite {
         colTexture.size = new int[]{2,2};
         colTexture.anim = new int[]{1,0,1,2,1};
         colTexture.animSpeed = 0.5f;
+        
+        bubbleTex.enabled = true;
+        bubbleTex.sprite = new int[]{9,3};
+        bubbleTex.startSprite = new int[]{9,3};
+        bubbleTex.size = new int[]{3,3};
+        bubbleTex.anim = new int[]{1};
+        bubbleTex.animSpeed = 0f;
+        
+        bubble.texture = bubbleTex;
+        bubble.size = new float[]{0.15f, 0.15f, 0.15f};
         
         col.texture = colTexture;
         col.size = new float[]{0.2f, 0.2f, 0.25f};
@@ -60,6 +72,10 @@ public class Enemy extends PersonSprite {
         col.position[0] = -100f;
         col.position[1] = -100f;
         col.position[2] = 0f;
+        bubble.position[0] = position[0];
+        bubble.position[1] = position[1] + 0.4f;
+        bubble.position[2] = position[2] - 0.01f;
+            
         if (Utils.areColliding(this.bb, Game.player1.bb)) {
 	    if (!Game.player1.dead) {
 		if (Game.sound) {
@@ -91,6 +107,9 @@ public class Enemy extends PersonSprite {
             col.position = position.clone();
             col.position[0] += (Game.player1.position[0] - position[0])/2;
             col.position[2] -= 0.01f;
+            
+            
+            
             col.texture.update(theta);
         } else if (Utils.areColliding(this.bb, Game.player1.bbClose)){
             if(!nearMiss){
@@ -102,6 +121,9 @@ public class Enemy extends PersonSprite {
     }
     @Override
     public void draw(){
+        if(score && nearMiss && !Game.player1.dead){
+            bubble.draw();
+        }
         super.draw();
         col.draw();
 //        bb.draw();
