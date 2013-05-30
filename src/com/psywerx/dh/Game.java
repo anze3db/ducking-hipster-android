@@ -106,6 +106,7 @@ public class Game {
                 Game.preloadedEnemies.push((Enemy)d);
             }
         }
+        
         num_changed = 0;
         num_picked_up = 0;
         SceneGraph.activeObjects = new LinkedList<Drawable>();
@@ -120,8 +121,7 @@ public class Game {
         lvls.levels[currentLevel].reset();
         
         if(Game.sound){
-            //mp.seekTo(0);
-            mp.start();
+            mp.seekTo(0);
         }
     }
 
