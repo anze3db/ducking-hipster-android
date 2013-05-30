@@ -12,6 +12,7 @@ public class Enemy extends PersonSprite {
     protected boolean nearMiss = false;
     protected Square bubble = new Square();
     protected Texture bubbleTex = new Texture();
+    protected float BUBBLE_SCALE = 0.002f;
 
     public Enemy() {
         reset();
@@ -72,9 +73,18 @@ public class Enemy extends PersonSprite {
         col.position[0] = -100f;
         col.position[1] = -100f;
         col.position[2] = 0f;
-        bubble.position[0] = position[0];
+        bubble.position[0] = position[0] - 0.05f;
         bubble.position[1] = position[1] + 0.4f;
         bubble.position[2] = position[2] - 0.01f;
+        
+        if(bubble.size[1] < 0.18f){
+            BUBBLE_SCALE = Math.abs(BUBBLE_SCALE);
+        }
+        else if(bubble.size[1] > 0.22f){
+            BUBBLE_SCALE = -Math.abs(BUBBLE_SCALE);
+        }
+        bubble.size[1] += BUBBLE_SCALE;
+        bubble.size[0] += BUBBLE_SCALE/10;
             
         if (Utils.areColliding(this.bb, Game.player1.bb)) {
 	    if (!Game.player1.dead) {
@@ -121,11 +131,11 @@ public class Enemy extends PersonSprite {
     }
     @Override
     public void draw(){
+        super.draw();
+        col.draw();
         if(score && nearMiss && !Game.player1.dead){
             bubble.draw();
         }
-        super.draw();
-        col.draw();
 //        bb.draw();
         
         

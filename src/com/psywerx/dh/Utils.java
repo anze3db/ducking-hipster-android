@@ -13,9 +13,4 @@ public class Utils {
         return true;
     }
     
-    public static boolean areClose(PersonSprite d1, PersonSprite d2){
-	
-	
-	return false;
-    }
 }

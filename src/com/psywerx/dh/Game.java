@@ -184,8 +184,8 @@ public class Game {
         case 'E':
 //            bg.draw();
 //            SceneGraph.draw();
-//            top.draw();
             menu.draw();
+//            top.draw();
             signInButton.draw();
             restartButton.draw();
             achievementsButton.draw();

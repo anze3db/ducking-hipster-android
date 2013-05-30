@@ -3,7 +3,7 @@ package com.psywerx.dh;
 public class Item extends Enemy {
   
   private boolean pickedUp = false;
-  
+  private float wubbleScale = 0.001f;
   
   @Override
   public void reset() {
@@ -41,6 +41,15 @@ public class Item extends Enemy {
       removeMe = true;
       Game.preloadedItems.push(this);
     }
+    
+    if(s.size[1] < 0.09f){
+        wubbleScale = Math.abs(wubbleScale);
+    }
+    else if(s.size[1] > 0.11f){
+        wubbleScale = -Math.abs(wubbleScale);
+    }
+    s.size[0] += wubbleScale/10;
+    s.size[1] += wubbleScale;
 
     if (Utils.areColliding(this.bb, Game.player1.bb) && !pickedUp) {
       if(Game.sound){

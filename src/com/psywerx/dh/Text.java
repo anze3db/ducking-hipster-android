@@ -13,7 +13,7 @@ public class Text extends Drawable {
             sq.texture.enabled = true;
             sq.texture.setSpriteFromChar(chars[i]);
             sq.size = size;
-            sq.position[0] += i*size[0]*1.05f;
+            sq.position[0] += i*size[0]*2f;
             sq.position[2] += i*0.001f;
             
             // Adding from end to start so that the first char is being drawn last.
@@ -31,7 +31,7 @@ public class Text extends Drawable {
         for (int i = 0; i < squares.length; i++) {
             Square sq = squares[i];
             sq.size = size;
-            sq.position[0] = squares[0].position[0] - i*size[0]*1.05f;
+            sq.position[0] = squares[0].position[0] - i*size[0]*1.5f;
         }
         this.size = size;
     }
