@@ -49,11 +49,7 @@ public class Button extends Drawable {
         else{
           canTrigger = false;
         }
-        
-        
-        
         return false;
-
     }
 
     @Override

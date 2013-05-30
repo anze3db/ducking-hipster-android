@@ -21,4 +21,12 @@ public class SoundButton extends Button {
         }
         super.draw();
     }
+    @Override
+    public boolean onUp(float x, float y) {
+	// The sound button should be silent if we are turning the sound off.
+	Game.sound = !Game.sound;
+	boolean ret = super.onUp(x, y);
+	Game.sound = !Game.sound;
+	return ret;
+    }
 }

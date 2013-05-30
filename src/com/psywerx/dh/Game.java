@@ -126,9 +126,11 @@ public class Game {
     }
 
     static void tick(Float theta) {
-        
+        if(mp.isPlaying() && Game.state != 'G'){
+            mp.pause();
+        }
         if(!Game.sound && mp.isPlaying()) mp.pause();
-        if(Game.sound && !mp.isPlaying()) mp.start();
+        if(Game.sound && !mp.isPlaying() && Game.state == 'G') mp.start();
         
         switch (Game.state) {
         case 'M':
