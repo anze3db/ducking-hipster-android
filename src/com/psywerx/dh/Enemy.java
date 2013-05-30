@@ -9,6 +9,7 @@ public class Enemy extends PersonSprite {
     protected Square col = new Square();
     protected float timeDead;
     protected boolean score = false;
+    protected boolean nearMiss = false;
 
     public Enemy() {
         reset();
@@ -34,6 +35,7 @@ public class Enemy extends PersonSprite {
         col.size = new float[]{0.2f, 0.2f, 0.25f};
         timeDead = 0f;
         score = false;
+        nearMiss = false;
     }
 
     @Override
@@ -48,14 +50,17 @@ public class Enemy extends PersonSprite {
             position[2] += speed[1] * theta * 0.112f;
             position[1] -= speed[1]*0.1f;
             if(!score){
-                Game.top.increaseScore(1);
+        	if(!Game.player1.dead){
+        	    Game.top.increaseScore(1);
+        	    if(nearMiss) Game.top.increaseScore(5);
+        	}
                 score = true;
             }
         }
         col.position[0] = -100f;
         col.position[1] = -100f;
         col.position[2] = 0f;
-        if (Utils.areColliding(this, Game.player1)) {
+        if (Utils.areColliding(this.bb, Game.player1.bb)) {
 	    if (!Game.player1.dead) {
 		if (Game.sound) {
 		    Game.hit.seekTo(0);
@@ -87,6 +92,11 @@ public class Enemy extends PersonSprite {
             col.position[0] += (Game.player1.position[0] - position[0])/2;
             col.position[2] -= 0.01f;
             col.texture.update(theta);
+        } else if (Utils.areColliding(this.bb, Game.player1.bbClose)){
+            if(!nearMiss){
+        	    if(score) Game.top.increaseScore(5);
+        	    nearMiss = true;
+            }
         }
         this.move(0, speed[1]*theta*0.05f, speed[1] * theta * 0.001f);
     }
@@ -94,5 +104,8 @@ public class Enemy extends PersonSprite {
     public void draw(){
         super.draw();
         col.draw();
+//        bb.draw();
+        
+        
     }
 }

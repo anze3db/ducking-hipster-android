@@ -10,6 +10,7 @@ public class Wave {
     public Wave() {
     }
     public Wave(char t){
+	((MainActivity)MyRenderer.context).unlockAchievement(R.string.ach_ultimate);
         for (int j = 0; j < positions.length; j++) {
             positions[j] = new WavePosition(end);
         }

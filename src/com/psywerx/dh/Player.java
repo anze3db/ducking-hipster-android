@@ -5,6 +5,7 @@ public class Player extends PersonSprite {
     boolean dead;
     float[] startPosition;
     float sPosition = 0.335f;
+    public Square bbClose;
     
 
     public Player(){
@@ -12,7 +13,18 @@ public class Player extends PersonSprite {
         position[1] += 0.55; 
         position[0] = -0.5f;
         position[2] = 1.1f;
-        startPosition = position;        
+        startPosition = position;  
+        
+        bbClose = new Square();
+        bbClose.color = new float[]{0f,0f,1f,0f};
+        bbClose.texture.enabled = false;
+        
+        bbClose.size[0] = bb.size[0] * 1.1f;
+        bbClose.size[1] = bb.size[1] * 5f;
+
+        bbClose.position[0] = bb.position[0];
+        bbClose.position[1] = bb.position[1];
+        
     }
     
     void resetPlayer(){
@@ -49,5 +61,19 @@ public class Player extends PersonSprite {
             // You can't move if you're dead...
             this.move(speed[0]/400, 0, 0);
         }
+        
+        bbClose.position[0] = bb.position[0];
+        bbClose.position[1] = bb.position[1];
+        bbClose.position[2] = bb.position[2];
+    }
+    
+    @Override
+    public void draw(){
+	super.draw();
+//	bb.draw();
+//	
+//	bbClose.draw();
+	
+	
     }
 }

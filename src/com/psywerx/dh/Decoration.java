@@ -32,7 +32,7 @@ public class Decoration extends PersonSprite {
             removeMe = true;
         }
         
-        if (Utils.areColliding(this, Game.player1)) {
+        if (Utils.areColliding(this.bb, Game.player1.bb)) {
             s.texture.anim = new int[]{3};
         }
         if(bb.position[1]+bb.size[1]/2 > Game.player1.sPosition){

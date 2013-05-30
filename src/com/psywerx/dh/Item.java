@@ -42,7 +42,7 @@ public class Item extends Enemy {
       Game.preloadedItems.push(this);
     }
 
-    if (Utils.areColliding(this, Game.player1) && !pickedUp) {
+    if (Utils.areColliding(this.bb, Game.player1.bb) && !pickedUp) {
       if(Game.sound){
 	Game.coin.seekTo(0);
 	Game.coin.start();

@@ -123,10 +123,6 @@ class Level {
           	  ((MainActivity)MyRenderer.context).unlockAchievement(R.string.ach_night);
           	  
                 }
-                if(Game.num_changed == 5){
-          	  ((MainActivity)MyRenderer.context).unlockAchievement(R.string.ach_ultimate);
-          	  
-                }
                 break;
             case 'l':
               Game.level += 1;
