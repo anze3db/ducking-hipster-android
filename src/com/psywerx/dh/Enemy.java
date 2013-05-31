@@ -139,6 +139,8 @@ public class Enemy extends PersonSprite {
 	    Game.mad.seekTo(0);
 	    Game.mad.start();
 	}
+	((MainActivity)MyRenderer.context).unlockAchievement(R.string.ach_nearMiss);
+	((MainActivity)MyRenderer.context).incrementAchievement(R.string.ach_nearMiss100, 1);
     }
     @Override
     public void draw(){

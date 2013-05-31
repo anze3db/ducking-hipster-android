@@ -12,4 +12,6 @@
     <string name="ach_night">CgkI0LDSoo4cEAIQAg</string>
     <string name="ach_toocool">CgkI0LDSoo4cEAIQCg</string>
     <string name="ach_ultimate">CgkI0LDSoo4cEAIQDQ</string>
+    <string name="ach_nearMiss">CgkI0LDSoo4cEAIQDg</string>
+    <string name="ach_nearMiss100">CgkI0LDSoo4cEAIQDw</string>
 </resources>
