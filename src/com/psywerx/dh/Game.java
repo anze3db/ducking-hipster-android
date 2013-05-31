@@ -55,6 +55,7 @@ public class Game {
     static MediaPlayer coin;
     static MediaPlayer hit;
     static MediaPlayer select;
+    static MediaPlayer mad;
     protected static int level = 0;
     static SignInButton signInButton;
 
@@ -76,6 +77,7 @@ public class Game {
         coin = MediaPlayer.create(MyRenderer.context, R.raw.coin);
         select = MediaPlayer.create(MyRenderer.context, R.raw.select);
         hit = MediaPlayer.create(MyRenderer.context, R.raw.hit);
+        mad = MediaPlayer.create(MyRenderer.context, R.raw.mad);
         mp.setLooping(true);
         bg = new Background();
         menu = new Menu();

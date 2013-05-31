@@ -65,7 +65,9 @@ public class Enemy extends PersonSprite {
             if(!score){
         	if(!Game.player1.dead){
         	    Game.top.increaseScore(1);
-        	    if(nearMiss) Game.top.increaseScore(5);
+        	    if(nearMiss) {
+        		nearHit();
+        	    }
         	}
                 score = true;
             }
@@ -123,11 +125,20 @@ public class Enemy extends PersonSprite {
             col.texture.update(theta);
         } else if (Utils.areColliding(this.bb, Game.player1.bbClose)){
             if(!nearMiss){
-        	    if(score) Game.top.increaseScore(5);
+        	    if(score){
+        		nearHit();
+        	    } 
         	    nearMiss = true;
             }
         }
         this.move(0, speed[1]*theta*0.05f, speed[1] * theta * 0.001f);
+    }
+    private void nearHit() {
+	Game.top.increaseScore(5);
+	if (Game.sound) {
+	    Game.mad.seekTo(0);
+	    Game.mad.start();
+	}
     }
     @Override
     public void draw(){
