@@ -38,8 +38,8 @@ public class Enemy extends PersonSprite {
         bubbleTex.sprite = new int[]{9,3};
         bubbleTex.startSprite = new int[]{9,3};
         bubbleTex.size = new int[]{3,3};
-        bubbleTex.anim = new int[]{1};
-        bubbleTex.animSpeed = 0f;
+        bubbleTex.anim = new int[]{0,1};
+        bubbleTex.animSpeed = 0.1f;
         
         bubble.texture = bubbleTex;
         bubble.size = new float[]{0.15f, 0.15f, 0.15f};
@@ -87,7 +87,7 @@ public class Enemy extends PersonSprite {
         }
         bubble.size[1] += BUBBLE_SCALE;
         bubble.size[0] += BUBBLE_SCALE/10;
-            
+        bubble.texture.update(theta);
         if (Utils.areColliding(this.bb, Game.player1.bb)) {
 	    if (!Game.player1.dead) {
 		if (Game.sound) {

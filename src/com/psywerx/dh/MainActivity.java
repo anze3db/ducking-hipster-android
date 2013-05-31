@@ -1,9 +1,14 @@
 package com.psywerx.dh;
 
+import java.io.IOException;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -125,15 +130,24 @@ public class MainActivity extends BaseGameActivity {
 
 	if (Game.state != 'G')
 	    return;
-
+	
 	Game.prevState = Game.state;
+	
     }
 
     private void resumeGame() {
 	MyRenderer.prev = System.currentTimeMillis();
 	if (Game.mp != null && Game.sound) {
-	    Game.mp.start();
+	    try {
+		Game.mp.prepare();
+		Game.mp.start();
+	    } catch (IllegalStateException e) {
+		// TODO Auto-generated catch block
+	    } catch (IOException e) {
+		// TODO Auto-generated catch block
+	    }
 	}
+	mGLView.onResume();
     }
 
     @Override
@@ -147,11 +161,12 @@ public class MainActivity extends BaseGameActivity {
 
     @Override
     protected void onPause() {
+	
 	super.onPause();
 
 	pauseGame();
 	EasyTracker.getInstance().activityStop(this);
-
+	mGLView.onPause();
     }
 
     @Override
@@ -313,4 +328,6 @@ class MyRenderer implements GLSurfaceView.Renderer {
 	prev = System.currentTimeMillis();
     }
 
+    
+    
 }
