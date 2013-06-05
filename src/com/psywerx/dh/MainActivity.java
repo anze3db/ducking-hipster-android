@@ -122,28 +122,17 @@ public class MainActivity extends BaseGameActivity {
 	
     }
     private void pauseGame() {
-	if (Game.mp != null)
-	    Game.mp.pause();
+	Sound.pauseGame();
 
 	if (Game.state != 'G')
 	    return;
-	
 	Game.prevState = Game.state;
 	
     }
 
     private void resumeGame() {
 	MyRenderer.prev = System.currentTimeMillis();
-	if (Game.mp != null && Game.sound) {
-	    try {
-		Game.mp.prepare();
-		Game.mp.start();
-	    } catch (IllegalStateException e) {
-		// TODO Auto-generated catch block
-	    } catch (IOException e) {
-		// TODO Auto-generated catch block
-	    }
-	}
+	Sound.resumeGame();
 	mGLView.onResume();
     }
 

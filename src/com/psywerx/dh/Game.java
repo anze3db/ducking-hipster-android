@@ -51,7 +51,6 @@ public class Game {
     private static float[] model_view_projection = new float[16];
     static SoundButton soundButton;
     public static boolean sound = true;
-    static MediaPlayer mp;
     static MediaPlayer coin;
     static MediaPlayer hit;
     static MediaPlayer select;
@@ -72,13 +71,11 @@ public class Game {
         for(int i = 0; i < PRELOAD_SIZE; i++){
           preloadedItems.push(new Item());
         }
-        
-        mp = MediaPlayer.create(MyRenderer.context, R.raw.dh);
+        Sound.load();
         coin = MediaPlayer.create(MyRenderer.context, R.raw.coin);
         select = MediaPlayer.create(MyRenderer.context, R.raw.select);
         hit = MediaPlayer.create(MyRenderer.context, R.raw.hit);
         mad = MediaPlayer.create(MyRenderer.context, R.raw.mad);
-        mp.setLooping(true);
         bg = new Background();
         menu = new Menu();
         hint = new Hint();
@@ -122,17 +119,11 @@ public class Game {
         levelHints.reset();
         lvls.levels[currentLevel].reset();
         
-        if(Game.sound){
-            mp.seekTo(0);
-        }
+        Sound.reset();
+        
     }
 
     static void tick(Float theta) {
-        if(mp.isPlaying() && Game.state != 'G'){
-            mp.pause();
-        }
-        if(!Game.sound && mp.isPlaying()) mp.pause();
-        if(Game.sound && !mp.isPlaying() && Game.state == 'G') mp.start();
         
         switch (Game.state) {
         case 'M':

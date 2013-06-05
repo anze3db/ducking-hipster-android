@@ -63,7 +63,7 @@ class Level {
 
 
     void nextWave() {
-        Wave w = null;
+        Wave w;
         if(waves.size() == currentWave)
             w = new Wave('x');
         else {

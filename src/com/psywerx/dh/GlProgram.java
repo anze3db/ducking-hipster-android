@@ -20,7 +20,7 @@ public class GlProgram {
     protected int modelMatrixLoc;
     protected int samplerLoc;
     protected int isTextLoc;
-    private final int[] textSets = new int[]{R.drawable.text, R.drawable.text1, R.drawable.text2};
+    private final int[] textSets = new int[]{R.raw.text, R.raw.text1, R.raw.text2};
     protected int[] textures = new int[textSets.length];
     
     private Context context;
@@ -76,6 +76,7 @@ public class GlProgram {
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR_MIPMAP_NEAREST);
         GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+        image.recycle();
         return texture[0];
     }
 
