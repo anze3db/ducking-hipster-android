@@ -100,6 +100,7 @@ public class Enemy extends PersonSprite {
                 EasyTracker.getTracker().sendEvent("Game", "End", "Score", (long)Game.top.score);
                 ((MainActivity)MyRenderer.context).newScore(Game.top.score);
                 Game.state = 'E';
+                Sound.gameEnd();
             }
             
             // Bug where player is in front of the collision:

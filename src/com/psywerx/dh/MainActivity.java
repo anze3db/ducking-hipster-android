@@ -253,9 +253,11 @@ class MyGLSurfaceView extends GLSurfaceView {
 	    }
 	    else if(Game.playButton.onUp(position, positionY)){
 		Game.reset();
+		Sound.resumeGame();
 	    }
 	    else if(Game.restartButton.onUp(position, positionY)){
 		Game.reset();
+		Sound.resumeGame();
 	    }
 	    else if(Game.continueButton.onUp(position, positionY)){
 		Game.state = 'G';

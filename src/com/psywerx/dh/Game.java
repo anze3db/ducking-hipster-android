@@ -109,9 +109,6 @@ public class Game {
         Game.state = 'G';
         levelHints.reset();
         lvls.levels[currentLevel].reset();
-        
-        Sound.reset();
-        
     }
 
     static void tick(Float theta) {
