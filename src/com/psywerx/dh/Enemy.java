@@ -90,10 +90,7 @@ public class Enemy extends PersonSprite {
         bubble.texture.update(theta);
         if (Utils.areColliding(this.bb, Game.player1.bb)) {
 	    if (!Game.player1.dead) {
-		if (Game.sound) {
-		    Game.hit.seekTo(0);
-		    Game.hit.start();
-		}
+		Sound.play(Sound.hit);
 		timeDead = 0;
             }
             else{
@@ -135,10 +132,7 @@ public class Enemy extends PersonSprite {
     }
     private void nearHit() {
 	Game.top.increaseScore(5);
-	if (Game.sound) {
-	    Game.mad.seekTo(0);
-	    Game.mad.start();
-	}
+	Sound.play(Sound.mad);
 	((MainActivity)MyRenderer.context).unlockAchievement(R.string.ach_nearMiss);
 	((MainActivity)MyRenderer.context).incrementAchievement(R.string.ach_nearMiss100, 1);
     }

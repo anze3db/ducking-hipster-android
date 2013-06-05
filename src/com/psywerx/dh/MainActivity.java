@@ -1,7 +1,5 @@
 package com.psywerx.dh;
 
-import java.io.IOException;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -242,6 +240,7 @@ class MyGLSurfaceView extends GLSurfaceView {
 	case MotionEvent.ACTION_UP:
 	    if (Game.state == 'G' && Game.pauseButton.onUp(position, positionY)){
 		Game.state = 'P';
+		Sound.pauseGame();
 	    }
 	    else if(Game.shareButton.onUp(position, positionY)){
 		((MainActivity)c).showScores();
@@ -250,7 +249,7 @@ class MyGLSurfaceView extends GLSurfaceView {
 		((MainActivity)c).showAchievements();
 	    }
 	    else if(Game.soundButton.onUp(position, positionY)){
-		toggleSound();
+		Sound.toggleSound();
 	    }
 	    else if(Game.playButton.onUp(position, positionY)){
 		Game.reset();
@@ -260,6 +259,7 @@ class MyGLSurfaceView extends GLSurfaceView {
 	    }
 	    else if(Game.continueButton.onUp(position, positionY)){
 		Game.state = 'G';
+		Sound.resumeGame();
 	    }
 	    else if(Game.signInButton.onUp(position, positionY)){
 		((MainActivity)c).login();
@@ -270,11 +270,6 @@ class MyGLSurfaceView extends GLSurfaceView {
 	    Game.player1.direction[0] = 0f;
 	}
 	return true;
-    }
-
-    private void toggleSound() {
-	Game.sound = !Game.sound;
-
     }
 }
 

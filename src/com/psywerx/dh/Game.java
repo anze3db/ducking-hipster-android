@@ -50,11 +50,6 @@ public class Game {
     public static LevelHints levelHints;
     private static float[] model_view_projection = new float[16];
     static SoundButton soundButton;
-    public static boolean sound = true;
-    static MediaPlayer coin;
-    static MediaPlayer hit;
-    static MediaPlayer select;
-    static MediaPlayer mad;
     protected static int level = 0;
     static SignInButton signInButton;
 
@@ -72,10 +67,6 @@ public class Game {
           preloadedItems.push(new Item());
         }
         Sound.load();
-        coin = MediaPlayer.create(MyRenderer.context, R.raw.coin);
-        select = MediaPlayer.create(MyRenderer.context, R.raw.select);
-        hit = MediaPlayer.create(MyRenderer.context, R.raw.hit);
-        mad = MediaPlayer.create(MyRenderer.context, R.raw.mad);
         bg = new Background();
         menu = new Menu();
         hint = new Hint();

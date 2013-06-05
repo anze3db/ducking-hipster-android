@@ -10,7 +10,7 @@ public class SoundButton extends Button {
     }
     @Override
     public void draw() {
-        if(!Game.sound){
+        if(!Sound.enabled){
             s.texture.sprite[0] = 39;
             s.texture.startSprite[0] = 39;
         } 
@@ -24,9 +24,9 @@ public class SoundButton extends Button {
     @Override
     public boolean onUp(float x, float y) {
 	// The sound button should be silent if we are turning the sound off.
-	Game.sound = !Game.sound;
+	Sound.enabled = !Sound.enabled;
 	boolean ret = super.onUp(x, y);
-	Game.sound = !Game.sound;
+	Sound.enabled = !Sound.enabled;
 	return ret;
     }
 }

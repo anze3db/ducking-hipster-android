@@ -37,10 +37,7 @@ public class Button extends Drawable {
         if (x > s.position[0] - s.size[0] && x < s.position[0] + s.size[0] && y > s.position[1] - s.size[1]
                 && y < s.position[1] + s.size[1]) {
             if(canTrigger){
-		if (Game.sound) {
-		    Game.select.seekTo(0);
-		    Game.select.start();
-		}
+        	Sound.play(Sound.select);
             }
             boolean ret = canTrigger;
             canTrigger = false;
