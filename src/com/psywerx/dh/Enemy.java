@@ -13,6 +13,7 @@ public class Enemy extends PersonSprite {
     protected Square bubble = new Square();
     protected Texture bubbleTex = new Texture();
     protected float BUBBLE_SCALE = 0.002f;
+    protected float direction = 0.0f;
 
     public Enemy() {
         reset();
@@ -49,6 +50,7 @@ public class Enemy extends PersonSprite {
         timeDead = 0f;
         score = false;
         nearMiss = false;
+        direction = 0f;
     }
 
     @Override
@@ -71,6 +73,9 @@ public class Enemy extends PersonSprite {
         	}
                 score = true;
             }
+        }
+        else {
+            position[0] += speed[1] * theta * direction;
         }
         col.position[0] = -100f;
         col.position[1] = -100f;

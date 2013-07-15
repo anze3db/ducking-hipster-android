@@ -96,8 +96,8 @@ class Level {
                 Enemy e = Game.preloadedEnemies.pop();
                 e.reset();
                 e.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
-                e.position[0] = (i-3)/2.9f;
                 e.move(0, 0, (float)Game.rand.nextDouble()/100.0f);
+                e.direction = w.positions[i].direction;e.position[0] = (i-3)/2.9f;
                 SceneGraph.activeObjects.add(e);
                 break;
             case 'h':
