@@ -12,30 +12,31 @@ public class Sound {
     static int select;
     static int mad;
 
-    private static MediaPlayer bg = MediaPlayer.create(MyRenderer.context,
-	    R.raw.dh);
-    private static SoundPool sounds = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-
-
+    private static MediaPlayer bg;
+    private static SoundPool sounds = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
 
     public static void load() {
 	coin = sounds.load(MyRenderer.context, R.raw.coin, 1);
 	hit = sounds.load(MyRenderer.context, R.raw.hit, 5);
 	select = sounds.load(MyRenderer.context, R.raw.select, 5);
 	mad = sounds.load(MyRenderer.context, R.raw.mad, 5);
+	bg = MediaPlayer.create(MyRenderer.context,
+		    R.raw.dh);
+	
 	bg.setAudioStreamType(AudioManager.STREAM_MUSIC);
 	bg.setLooping(true);
     }
 
     public static void pauseGame() {
 	sounds.autoPause();
-	bg.pause();
+	if(bg.isPlaying())
+	    bg.pause();
     }
 
     public static void resumeGame() {
 	sounds.autoResume();
-	if(Game.gameCreated && enabled){
-	    L.wtf("STARTED!!!");
+	if(Game.state == 'G' && enabled){
+	    L.wtf("SHOULD START"+bg.getAudioSessionId());
 	    bg.start();
 	}
     }

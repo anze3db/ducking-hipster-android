@@ -65,21 +65,18 @@ public class MainActivity extends BaseGameActivity {
     }
     public void incrementAchievement(final int id, final int amount){
 	runOnUiThread(new Runnable() {
-
 	    @Override
 	    public void run() {
 		if (isSignedIn()) {
 		    getGamesClient().incrementAchievement(getString(id), amount);
 		}
 	    }
-
 	});
     }
     
     
     public void showScores() {
 	runOnUiThread(new Runnable() {
-
 	    @Override
 	    public void run() {
 		startActivityForResult(getGamesClient().getLeaderboardIntent(getString(R.string.leaderboard)), RC_UNUSED);
@@ -131,7 +128,7 @@ public class MainActivity extends BaseGameActivity {
     private void resumeGame() {
 	MyRenderer.prev = System.currentTimeMillis();
 	Sound.resumeGame();
-	mGLView.onResume();
+	
     }
 
     @Override
@@ -156,6 +153,7 @@ public class MainActivity extends BaseGameActivity {
     @Override
     protected void onResume() {
 	super.onResume();
+	mGLView.onResume();
 	resumeGame();
 	EasyTracker.getInstance().activityStart(this);
     }
