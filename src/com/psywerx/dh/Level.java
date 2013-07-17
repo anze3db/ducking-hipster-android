@@ -97,8 +97,19 @@ class Level {
                 e.reset();
                 e.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
                 e.move(0, 0, (float)Game.rand.nextDouble()/100.0f);
-                e.direction = w.positions[i].direction;e.position[0] = (i-3)/2.9f;
+                e.direction = w.positions[i].direction;
+                e.position[0] = (i-3)/2.9f;
                 SceneGraph.activeObjects.add(e);
+                break;
+            case 's':
+                Enemy s = Game.preloadedEnemies.pop();
+                s.reset();
+                s.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
+                s.move(0, 0, (float)Game.rand.nextDouble()/100.0f);
+                s.sinus = true;
+                s.direction = w.positions[i].direction*200;
+                s.position[0] = (i-3)/2.9f;
+                SceneGraph.activeObjects.add(s);
                 break;
             case 'h':
                 Game.levelHints.nextHint();

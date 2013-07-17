@@ -14,6 +14,8 @@ public class Enemy extends PersonSprite {
     protected Texture bubbleTex = new Texture();
     protected float BUBBLE_SCALE = 0.002f;
     protected float direction = 0.0f;
+    protected boolean sinus = false;
+    private float acum = 0;
 
     public Enemy() {
         reset();
@@ -51,6 +53,8 @@ public class Enemy extends PersonSprite {
         score = false;
         nearMiss = false;
         direction = 0f;
+        sinus = false;
+        acum = 0;
     }
 
     @Override
@@ -74,7 +78,12 @@ public class Enemy extends PersonSprite {
                 score = true;
             }
         }
-        else {
+        else if(sinus) {
+            acum += theta;
+            position[0] += Math.cos(acum * speed[1] / direction)/100; 
+            
+        }
+        else{
             position[0] += speed[1] * theta * direction;
         }
         col.position[0] = -100f;
