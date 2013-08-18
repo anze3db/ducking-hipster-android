@@ -9,7 +9,7 @@ class Texture {
     int[] startSprite = { 0, 0 };
     int[] size = { 1, 1 };
     
-    float animSpeed = 1;
+    float animSpeed = 1f;
     int animState = 0;
     int[] anim = {0, 1, 2, 1};
     int spriteOffset = 0;

@@ -29,14 +29,14 @@ public class Sound {
 
     public static void pauseGame() {
 	sounds.autoPause();
-	if(bg.isPlaying())
+	if(bg != null && bg.isPlaying())
 	    bg.pause();
     }
 
     public static void resumeGame() {
 	sounds.autoResume();
 	if(Game.state == 'G' && enabled){
-	    L.wtf("SHOULD START"+bg.getAudioSessionId());
+	    if(bg == null) bg = MediaPlayer.create(MyRenderer.context, R.raw.dh);
 	    bg.start();
 	}
     }

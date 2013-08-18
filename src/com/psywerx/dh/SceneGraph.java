@@ -35,6 +35,12 @@ public class SceneGraph {
         Collections.sort(activeObjects, new Comparator<Drawable>() {
             @Override
             public int compare(Drawable d1, Drawable d2) {
+                return (d1.position[1] <= d2.position[1]) ? 1 : -1;
+            }
+        });
+        Collections.sort(activeObjects, new Comparator<Drawable>() {
+            @Override
+            public int compare(Drawable d1, Drawable d2) {
                 return (d1.position[2] <= d2.position[2]) ? 1 : -1;
             }
         });

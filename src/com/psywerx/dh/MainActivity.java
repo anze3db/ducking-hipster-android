@@ -99,14 +99,7 @@ public class MainActivity extends BaseGameActivity {
 	    }
 	});
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-	requestWindowFeature(Window.FEATURE_NO_TITLE);
-	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-	
-	super.onCreate(savedInstanceState);
-
+    private void create(){
 	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 		WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	mGLView = new MyGLSurfaceView(this);
@@ -114,6 +107,14 @@ public class MainActivity extends BaseGameActivity {
 	setContentView(mGLView);
 
 	EasyTracker.getInstance().setContext(this);
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+	requestWindowFeature(Window.FEATURE_NO_TITLE);
+	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	super.onCreate(savedInstanceState);
+
+	create();
 	
     }
     private void pauseGame() {
@@ -162,6 +163,7 @@ public class MainActivity extends BaseGameActivity {
     protected void onStart() {
 	super.onStart();
 	resumeGame();
+	
 	EasyTracker.getInstance().activityStart(this);
     }
 
@@ -188,88 +190,8 @@ class MyGLSurfaceView extends GLSurfaceView {
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-	if(!Game.gameCreated) return true;
-	float x = e.getX();
-	float y = e.getY();
-	float position = (x * 2f / Game.WIDTH - 1.0f);
-	float positionY = 1f - (y * 2 / (float) Game.HEIGHT);
-
-	if (e.getPointerCount() > 1) {
-	    Game.player1.direction[0] = 0;
-	} else {
-	    float pointerPos = e.getX();
-	    pointerPos = (pointerPos * 2f / Game.WIDTH - 1.0f);
-	    int newDirection = pointerPos > 0 ? 1 : -1;
-	    Game.player1.direction[0] = newDirection;
-	}
-	Game.position = Game.player1.position[0];
-
-	switch (e.getAction()) {
-
-	case MotionEvent.ACTION_DOWN:
-	    if (Game.state == 'M') {
-		Game.playButton.onDown(position, positionY);
-	    }
-	    if(Game.state == 'P'){
-		Game.continueButton.onDown(position, positionY);
-	    }
-	    if(Game.state == 'E'){
-		Game.restartButton.onDown(position, positionY);
-	    }
-	    if (Game.state != 'G') {
-		Game.soundButton.onDown(position, positionY);
-		Game.shareButton.onDown(position, positionY);
-		Game.achievementsButton.onDown(position, positionY);
-		Game.signInButton.onDown(position, positionY);
-	    }
-	    if (Game.state == 'G') {
-		Game.pauseButton.onDown(position, positionY);
-	    }
-	    if (Game.pauseButton.canTrigger)
-		break;
-	    Game.moving = true;
-	    Game.position = position;
-	    break;
-
-	case MotionEvent.ACTION_MOVE:
-	    if (Game.pauseButton.canTrigger)
-		break;
-	    break;
-	case MotionEvent.ACTION_UP:
-	    if (Game.state == 'G' && Game.pauseButton.onUp(position, positionY)){
-		Game.state = 'P';
-		Sound.pauseGame();
-	    }
-	    else if(Game.shareButton.onUp(position, positionY)){
-		((MainActivity)c).showScores();
-	    }
-	    else if(Game.achievementsButton.onUp(position, positionY)){
-		((MainActivity)c).showAchievements();
-	    }
-	    else if(Game.soundButton.onUp(position, positionY)){
-		Sound.toggleSound();
-	    }
-	    else if(Game.playButton.onUp(position, positionY)){
-		Game.reset();
-		Sound.resumeGame();
-	    }
-	    else if(Game.restartButton.onUp(position, positionY)){
-		Game.reset();
-		Sound.resumeGame();
-	    }
-	    else if(Game.continueButton.onUp(position, positionY)){
-		Game.state = 'G';
-		Sound.resumeGame();
-	    }
-	    else if(Game.signInButton.onUp(position, positionY)){
-		((MainActivity)c).login();
-	    }
-
-	    Game.moving = false;
-	    Game.position = 0;
-	    Game.player1.direction[0] = 0f;
-	}
-	return true;
+	return Input.update(e, (MainActivity)c);
+	
     }
 }
 

@@ -16,6 +16,8 @@ public class Enemy extends PersonSprite {
     protected float direction = 0.0f;
     protected boolean sinus = false;
     private float acum = 0;
+    
+    private boolean thrown = false;
 
     public Enemy() {
         reset();
@@ -55,17 +57,35 @@ public class Enemy extends PersonSprite {
         direction = 0f;
         sinus = false;
         acum = 0;
+        thrown = false;
     }
 
     @Override
     public void tick(float theta) {
         super.tick(theta);
+
+        if(thrown){
+            
+            position[0] += direction * theta * 0.00112f;
+            position[2] -= theta * 0.0012f;
+            position[1] -= theta * 0.00022f;
+            bubble.position[0] = position[0] - 0.05f;
+            bubble.position[1] = position[1] + 0.4f;
+            bubble.position[2] = position[2] - 0.01f;
+            this.move(0, 0, 0);
+            if(position[2] < -1){
+        	 removeMe = true;
+                 Game.preloadedEnemies.push(this);
+            }
+            return;
+        }
+        
         if (position[1] > 10 || (SceneGraph.activeObjects.size() > 20 && position[1] > 5)) {
             // This needs to get moved:
             removeMe = true;
             Game.preloadedEnemies.push(this);
         }
-        if(bb.position[1]+bb.size[1]/2 > Game.player1.sPosition){
+        else if(bb.position[1]+bb.size[1]/2 > Game.player1.sPosition){
             position[2] += speed[1] * theta * 0.112f;
             position[1] -= speed[1]*0.1f;
             if(!score){
@@ -102,8 +122,18 @@ public class Enemy extends PersonSprite {
         bubble.size[1] += BUBBLE_SCALE;
         bubble.size[0] += BUBBLE_SCALE/10;
         bubble.texture.update(theta);
-        if (Utils.areColliding(this.bb, Game.player1.bb)) {
-	    if (!Game.player1.dead) {
+        boolean collision = Utils.areColliding(this.bb, Game.player1.bb);
+        
+        // Start throwing people
+        if(collision && Game.player1.powerupGloves){
+            
+            thrown = true;
+            direction = Math.random() < 0.5 ? 1 : -1;
+        }
+        // DIE
+        else if (collision) {
+            
+            if (!Game.player1.dead) {
 		Sound.play(Sound.hit);
 		timeDead = 0;
             }
@@ -156,6 +186,9 @@ public class Enemy extends PersonSprite {
         super.draw();
         col.draw();
         if(score && nearMiss && !Game.player1.dead){
+            bubble.draw();
+        }
+        if(thrown){
             bubble.draw();
         }
 //        bb.draw();

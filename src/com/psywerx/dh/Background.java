@@ -4,6 +4,7 @@ public class Background extends Drawable {
     
     private short NUM_CLOUDS = 15;
     private Square bg;
+    private Square bgc;
     private Square[] clouds = new Square[NUM_CLOUDS];
     private float[] speeds = new float[NUM_CLOUDS];
 
@@ -12,15 +13,24 @@ public class Background extends Drawable {
         
         position = new float[] { 0, -8, 3f };
         
+        bgc = new Square();
+        bgc.color = new float[] {1, 0, 0, 1};
+        bgc.size = new float[] { 23f, 60f, 0f };
+        bgc.position = new float[] { 0f, 11f, 31f };
+        bgc.texture.enabled = true;
+        bgc.texture.sprite = new int[]{25,13};
+        bgc.texture.size = new int[] { 1, 1 };
+        
+        
         bg = new Square();
         bg.color = new float[] { 0, 0, 0, 1 };
-        bg.size = new float[] { 23f, 23f*(45f/25f), 0f };
-        bg.position = new float[] { 0f, -7f, 30f };
+        bg.size = new float[] { 23f, 23f*(14f/25f), 0f };
+        bg.position = new float[] { 0f, 21f, 30f };
         
         bg.texture.enabled = true;
         bg.texture.sprite = new int[]{15,0};
         
-        bg.texture.size = new int[] { 25, 45 };
+        bg.texture.size = new int[] { 25, 14 };
         
         for(int i = 0; i < NUM_CLOUDS; i++){
           speeds[i] = (float)(Math.random()-0.5);
@@ -50,7 +60,8 @@ public class Background extends Drawable {
     }
 
     public void draw() {
-        bg.draw();
+	bg.draw();
+	bgc.draw();
         for(int i = 0; i < NUM_CLOUDS; i++){
           clouds[i].draw();
         }

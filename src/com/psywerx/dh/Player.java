@@ -6,6 +6,8 @@ public class Player extends PersonSprite {
     float[] startPosition;
     float sPosition = 0.335f;
     public Square bbClose;
+    public boolean powerupGloves = true;
+    private Square gloves;
     
 
     public Player(){
@@ -14,6 +16,20 @@ public class Player extends PersonSprite {
         position[0] = -0.5f;
         position[2] = 1.1f;
         startPosition = position;  
+        
+        gloves = new Square();
+        gloves.size = new float[]{0.20f, 0.20f, 0.2f};
+        gloves.color = new float[]{0f,0f,0f,1f};
+        gloves.texture.enabled = true;
+        gloves.texture.sprite = new int[]{9,15};
+        gloves.texture.startSprite = gloves.texture.sprite;
+        gloves.texture.size   = new int[]{3,2};
+        gloves.texture.anim = new int[]{0, 1, 2, 1};
+        gloves.position = position.clone();
+        gloves.position[2] -= 0.01f;
+        gloves.position[1] -= 0.07f;
+        
+        
         
         bbClose = new Square();
         bbClose.color = new float[]{0f,0f,1f,0f};
@@ -41,7 +57,7 @@ public class Player extends PersonSprite {
     public void tick(float theta){
         
         super.tick(theta);
-        
+        gloves.texture.update(theta);
         speed = new float[]{theta*(direction[0]) * 0.3f + 0.7f*speed[0], 0f};
         
         if(direction[0] == 0 && colide == 0) this.speed[0] = 0;
@@ -65,12 +81,14 @@ public class Player extends PersonSprite {
         bbClose.position[0] = bb.position[0];
         bbClose.position[1] = bb.position[1];
         bbClose.position[2] = bb.position[2];
+        gloves.position[0] = bb.position[0];
     }
     
     @Override
     public void draw(){
 	super.draw();
-//	bb.draw();
+	gloves.draw();
+//		bb.draw();
 //	
 //	bbClose.draw();
 	
