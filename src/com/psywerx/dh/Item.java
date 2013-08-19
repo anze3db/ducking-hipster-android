@@ -4,6 +4,8 @@ public class Item extends Enemy {
 
     private boolean pickedUp = false;
     private float wubbleScale = 0.001f;
+    enum TYPE { COIN, GLOVES };
+    private TYPE type = TYPE.COIN;
 
     @Override
     public void reset() {
@@ -27,18 +29,30 @@ public class Item extends Enemy {
 	s.size = new float[] { 0.1f, 0.1f, 0.25f };
 
 	pickedUp = false;
-
 	bb.size[0] = size[0] * 1.2f;
 	bb.size[1] = size[1] * 1.2f;
+	
+	type = TYPE.COIN;
 
     }
 
+    protected void setSpecial(){
+	s.texture.sprite = new int[] { 9, 8 };
+	s.texture.startSprite = new int[] { 9, 8 };
+	
+	type = TYPE.GLOVES;
+    }
+    
+    protected void removeMe(){
+	Game.preloadedItems.push(this);
+    }
+    
     @Override
     public void tick(float theta) {
 	if (position[1] > 20) {
 	    // This needs to get moved:
 	    removeMe = true;
-	    Game.preloadedItems.push(this);
+	    removeMe();
 	}
 
 	if (s.size[1] < 0.09f) {
@@ -50,25 +64,17 @@ public class Item extends Enemy {
 	s.size[1] += wubbleScale;
 
 	if (Utils.areColliding(this.bb, Game.player1.bb) && !pickedUp) {
-	    Sound.play(Sound.coin);
 	    pickedUp = true;
-	    Game.top.increaseScore(10);
-	    ((MainActivity) MyRenderer.context)
-		    .unlockAchievement(R.string.ach_bitcoin);
-	    ((MainActivity) MyRenderer.context).incrementAchievement(
-		    R.string.ach_bitcoin10, 1);
-	    ((MainActivity) MyRenderer.context).incrementAchievement(
-		    R.string.ach_maniac, 1);
-	    ((MainActivity) MyRenderer.context).incrementAchievement(
-		    R.string.ach_master, 1);
-	    Game.num_picked_up++;
+	    Sound.play(Sound.coin);
+	    L.d("TYPE PICKED UP BEFORE WHAT: " + type);
+	    pickedUp();
 	}
 	if (pickedUp) {
 	    position[2] -= theta * 0.00212f;
 	    position[1] += theta * 0.0005f;
 	    position[0] = 0.9f * position[0];
-	    s.texture.sprite = new int[] { 11, 10 };
-	    s.texture.startSprite = new int[] { 11, 10 };
+	    s.texture.sprite[0] = 11;
+	    s.texture.startSprite[0] = 11;
 	} else if (bb.position[1] + bb.size[1] / 2 > Game.player1.sPosition) {
 	    position[2] += speed[1] * theta * 0.112f;
 	    position[1] -= speed[1] * 0.1f;
@@ -80,5 +86,25 @@ public class Item extends Enemy {
 
 	this.move(0, speed[1] * theta * 0.05f, speed[1] * theta * 0.001f);
 
+    }
+    
+    private void pickedUp(){
+	switch(type){
+	case COIN:
+	    Game.top.increaseScore(10);
+	    ((MainActivity) MyRenderer.context)
+	    .unlockAchievement(R.string.ach_bitcoin);
+	    ((MainActivity) MyRenderer.context).incrementAchievement(
+		    R.string.ach_bitcoin10, 1);
+	    ((MainActivity) MyRenderer.context).incrementAchievement(
+		    R.string.ach_maniac, 1);
+	    ((MainActivity) MyRenderer.context).incrementAchievement(
+		    R.string.ach_master, 1);
+	    Game.num_picked_up++;
+	    break;
+	case GLOVES:
+	    Game.player1.powerup(type);
+	    break;
+	}
     }
 }

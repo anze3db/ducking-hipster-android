@@ -90,6 +90,17 @@ class Level {
                 item.move(0, 0, (float)Game.rand.nextDouble()/100.0f);
                 SceneGraph.activeObjects.add(item);
                 break;
+            case 'p':
+
+        	Item special = Game.preloadedItems.pop();
+        	special.reset();
+        	special.setSpecial();
+        	special.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
+        	special.position[0] = (i-3)/2.9f;               
+        	special.move(0, 0, (float)Game.rand.nextDouble()/100.0f);
+                SceneGraph.activeObjects.add(special);
+        	
+        	break;
             case '?':
                 if(Math.random() < 0.5) break;
             case 'e':

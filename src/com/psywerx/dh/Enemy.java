@@ -132,7 +132,7 @@ public class Enemy extends PersonSprite {
         }
         // DIE
         else if (collision) {
-            
+            L.d("AAAA");
             if (!Game.player1.dead) {
 		Sound.play(Sound.hit);
 		timeDead = 0;

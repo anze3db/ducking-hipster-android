@@ -2,16 +2,17 @@ package com.psywerx.dh;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
-
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.example.games.basegameutils.BaseGameActivity;
 
@@ -112,11 +113,14 @@ public class MainActivity extends BaseGameActivity {
     protected void onCreate(Bundle savedInstanceState) {
 	requestWindowFeature(Window.FEATURE_NO_TITLE);
 	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	
+	
 	super.onCreate(savedInstanceState);
 
 	create();
 	
     }
+    
     private void pauseGame() {
 	Sound.pauseGame();
 
@@ -150,10 +154,16 @@ public class MainActivity extends BaseGameActivity {
 	EasyTracker.getInstance().activityStop(this);
 	mGLView.onPause();
     }
-
+    
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     protected void onResume() {
 	super.onResume();
+	
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+	    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+	}
+	
 	mGLView.onResume();
 	resumeGame();
 	EasyTracker.getInstance().activityStart(this);

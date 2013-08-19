@@ -6,7 +6,7 @@ public class Player extends PersonSprite {
     float[] startPosition;
     float sPosition = 0.335f;
     public Square bbClose;
-    public boolean powerupGloves = true;
+    public boolean powerupGloves = false;
     private Square gloves;
     
 
@@ -57,6 +57,10 @@ public class Player extends PersonSprite {
     public void tick(float theta){
         
         super.tick(theta);
+        if(powerupGloves){
+            powerupGloves = Game.top.powerUpCnt(theta);
+            
+        }
         gloves.texture.update(theta);
         speed = new float[]{theta*(direction[0]) * 0.3f + 0.7f*speed[0], 0f};
         
@@ -84,10 +88,22 @@ public class Player extends PersonSprite {
         gloves.position[0] = bb.position[0];
     }
     
+    public void powerup(Item.TYPE type){
+	switch(type){
+	case GLOVES:
+	    if(!dead)
+	    powerupGloves = true;
+	case COIN:
+	    break;
+	default:
+	    break;
+	}
+    }
+    
     @Override
     public void draw(){
 	super.draw();
-	gloves.draw();
+	if(powerupGloves) gloves.draw();
 //		bb.draw();
 //	
 //	bbClose.draw();
