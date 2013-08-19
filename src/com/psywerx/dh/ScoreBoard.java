@@ -12,6 +12,7 @@ public class ScoreBoard {
     private float powerUpCnt=5000;
     private int powerCnt=5;
     private Square pwrBg;
+    private boolean pwrB = false;
     
     
     public ScoreBoard(){
@@ -46,15 +47,16 @@ public class ScoreBoard {
     }
     public boolean powerUpCnt(float theta){
 	powerUpCnt-=theta;
-	
+	pwrB = true;
 	if(powerCnt - Math.floor(powerUpCnt/1000) > 1){
+	    if(powerCnt > 1) powerCnt--;
 	    powerUp.update(String.format("%1d", powerCnt-1));
-	    powerCnt--;
 	}
 	
 	if(powerUpCnt < 5){
             powerUpCnt = 5000;
             powerCnt = 5;
+            pwrB = false;
             return false;
         }
         return true;
@@ -67,7 +69,7 @@ public class ScoreBoard {
         GLES20.glUniformMatrix4fv(Game.program.projectionMatrixLoc, 1, false,
                 id, 0);
         scoreText.draw();
-        if(powerCnt != 5){
+        if(pwrB){
             pwrBg.draw();
             powerUp.draw(); 
         } 
