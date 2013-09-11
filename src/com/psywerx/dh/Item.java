@@ -1,12 +1,22 @@
 package com.psywerx.dh;
 
+
 public class Item extends Enemy {
 
     private boolean pickedUp = false;
     private float wubbleScale = 0.001f;
-    enum TYPE { COIN, GLOVES };
+    enum TYPE { COIN, GLOVES, MAGNET, EXTRA_COINS };
     private TYPE type = TYPE.COIN;
+    private TYPE[] specials = { TYPE.GLOVES, TYPE.MAGNET, TYPE.EXTRA_COINS };
+    private float[] large = {3f, 0.22f, 0.25f };
+    private float[] normal = { 0.22f, 0.22f, 0.25f };
 
+    
+    public Item(){
+	super();
+	canReplace = false;
+    }
+    
     @Override
     public void reset() {
 
@@ -40,10 +50,13 @@ public class Item extends Enemy {
 	s.texture.sprite = new int[] { 9, 8 };
 	s.texture.startSprite = new int[] { 9, 8 };
 	
-	type = TYPE.GLOVES;
+	L.d((int)(Game.rand.nextInt(specials.length)) + "");
+	type = specials[Game.rand.nextInt(specials.length)];
+	type = TYPE.EXTRA_COINS;
     }
     
-    protected void removeMe(){
+    public void removeMe(){
+	removeMe = true;
 	Game.preloadedItems.push(this);
     }
     
@@ -54,7 +67,12 @@ public class Item extends Enemy {
 	    removeMe = true;
 	    removeMe();
 	}
-
+	if(Game.player1.powerupMagnet){
+	    bb.size = large;
+	}
+	else{
+	    bb.size = normal;
+	}
 	if (s.size[1] < 0.09f) {
 	    wubbleScale = Math.abs(wubbleScale);
 	} else if (s.size[1] > 0.11f) {
@@ -66,7 +84,6 @@ public class Item extends Enemy {
 	if (Utils.areColliding(this.bb, Game.player1.bb) && !pickedUp) {
 	    pickedUp = true;
 	    Sound.play(Sound.coin);
-	    L.d("TYPE PICKED UP BEFORE WHAT: " + type);
 	    pickedUp();
 	}
 	if (pickedUp) {
@@ -104,6 +121,26 @@ public class Item extends Enemy {
 	    break;
 	case GLOVES:
 	    Game.player1.powerup(type);
+	    break;
+	case MAGNET:
+	    Game.player1.powerup(type);
+	    break;
+	case EXTRA_COINS:
+	    
+	    for(int i = 0; i < SceneGraph.activeObjects.size(); i++){
+		Drawable object = SceneGraph.activeObjects.get(i);
+		if(object instanceof Enemy){
+		    Enemy e = (Enemy)object;
+		    if(!e.canReplace) continue;
+		    Item item = Game.preloadedItems.pop();
+		    item.reset();
+		    item.speed = e.speed.clone();
+		    item.position = e.position.clone();
+		    SceneGraph.toAdd.add(item);
+		    Game.powerupCoin = true;
+		    e.removeMe();
+		}
+	    }
 	    break;
 	}
     }

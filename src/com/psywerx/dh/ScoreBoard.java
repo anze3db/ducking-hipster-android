@@ -9,8 +9,8 @@ public class ScoreBoard {
     int score;
     float[] id = new float[16];
     private Text powerUp;
-    private float powerUpCnt=5000;
-    private int powerCnt=5;
+    private float powerUpCnt=9000;
+    private int powerCnt=9;
     private Square pwrBg;
     private boolean pwrB = false;
     
@@ -22,7 +22,7 @@ public class ScoreBoard {
         scoreText.setSize(new float[]{0.07f, 0.05f});
         scoreText.move(new float[]{0.2f, 0.9f, -0.5f});
         
-        powerUp = new Text("5");
+        powerUp = new Text("9");
         powerUp.setSize(new float[]{0.05f, 0.03f});
         powerUp.move(new float[]{-0.2f, 0.9f, -0.5f});
         
@@ -53,9 +53,9 @@ public class ScoreBoard {
 	    powerUp.update(String.format("%1d", powerCnt-1));
 	}
 	
-	if(powerUpCnt < 5){
-            powerUpCnt = 5000;
-            powerCnt = 5;
+	if(powerUpCnt < 10){
+            powerUpCnt = 9000;
+            powerCnt = 9;
             pwrB = false;
             return false;
         }

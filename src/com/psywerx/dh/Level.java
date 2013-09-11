@@ -71,7 +71,8 @@ class Level {
         }
         int x = (int) (Math.random()*w.positions.length);
         for(int i = 0; i < w.positions.length; i++){
-            switch(w.positions[i].type){
+            char type = (Game.powerupCoin && w.positions[i].type != '_') ? 'c' : w.positions[i].type;
+            switch(type){
             case 'x':
                 if(i == x) break;
                 Enemy ex = Game.preloadedEnemies.pop();
@@ -86,8 +87,10 @@ class Level {
                 Item item = Game.preloadedItems.pop();
                 item.reset();
                 item.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
+                L.d(item.speed[1] + "");
                 item.position[0] = (i-3)/2.9f;               
-                item.move(0, 0, (float)Game.rand.nextDouble()/100.0f);
+                item.direction = w.positions[i].direction;
+                item.move(0, 0, -1.0f*currentWave/10000.0f+(float)Game.rand.nextDouble()/100000.0f);
                 SceneGraph.activeObjects.add(item);
                 break;
             case 'p':
@@ -96,7 +99,7 @@ class Level {
         	special.reset();
         	special.setSpecial();
         	special.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
-        	special.position[0] = (i-3)/2.9f;               
+        	special.position[0] = (i-3)/2.9f;       
         	special.move(0, 0, (float)Game.rand.nextDouble()/100.0f);
                 SceneGraph.activeObjects.add(special);
         	

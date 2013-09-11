@@ -27,7 +27,6 @@ class WavePosition{
         speed = params[1].equals("_") ? 0 : Float.parseFloat(params[0]);
         type = params[1].toCharArray()[0];
         if(params.length > 2){
-            L.w("Reading from file: " + Float.parseFloat(params[2]));
             direction = Float.parseFloat(params[2])/200;
         }
     }

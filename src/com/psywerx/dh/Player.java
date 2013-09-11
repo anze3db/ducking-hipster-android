@@ -7,7 +7,9 @@ public class Player extends PersonSprite {
     float sPosition = 0.335f;
     public Square bbClose;
     public boolean powerupGloves = false;
+    public boolean powerupMagnet = false;
     private Square gloves;
+    private Square magnet;
     
 
     public Player(){
@@ -29,6 +31,16 @@ public class Player extends PersonSprite {
         gloves.position[2] -= 0.01f;
         gloves.position[1] -= 0.07f;
         
+        magnet = new Square();
+        magnet.size = new float[]{0.20f, 0.20f, 0.2f};
+        magnet.texture.enabled = true;
+        magnet.texture.sprite = new int[]{9,18};
+        magnet.texture.startSprite = magnet.texture.sprite;
+        magnet.texture.size   = new int[]{2,2};
+        magnet.texture.anim = new int[]{0};
+        magnet.position = position.clone();
+        magnet.position[2] -= 0.01f;
+        magnet.position[1] -= 0.07f;
         
         
         bbClose = new Square();
@@ -61,7 +73,12 @@ public class Player extends PersonSprite {
             powerupGloves = Game.top.powerUpCnt(theta);
             
         }
+        if(powerupMagnet){
+            powerupMagnet = Game.top.powerUpCnt(theta);
+            
+        }
         gloves.texture.update(theta);
+        magnet.texture.update(theta);
         speed = new float[]{theta*(direction[0]) * 0.3f + 0.7f*speed[0], 0f};
         
         if(direction[0] == 0 && colide == 0) this.speed[0] = 0;
@@ -86,13 +103,22 @@ public class Player extends PersonSprite {
         bbClose.position[1] = bb.position[1];
         bbClose.position[2] = bb.position[2];
         gloves.position[0] = bb.position[0];
+        magnet.position[0] = bb.position[0];
+        magnet.position[2] = bb.position[2]-0.0001f;
+        magnet.position[1] = bb.position[1]-0.0701f;
+    
     }
     
     public void powerup(Item.TYPE type){
 	switch(type){
 	case GLOVES:
 	    if(!dead)
-	    powerupGloves = true;
+		powerupGloves = true;
+	    break;
+	case MAGNET:
+	    if(!dead)
+		powerupMagnet = true;
+	    break;
 	case COIN:
 	    break;
 	default:
@@ -104,6 +130,7 @@ public class Player extends PersonSprite {
     public void draw(){
 	super.draw();
 	if(powerupGloves) gloves.draw();
+	if(powerupMagnet) magnet.draw();
 //		bb.draw();
 //	
 //	bbClose.draw();

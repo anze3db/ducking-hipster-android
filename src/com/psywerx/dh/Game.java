@@ -27,6 +27,7 @@ public class Game {
     static char prevState = 'M';
     public static int num_picked_up = 0;
     public static int num_changed = 0;
+    public static boolean powerupCoin = false;
     
     protected static Player player1;
     protected static float position;
@@ -94,17 +95,27 @@ public class Game {
             } else if(d instanceof Enemy){
                 Game.preloadedEnemies.push((Enemy)d);
             }
+            dws.remove();
+        }
+        
+        dws = SceneGraph.behindObjects.iterator();
+        while (dws.hasNext()) {
+            Drawable d = dws.next();
+            if(d instanceof Item){
+              Game.preloadedItems.push((Item)d);
+            } else if(d instanceof Enemy){
+                Game.preloadedEnemies.push((Enemy)d);
+            }
+            dws.remove();
         }
         
         num_changed = 0;
         num_picked_up = 0;
-        SceneGraph.activeObjects = new LinkedList<Drawable>();
         top = new ScoreBoard();
         //SceneGraph.activeObjects.add(top);
         level = 0;
         player1 = new Player();
         player1.move(0.5f, 0, 0);
-        SceneGraph.activeObjects.add(player1);
         Game.state = 'G';
         levelHints.reset();
         lvls.levels[currentLevel].reset();
@@ -124,6 +135,9 @@ public class Game {
             break;
         default:
             bg.tick(theta);
+            
+            if(powerupCoin)
+                powerupCoin = Game.top.powerUpCnt(theta);
             lvls.levels[currentLevel].tick(theta);
             SceneGraph.tick(theta);
             Game.smoothPosition = 0.9f*Game.smoothPosition + 0.1f*Game.player1.position[0];
