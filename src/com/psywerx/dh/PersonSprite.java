@@ -49,10 +49,10 @@ public class PersonSprite extends Drawable {
         //Utils.add(position, x,y,z);
         s.position = position;
         bb.position[0] = position[0];
-        bb.position[1] = position[1]-0.2f;
-        bb.position[2] = position[2];
+        bb.position[1] = position[1] - size[1]+bb.size[1];
+        bb.position[2] = position[2]-0.01f;
     }
-    
+
     @Override
     public void tick(float theta){
         s.texture.update(theta);

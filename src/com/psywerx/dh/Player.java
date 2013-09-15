@@ -14,10 +14,10 @@ public class Player extends PersonSprite {
 
     public Player(){
         
-        position[1] += 0.55; 
+        position[1] += 0.50; 
         position[0] = -0.5f;
         position[2] = 1.1f;
-        startPosition = position;  
+        startPosition = position.clone();  
         
         gloves = new Square();
         gloves.size = new float[]{0.20f, 0.20f, 0.2f};
@@ -131,7 +131,7 @@ public class Player extends PersonSprite {
 	super.draw();
 	if(powerupGloves) gloves.draw();
 	if(powerupMagnet) magnet.draw();
-//		bb.draw();
+//	bb.draw();
 //	
 //	bbClose.draw();
 	

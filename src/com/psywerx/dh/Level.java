@@ -87,7 +87,6 @@ class Level {
                 Item item = Game.preloadedItems.pop();
                 item.reset();
                 item.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
-                L.d(item.speed[1] + "");
                 item.position[0] = (i-3)/2.9f;               
                 item.direction = w.positions[i].direction;
                 item.move(0, 0, -1.0f*currentWave/10000.0f+(float)Game.rand.nextDouble()/100000.0f);
@@ -110,9 +109,10 @@ class Level {
                 Enemy e = Game.preloadedEnemies.pop();
                 e.reset();
                 e.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
-                e.move(0, 0, (float)Game.rand.nextDouble()/100.0f);
+                e.move(0, 0, (i-3)/100f);
                 e.direction = w.positions[i].direction;
                 e.position[0] = (i-3)/2.9f;
+                
                 SceneGraph.activeObjects.add(e);
                 break;
             case 's':

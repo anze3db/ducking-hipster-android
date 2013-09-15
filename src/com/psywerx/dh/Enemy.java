@@ -5,8 +5,6 @@ import com.google.analytics.tracking.android.EasyTracker;
 public class Enemy extends PersonSprite {
 
     protected float r = 0.01f + Game.rand.nextFloat() / 100;
-    protected Texture colTexture = new Texture();
-    protected Square col = new Square();
     protected float timeDead;
     protected boolean score = false;
     protected boolean nearMiss = false;
@@ -34,12 +32,7 @@ public class Enemy extends PersonSprite {
 	position[1] = -2f;
 	removeMe = false;
 
-	colTexture.enabled = true;
-	colTexture.sprite = new int[] { 9, 6 };
-	colTexture.startSprite = new int[] { 9, 6 };
-	colTexture.size = new int[] { 2, 2 };
-	colTexture.anim = new int[] { 1, 0, 1, 2, 1 };
-	colTexture.animSpeed = 0.5f;
+
 
 	bubbleTex.enabled = true;
 	bubbleTex.sprite = new int[] { 9, 3 };
@@ -51,8 +44,6 @@ public class Enemy extends PersonSprite {
 	bubble.texture = bubbleTex;
 	bubble.size = new float[] { 0.15f, 0.15f, 0.15f };
 
-	col.texture = colTexture;
-	col.size = new float[] { 0.2f, 0.2f, 0.25f };
 	timeDead = 0f;
 	score = false;
 	nearMiss = false;
@@ -74,8 +65,8 @@ public class Enemy extends PersonSprite {
 	if (thrown) {
 
 	    position[0] += direction * theta * 0.00112f;
-	    position[2] -= theta * 0.0012f;
-	    position[1] -= theta * 0.00022f;
+	    position[2] -= theta * 0.0052f;
+	    position[1] += theta * 0.00022f;
 	    bubble.position[0] = position[0] - 0.05f;
 	    bubble.position[1] = position[1] + 0.4f;
 	    bubble.position[2] = position[2] - 0.01f;
@@ -109,9 +100,6 @@ public class Enemy extends PersonSprite {
 	} else {
 	    position[0] += speed[1] * theta * direction;
 	}
-	col.position[0] = -100f;
-	col.position[1] = -100f;
-	col.position[2] = 0f;
 	bubble.position[0] = position[0] - 0.05f;
 	bubble.position[1] = position[1] + 0.4f;
 	bubble.position[2] = position[2] - 0.01f;
@@ -126,17 +114,23 @@ public class Enemy extends PersonSprite {
 	bubble.texture.update(theta);
 	boolean collision = Utils.areColliding(this.bb, Game.player1.bb);
 	boolean nearHitCollision = Utils.areColliding(this.bb, Game.player1.bbClose);
+
+	this.move(0, speed[1] * theta * 0.05f, speed[1] * theta * 0.001f);
+	
 	// Start throwing people
 	if (nearHitCollision && Game.player1.powerupGloves) {
 	    thrown = true;
 	    Sound.play(Sound.mad);
-	    direction = Math.random() < 0.5 ? 1 : -1;
+	    direction = position[0] < -0.5 ? -1 : 1;
 	}
 	// DIE
-	else if (collision) {
+	else if (collision && Game.player1.position[1] > position[1]) {
 	    if (!Game.player1.dead) {
 		Sound.play(Sound.hit);
 		timeDead = 0;
+		Game.player1.position[2] = position[2] + 0.001f;
+		Game.collision.enabled = true;
+
 	    } else {
 		timeDead += theta;
 	    }
@@ -148,22 +142,16 @@ public class Enemy extends PersonSprite {
 		Sound.gameEnd();
 	    }
 
-	    // Bug where player is in front of the collision:
-	    if (Game.player1.position[2] < position[2]) {
-
-		Game.player1.position[2] -= (0.01f + Game.player1.position[2] - position[2]);
-		Game.player1.position[1] = position[1] + 0.01f;
-	    }
-
 	    Game.player1.dead = true;
-	    Game.player1.move(0, speed[1] * theta * 0.05f, 0);
-	    Game.player1.position[2] += speed[1] * theta * 0.112f;
 	    Game.player1.position[1] -= speed[1] * 0.1f;
-	    col.position = position.clone();
-	    col.position[0] += (Game.player1.position[0] - position[0]) / 2;
-	    col.position[2] -= 0.01f;
-
-	    col.texture.update(theta);
+	    Game.player1.position[2] += speed[1] * theta * 0.112f;
+	    Game.player1.move(0, speed[1] * theta * 0.05f, speed[1] * theta * 0.001f);
+	    
+	    
+	    Game.collision.position[0] = position[0] + (Game.player1.position[0] - position[0]) / 2;
+	    Game.collision.position[1] = position[1];
+	    Game.collision.position[2] = position[2] - 0.1f;
+	    
 	} else if (nearHitCollision) {
 	    if (!nearMiss) {
 		if (score) {
@@ -172,7 +160,7 @@ public class Enemy extends PersonSprite {
 		nearMiss = true;
 	    }
 	}
-	this.move(0, speed[1] * theta * 0.05f, speed[1] * theta * 0.001f);
+	
     }
 
     private void nearHit() {
@@ -187,14 +175,13 @@ public class Enemy extends PersonSprite {
     @Override
     public void draw() {
 	super.draw();
-	col.draw();
 	if (score && nearMiss && !Game.player1.dead) {
 	    bubble.draw();
 	}
 	if (thrown) {
 	    bubble.draw();
 	}
-	// bb.draw();
+//	bb.draw();
 
     }
 }

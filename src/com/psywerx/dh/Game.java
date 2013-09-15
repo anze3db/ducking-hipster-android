@@ -1,7 +1,6 @@
 package com.psywerx.dh;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Random;
 import java.util.Stack;
 
@@ -28,6 +27,7 @@ public class Game {
     public static int num_picked_up = 0;
     public static int num_changed = 0;
     public static boolean powerupCoin = false;
+    public static Collision collision;
     
     protected static Player player1;
     protected static float position;
@@ -79,6 +79,7 @@ public class Game {
         achievementsButton = new AchievementsButton();
         soundButton = new SoundButton();
         signInButton = new SignInButton();
+        collision = new Collision();
         //SceneGraph.activeObjects.add(bg);
         
         Game.reset();
@@ -93,22 +94,22 @@ public class Game {
             if(d instanceof Item){
               Game.preloadedItems.push((Item)d);
             } else if(d instanceof Enemy){
-                Game.preloadedEnemies.push((Enemy)d);
+              Game.preloadedEnemies.push((Enemy)d);
             }
             dws.remove();
         }
-        
         dws = SceneGraph.behindObjects.iterator();
         while (dws.hasNext()) {
             Drawable d = dws.next();
             if(d instanceof Item){
               Game.preloadedItems.push((Item)d);
             } else if(d instanceof Enemy){
-                Game.preloadedEnemies.push((Enemy)d);
+              Game.preloadedEnemies.push((Enemy)d);
             }
             dws.remove();
         }
         
+        collision.enabled = false;
         num_changed = 0;
         num_picked_up = 0;
         top = new ScoreBoard();

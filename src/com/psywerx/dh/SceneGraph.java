@@ -21,6 +21,7 @@ public class SceneGraph {
 	    for (int i = 0; i < activeObjects.size(); ++i) {
 		activeObjects.get(i).draw();
 	    }
+	    Game.collision.draw();
 	} catch (Exception e) {
 
 	}
@@ -28,16 +29,18 @@ public class SceneGraph {
 
     static void tick(float theta) {
 	Game.player1.tick(theta);
+	Game.collision.tick(theta);
 	activeObjects.addAll(toAdd);
 	toAdd.clear();
 	dws = activeObjects.iterator();
+	
 	while (dws.hasNext()) {
 	    d = dws.next();
 	    d.tick(theta);
 	    if (d.removeMe) {
 		dws.remove();
 	    }
-	    else if(d.position[1] > Game.player1.position[1]){
+	    else if(d.position[1] > Game.player1.position[1] && d.position[2] > Game.player1.position[2]){
 		dws.remove();
 		behindObjects.add(d);
 	    }

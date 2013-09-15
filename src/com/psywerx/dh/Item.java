@@ -8,8 +8,8 @@ public class Item extends Enemy {
     enum TYPE { COIN, GLOVES, MAGNET, EXTRA_COINS };
     private TYPE type = TYPE.COIN;
     private TYPE[] specials = { TYPE.GLOVES, TYPE.MAGNET, TYPE.EXTRA_COINS };
-    private float[] large = {3f, 0.22f, 0.25f };
-    private float[] normal = { 0.22f, 0.22f, 0.25f };
+    private static float[] large = {3f, 0.22f, 0.25f };
+    private static float[] normal = { 0.12f, 0.12f, 0.25f };
 
     
     public Item(){
@@ -21,7 +21,6 @@ public class Item extends Enemy {
     public void reset() {
 
 	speed[1] = 0.01f;
-	resize(0.15f);
 	position[2] = 1;
 	position[1] = -2f;
 	removeMe = false;
@@ -39,8 +38,7 @@ public class Item extends Enemy {
 	s.size = new float[] { 0.1f, 0.1f, 0.25f };
 
 	pickedUp = false;
-	bb.size[0] = size[0] * 1.2f;
-	bb.size[1] = size[1] * 1.2f;
+	bb.size = normal;
 	
 	type = TYPE.COIN;
 
@@ -49,10 +47,7 @@ public class Item extends Enemy {
     protected void setSpecial(){
 	s.texture.sprite = new int[] { 9, 8 };
 	s.texture.startSprite = new int[] { 9, 8 };
-	
-	L.d((int)(Game.rand.nextInt(specials.length)) + "");
 	type = specials[Game.rand.nextInt(specials.length)];
-	type = TYPE.EXTRA_COINS;
     }
     
     public void removeMe(){
@@ -63,8 +58,6 @@ public class Item extends Enemy {
     @Override
     public void tick(float theta) {
 	if (position[1] > 20) {
-	    // This needs to get moved:
-	    removeMe = true;
 	    removeMe();
 	}
 	if(Game.player1.powerupMagnet){
@@ -92,13 +85,10 @@ public class Item extends Enemy {
 	    position[0] = 0.9f * position[0];
 	    s.texture.sprite[0] = 11;
 	    s.texture.startSprite[0] = 11;
-	} else if (bb.position[1] + bb.size[1] / 2 > Game.player1.sPosition) {
+	} else if (bb.position[1] - bb.size[1]/2 > Game.player1.sPosition) {
 	    position[2] += speed[1] * theta * 0.112f;
 	    position[1] -= speed[1] * 0.1f;
 	}
-	col.position[0] = -100f;
-	col.position[1] = -100f;
-	col.position[2] = 0f;
 	s.texture.update(theta);
 
 	this.move(0, speed[1] * theta * 0.05f, speed[1] * theta * 0.001f);
