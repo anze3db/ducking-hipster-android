@@ -17,6 +17,8 @@ public class Enemy extends PersonSprite {
 
     private boolean thrown = false;
     public boolean canReplace = true;
+    public float[] startPosition;
+    public boolean cosinus;
 
     public Enemy() {
 	reset();
@@ -51,6 +53,7 @@ public class Enemy extends PersonSprite {
 	sinus = false;
 	acum = 0;
 	thrown = false;
+	cosinus = false;
     }
 
     public void removeMe(){
@@ -81,7 +84,7 @@ public class Enemy extends PersonSprite {
 		|| (SceneGraph.activeObjects.size()+SceneGraph.behindObjects.size() > 20 && position[1] > 5)) {
 	    // This needs to get moved:
 	    removeMe();
-	} else if (bb.position[1] + bb.size[1] / 2 > Game.player1.sPosition) {
+	} else if (bb.position[1] + bb.size[1] / 2f > Game.player1.sPosition) {
 	    position[2] += speed[1] * theta * 0.112f;
 	    position[1] -= speed[1] * 0.1f;
 	    if (!score) {
@@ -94,9 +97,11 @@ public class Enemy extends PersonSprite {
 		score = true;
 	    }
 	} else if (sinus) {
-	    acum += theta;
-	    position[0] += Math.cos(acum * speed[1] / direction) / 100;
-
+	    acum += theta/direction/100;
+	    position[0] = startPosition[0] + (float)Math.sin(acum)/10*direction;
+	} else if(cosinus){
+	    acum += theta/direction/100;
+	    position[0] = startPosition[0] + (float)Math.cos(acum)/10*direction;
 	} else {
 	    position[0] += speed[1] * theta * direction;
 	}
@@ -142,11 +147,7 @@ public class Enemy extends PersonSprite {
 		Sound.gameEnd();
 	    }
 
-	    Game.player1.dead = true;
-	    Game.player1.position[1] -= speed[1] * 0.1f;
-	    Game.player1.position[2] += speed[1] * theta * 0.112f;
-	    Game.player1.move(0, speed[1] * theta * 0.05f, speed[1] * theta * 0.001f);
-	    
+	    Game.player1.kill(this);
 	    
 	    Game.collision.position[0] = position[0] + (Game.player1.position[0] - position[0]) / 2;
 	    Game.collision.position[1] = position[1];

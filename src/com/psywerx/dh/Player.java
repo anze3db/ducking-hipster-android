@@ -4,12 +4,13 @@ public class Player extends PersonSprite {
 
     boolean dead;
     float[] startPosition;
-    float sPosition = 0.335f;
+    float sPosition = 0.330f;
     public Square bbClose;
     public boolean powerupGloves = false;
     public boolean powerupMagnet = false;
     private Square gloves;
     private Square magnet;
+    private Enemy killer = null;
     
 
     public Player(){
@@ -56,6 +57,7 @@ public class Player extends PersonSprite {
     }
     
     void resetPlayer(){
+	killer = null;
         position = startPosition;
         move(0,0,0); // hack that resets all the other boxes;
         dead = false;
@@ -94,9 +96,14 @@ public class Player extends PersonSprite {
             this.speed[0] = 0;
         }
 
-        if(!dead){
+        if(dead){
             // You can't move if you're dead...
-            this.move(speed[0]/400, 0, 0);
+            position[1] -= killer.speed[1] * 0.1f;
+	    position[2] += killer.speed[1] * theta * 0.112f;
+	    move(0, killer.speed[1] * theta * 0.05f, killer.speed[1] * theta * 0.001f);
+        }
+        else{
+            move(speed[0]/400, 0,0);
         }
         
         bbClose.position[0] = bb.position[0];
@@ -136,5 +143,10 @@ public class Player extends PersonSprite {
 //	bbClose.draw();
 	
 	
+    }
+
+    public void kill(Enemy enemy) {
+	killer = enemy;
+	dead = true;
     }
 }

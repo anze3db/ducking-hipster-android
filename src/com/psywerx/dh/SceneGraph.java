@@ -13,15 +13,18 @@ public class SceneGraph {
 
     static void draw() {
 	try {
-
 	    for (int i = 0; i < behindObjects.size(); i++) {
 		behindObjects.get(i).draw();
 	    }
 	    Game.player1.draw();
+	    boolean collisionDrawn = false;
 	    for (int i = 0; i < activeObjects.size(); ++i) {
+		if(!collisionDrawn && activeObjects.get(i).position[1] < Game.player1.position[1]-0.5){
+		    collisionDrawn = true;
+		    Game.collision.draw();
+		}
 		activeObjects.get(i).draw();
 	    }
-	    Game.collision.draw();
 	} catch (Exception e) {
 
 	}

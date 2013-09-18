@@ -12,9 +12,11 @@ public class LevelHints extends Hint {
     }
     public void nextHint() {
         progress++;
-        s.texture.sprite = new int[]{41,39+progress*2};
-        s.texture.startSprite = new int[]{41,36+progress*2};
-        active = true;
+        if(progress < 5){
+            s.texture.sprite = new int[]{41,39+progress*2};
+            s.texture.startSprite = new int[]{41,36+progress*2};
+            active = true;
+        }
     }
     public void reset(){
         progress = 0;

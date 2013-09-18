@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.util.LinkedList;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 class Levels {
 
@@ -32,7 +31,7 @@ class Levels {
 
             } catch (Exception e) {
                 // e.printStackTrace();
-                Log.e("smotko", "Level could not be read.");
+                L.e("Level could not be read.");
                 e.printStackTrace();
             }
         }
@@ -83,7 +82,6 @@ class Level {
                 SceneGraph.activeObjects.add(ex);
                 break;
             case 'c':
-        	if(Math.random() < 0.2) break;
                 Item item = Game.preloadedItems.pop();
                 item.reset();
                 item.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
@@ -112,17 +110,24 @@ class Level {
                 e.move(0, 0, (i-3)/100f);
                 e.direction = w.positions[i].direction;
                 e.position[0] = (i-3)/2.9f;
-                
                 SceneGraph.activeObjects.add(e);
                 break;
             case 's':
+            case 'o':
                 Enemy s = Game.preloadedEnemies.pop();
                 s.reset();
                 s.speed[1] = w.positions[i].speed/500f + (Game.levelHints.progress/2f)/100f;
+                s.speed[0] = w.positions[i].direction*150;
                 s.move(0, 0, (float)Game.rand.nextDouble()/100.0f);
-                s.sinus = true;
-                s.direction = w.positions[i].direction*200;
+                if(type == 's'){
+                    s.sinus = true;
+                }
+                else{
+                    s.cosinus = true;
+                }
+                s.direction = w.positions[i].direction*150;
                 s.position[0] = (i-3)/2.9f;
+                s.startPosition = s.position.clone();
                 SceneGraph.activeObjects.add(s);
                 break;
             case 'h':
@@ -150,7 +155,7 @@ class Level {
                 }
                 break;
             case 'l':
-              Game.level += 1;
+              Game.level += 1+Game.rand.nextInt(Game.program.textures.length-1);
               Game.level %= Game.program.textures.length;
               break;
             }
