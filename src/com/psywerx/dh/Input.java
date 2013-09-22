@@ -37,6 +37,7 @@ public class Input {
 		Game.shareButton.onDown(position, positionY);
 		Game.achievementsButton.onDown(position, positionY);
 		Game.signInButton.onDown(position, positionY);
+		Game.donateButton.onDown(position, positionY);
 	    }
 	    if (Game.state == 'G') {
 		Game.pauseButton.onDown(position, positionY);
@@ -63,6 +64,7 @@ public class Input {
 		a.showAchievements();
 	    }
 	    else if(Game.soundButton.onUp(position, positionY)){
+		
 		Sound.toggleSound();
 	    }
 	    else if(Game.playButton.onUp(position, positionY)){
@@ -72,6 +74,9 @@ public class Input {
 	    else if(Game.restartButton.onUp(position, positionY)){
 		Game.reset();
 		Sound.resumeGame();
+	    }
+	    else if(Game.donateButton.onUp(position, positionY)){
+		a.showDonation();
 	    }
 	    else if(Game.continueButton.onUp(position, positionY)){
 		Game.state = 'G';

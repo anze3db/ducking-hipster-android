@@ -21,6 +21,7 @@ public class Game {
     static RestartButton restartButton;
     static ShareButton shareButton;
     static AchievementsButton achievementsButton;
+    static DonateButton donateButton;
     static boolean gameCreated = false;
     public static boolean isSignedIn = false;
     static char prevState = 'M';
@@ -52,6 +53,7 @@ public class Game {
     static SoundButton soundButton;
     protected static int level = 0;
     static SignInButton signInButton;
+    
 
     static void create(GlProgram program) {
         if(gameCreated) return;
@@ -75,6 +77,7 @@ public class Game {
         pauseButton = new PauseButton();
         continueButton = new ContinueButton();
         restartButton = new RestartButton();
+        donateButton = new DonateButton();
         shareButton = new ShareButton();
         achievementsButton = new AchievementsButton();
         soundButton = new SoundButton();
@@ -164,6 +167,7 @@ public class Game {
             achievementsButton.draw();
             shareButton.draw();
             soundButton.draw();
+            donateButton.draw();
             break;
         case 'P':
 //            bg.draw();
@@ -175,6 +179,7 @@ public class Game {
             achievementsButton.draw();
             shareButton.draw();
             soundButton.draw();
+            donateButton.draw();
             break;
         case 'E':
 //            bg.draw();
@@ -183,6 +188,7 @@ public class Game {
 //            top.draw();
             signInButton.draw();
             restartButton.draw();
+            donateButton.draw();
             achievementsButton.draw();
             shareButton.draw();
             soundButton.draw();

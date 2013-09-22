@@ -2,8 +2,10 @@ package com.psywerx.dh;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
@@ -12,15 +14,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.example.games.basegameutils.BaseGameActivity;
+import com.mobimicro.mobimicrosdk.Checkout;
+import com.mobimicro.mobimicrosdk.MobiMicroView;
 
 public class MainActivity extends BaseGameActivity {
 
     private MyGLSurfaceView mGLView;
     // request codes we use when invoking an external activity
     final int RC_RESOLVE = 5000, RC_UNUSED = 5001;
+    private MobiMicroView ad;
     public boolean isSignedIn(){
 	
 	return mHelper.isSignedIn();
@@ -47,6 +54,8 @@ public class MainActivity extends BaseGameActivity {
 
 	    @Override
 	    public void run() {
+		
+		
 		startActivityForResult(getGamesClient().getAchievementsIntent(), RC_UNUSED);
 	    }
 
@@ -74,7 +83,17 @@ public class MainActivity extends BaseGameActivity {
 	    }
 	});
     }
-    
+    public void showDonation(){
+	runOnUiThread(new Runnable() {
+	    @Override
+	    public void run() {
+		Intent intent = new Intent(ad.getContext(), Checkout.class);
+		ad.getContext().startActivity(intent);
+	    }
+
+	});
+	
+    }
     
     public void showScores() {
 	runOnUiThread(new Runnable() {
@@ -106,7 +125,7 @@ public class MainActivity extends BaseGameActivity {
 	mGLView = new MyGLSurfaceView(this);
 
 	setContentView(mGLView);
-
+	
 	EasyTracker.getInstance().setContext(this);
     }
     @Override
@@ -119,6 +138,16 @@ public class MainActivity extends BaseGameActivity {
 
 	create();
 	
+	int wrap = RelativeLayout.LayoutParams.WRAP_CONTENT;
+	RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(wrap, wrap);
+	params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+	params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+		
+	ad = new MobiMicroView(this);
+	ad.setDeveloperID("1esagTSfY4l");
+	ad.setToken("6n810HZRQFk");
+	ad.setAppID("DuckingHipster");
+	ad.setType(MobiMicroView.CUSTOM_BANNER);
     }
     
     private void pauseGame() {
