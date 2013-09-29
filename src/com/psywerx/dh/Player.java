@@ -11,7 +11,7 @@ public class Player extends PersonSprite {
     private Square gloves;
     private Square magnet;
     private Enemy killer = null;
-    public boolean GOD_MODE = true;
+    public boolean GOD_MODE = false;
     
 
     public Player(){
