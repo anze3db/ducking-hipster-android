@@ -124,6 +124,7 @@ public class Enemy extends PersonSprite {
 	
 	// Start throwing people
 	if (nearHitCollision && Game.player1.powerupGloves) {
+	    Game.top.increaseScore(10);
 	    thrown = true;
 	    Sound.play(Sound.mad);
 	    direction = position[0] < -0.5 ? -1 : 1;
