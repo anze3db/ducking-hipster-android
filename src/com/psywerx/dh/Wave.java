@@ -24,7 +24,7 @@ class WavePosition{
     float direction;
     
     WavePosition(String[] params){
-        speed = params[1].equals("_") ? 0 : Float.parseFloat(params[0]);
+        speed = (params[1].equals("_") || params[1].equals("-")) ? 7 : Float.parseFloat(params[0]);
         type = params[1].toCharArray()[0];
         if(params.length > 2){
             direction = Float.parseFloat(params[2])/150;

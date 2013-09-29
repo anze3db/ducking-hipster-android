@@ -124,13 +124,13 @@ public class Enemy extends PersonSprite {
 	
 	// Start throwing people
 	if (nearHitCollision && Game.player1.powerupGloves) {
-	    Game.top.increaseScore(10);
+	    Game.top.increaseScore(5);
 	    thrown = true;
 	    Sound.play(Sound.mad);
 	    direction = position[0] < -0.5 ? -1 : 1;
 	}
 	// DIE
-	else if (collision && Game.player1.position[1] > position[1]) {
+	else if (!Game.player1.GOD_MODE && collision && Game.player1.position[1] > position[1]) {
 	    if (!Game.player1.dead) {
 		Sound.play(Sound.hit);
 		timeDead = 0;
