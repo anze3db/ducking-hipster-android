@@ -48,7 +48,6 @@ public class Item extends Enemy {
 	s.texture.sprite = new int[] { 9, 8 };
 	s.texture.startSprite = new int[] { 9, 8 };
 	type = specials[Game.rand.nextInt(specials.length)];
-	type = TYPE.MAGNET;
     }
     
     public void removeMe(){
