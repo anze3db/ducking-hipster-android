@@ -6,6 +6,8 @@ import javax.microedition.khronos.opengles.GL10;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
@@ -18,6 +20,12 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.games.GamesClient;
+import com.google.android.gms.games.leaderboard.LeaderboardBuffer;
+import com.google.android.gms.games.leaderboard.LeaderboardScore;
+import com.google.android.gms.games.leaderboard.LeaderboardScoreBuffer;
+import com.google.android.gms.games.leaderboard.LeaderboardVariant;
+import com.google.android.gms.games.leaderboard.OnLeaderboardScoresLoadedListener;
 import com.google.example.games.basegameutils.BaseGameActivity;
 import com.mobimicro.mobimicrosdk.Checkout;
 import com.mobimicro.mobimicrosdk.MobiMicroView;
@@ -28,6 +36,7 @@ public class MainActivity extends BaseGameActivity {
     // request codes we use when invoking an external activity
     final int RC_RESOLVE = 5000, RC_UNUSED = 5001;
     private MobiMicroView ad;
+    public SharedPreferences settings;
     public boolean isSignedIn(){
 	
 	return mHelper.isSignedIn();
@@ -105,19 +114,28 @@ public class MainActivity extends BaseGameActivity {
 	});
     }
 
-    public void newScore(final int score) {
+    public boolean newScore(final int score) {
+	
+	
 	runOnUiThread(new Runnable() {
 
 	    @Override
 	    public void run() {
 		if (isSignedIn()) {
-
+		    
 		    getGamesClient().submitScore(
 			    getString(R.string.leaderboard), score);
 
 		}
 	    }
 	});
+	if(score > settings.getInt("score", 0)){
+	    Editor editor = settings.edit();
+	    editor.putInt("score", score);
+	    editor.commit();
+	    return true;
+	}
+	return false;
     }
     private void create(){
 	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -135,7 +153,7 @@ public class MainActivity extends BaseGameActivity {
 	
 	
 	super.onCreate(savedInstanceState);
-
+	settings = getPreferences(MODE_PRIVATE);
 	create();
 	
 	int wrap = RelativeLayout.LayoutParams.WRAP_CONTENT;
@@ -213,6 +231,31 @@ public class MainActivity extends BaseGameActivity {
 
     @Override
     public void onSignInSucceeded() {
+	
+	getGamesClient().loadPlayerCenteredScores(new OnLeaderboardScoresLoadedListener() {
+	    
+	    @Override
+	    public void onLeaderboardScoresLoaded(int status, LeaderboardBuffer board,
+		    LeaderboardScoreBuffer scores) {
+
+		if(status == GamesClient.STATUS_OK && scores.getCount() > 0){
+		    LeaderboardScore score = scores.get(0);
+		    int highScore = (int) score.getRawScore();
+		    int localScore = settings.getInt("score", 0);
+		    if(highScore > localScore){
+			Editor editor = settings.edit();
+			editor.putInt("score", (int)highScore);
+			editor.commit();
+		    }
+		    else if(highScore < localScore){
+			getGamesClient().submitScore(
+				    getString(R.string.leaderboard), localScore);
+		    }
+		}
+		else{
+		}
+	    }
+	}, getString(R.string.leaderboard), LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC, 1);
     }
 }
 
@@ -267,7 +310,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 	GlProgram program = new GlProgram(context);
-	Game.create(program);
+	Game.create(program, MyRenderer.ma.settings);
 	prev = System.currentTimeMillis();
     }
 

@@ -143,7 +143,9 @@ public class Enemy extends PersonSprite {
 	    if (timeDead > 2000) {
 		EasyTracker.getTracker().sendEvent("Game", "End", "Score",
 			(long) Game.top.score);
-		((MainActivity) MyRenderer.context).newScore(Game.top.score);
+		if(MyRenderer.ma.newScore(Game.top.score)){
+		    Game.isHighScore = true;
+		}
 		Game.state = 'E';
 		Sound.gameEnd();
 	    }

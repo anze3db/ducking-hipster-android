@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Stack;
 
+import android.content.SharedPreferences;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
@@ -28,6 +29,7 @@ public class Game {
     public static int num_picked_up = 0;
     public static int num_changed = 0;
     public static boolean powerupCoin = false;
+    public static boolean isHighScore = false;
     public static Collision collision;
     
     protected static Player player1;
@@ -53,10 +55,12 @@ public class Game {
     static SoundButton soundButton;
     protected static int level = 0;
     static SignInButton signInButton;
+    public static SharedPreferences settings;
     
 
-    static void create(GlProgram program) {
-        if(gameCreated) return;
+    static void create(GlProgram program, SharedPreferences s) {
+        settings = s;
+	if(gameCreated) return;
         Game.program = program;
         
         preloadedEnemies = new Stack<Enemy>();
@@ -123,6 +127,7 @@ public class Game {
         Game.state = 'G';
         levelHints.reset();
         lvls.levels[currentLevel].reset();
+        isHighScore = false;
     }
 
     static void tick(Float theta) {
@@ -172,8 +177,8 @@ public class Game {
         case 'P':
 //            bg.draw();
 //            SceneGraph.draw();
-//            top.draw();
             menu.draw();
+            top.draw();
             signInButton.draw();
             continueButton.draw();
             achievementsButton.draw();
@@ -185,7 +190,7 @@ public class Game {
 //            bg.draw();
 //            SceneGraph.draw();
             menu.draw();
-//            top.draw();
+            top.draw();
             signInButton.draw();
             restartButton.draw();
             donateButton.draw();

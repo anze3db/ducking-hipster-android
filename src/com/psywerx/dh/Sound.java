@@ -1,11 +1,12 @@
 package com.psywerx.dh;
 
+import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 
 public class Sound {
-    public static boolean enabled = true;
+    public static boolean enabled;
 
     static int coin;
     static int hit;
@@ -14,6 +15,8 @@ public class Sound {
 
     private static MediaPlayer bg;
     private static SoundPool sounds = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+    
+    
 
     public static void load() {
 	coin = sounds.load(MyRenderer.context, R.raw.coin, 1);
@@ -25,6 +28,7 @@ public class Sound {
 	
 	bg.setAudioStreamType(AudioManager.STREAM_MUSIC);
 	bg.setLooping(true);
+	enabled = Game.settings.getBoolean("sound", true);
     }
 
     public static void pauseGame() {
@@ -42,6 +46,9 @@ public class Sound {
     }
     
     public static void toggleSound() {
+	Editor editor = Game.settings.edit();
+	editor.putBoolean("sound", !Sound.enabled);
+	editor.commit();
 	Sound.enabled = !Sound.enabled;
     }
     public static void play(int sound, int loop){
@@ -55,7 +62,9 @@ public class Sound {
 
     public static void gameEnd() {
 	bg.pause();
-	bg.seekTo(0);
+	if(Sound.enabled){
+	    bg.seekTo(0);
+	}
     }
 
 }

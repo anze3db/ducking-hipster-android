@@ -20,7 +20,7 @@ public class ScoreBoard {
         score = 0;
         scoreText = new Text(String.format("%07d", score));
         scoreText.setSize(new float[]{0.07f, 0.05f});
-        scoreText.move(new float[]{0.2f, 0.9f, -0.5f});
+        scoreText.move(new float[]{0.2f, 0.915f, -0.6f});
         
         powerUp = new Text("9");
         powerUp.setSize(new float[]{0.05f, 0.03f});

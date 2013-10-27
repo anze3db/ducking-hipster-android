@@ -7,6 +7,8 @@ public class Menu extends Drawable {
 
     private Square s;
     private float[] id = new float[16];
+    private Square high;
+    private float acum = 0;
     
     
     public Menu(){
@@ -22,10 +24,22 @@ public class Menu extends Drawable {
         s.texture.anim = new int[]{0,};
         
         
+        
+        high = new Square();
+        high.size = new float[]{0.3f, 0.3f*(4f/7f), 1};
+        high.color = new float[]{0,0,0,1};
+        high.position = new float[]{0.7f, 0.6f, -0.55f};
+        high.texture.enabled = true;
+        high.texture.sprite = new int[]{10,44};
+        high.texture.startSprite = new int[]{10,44};
+        high.texture.size = new int[]{7,4};
+        high.texture.anim = new int[]{0,};
+        
             
     }
     
     public void tick(float theta){
+	acum += theta;
         switch(Game.state){
         case 'G':
             s.size[0] = 0f; s.size[1] = 0f;
@@ -34,8 +48,10 @@ public class Menu extends Drawable {
             s.size[0] = s.size[0]*0.9f + 0.1f*1.0f;
             s.size[1] = 1.3f*(22f/29f);
         }
+        high.size[0] = (float)Math.sin(acum/100)*0.005f+0.3f;
+        high.size[1] = (float)Math.cos(acum/100)*0.005f+0.3f*(4f/7f);
     }
-    
+
     public void draw(){
         
         Matrix.setIdentityM(id, 0);
@@ -56,6 +72,8 @@ public class Menu extends Drawable {
             break;
         }
         s.draw();
+        if(Game.isHighScore)
+            high.draw();
         GLES20.glUniformMatrix4fv(Game.program.projectionMatrixLoc, 1, false,
                 Game.projection, 0);
     }
