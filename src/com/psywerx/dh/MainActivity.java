@@ -148,6 +148,7 @@ public class MainActivity extends BaseGameActivity {
 	ad.setToken("6n810HZRQFk");
 	ad.setAppID("DuckingHipster");
 	ad.setType(MobiMicroView.CUSTOM_BANNER);
+	ad.setKeywords("hipster");
     }
     
     private void pauseGame() {
