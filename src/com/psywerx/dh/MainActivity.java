@@ -166,7 +166,6 @@ public class MainActivity extends BaseGameActivity {
 	ad.setToken("6n810HZRQFk");
 	ad.setAppID("DuckingHipster");
 	ad.setType(MobiMicroView.CUSTOM_BANNER);
-	ad.setKeywords("hipster");
     }
     
     private void pauseGame() {
@@ -203,14 +202,25 @@ public class MainActivity extends BaseGameActivity {
 	mGLView.onPause();
     }
     
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onResume() {
 	super.onResume();
 	
-	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+	    // IMMERSIVE MODE:
+	    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+	                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+	                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+	                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+	                | View.SYSTEM_UI_FLAG_FULLSCREEN
+	                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+	}
+	else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+	    // DIMMED MODE:
 	    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 	}
+	
 	
 	mGLView.onResume();
 	resumeGame();
@@ -303,7 +313,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-	Game.HEIGHT = height;
+	Game.HEIGHT = height+100;
 	Game.WIDTH = width;
     }
 
