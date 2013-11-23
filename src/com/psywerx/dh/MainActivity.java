@@ -313,7 +313,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-	Game.HEIGHT = height+100;
+	Game.HEIGHT = height;
 	Game.WIDTH = width;
     }
 
